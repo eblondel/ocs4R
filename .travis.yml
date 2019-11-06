@@ -8,12 +8,7 @@ os:
 
 apt_packages:
   - libxml2-dev
-
-services:
-  - docker
-
-before_install:
-  - docker run --name owncloud -d -p 8080:8080 owncloud/server:latest
+  
 r:
   - oldrel
   - release
@@ -27,6 +22,21 @@ r_packages:
   - covr
 
 r_check_args: --as-cran
+
+matrix:
+  include:
+  - name: "owncloud"
+    os: linux
+    services: docker
+    apt_packages: libxml2-dev
+    before_install:
+    - docker run --name owncloud -d -p 8080:8080 owncloud/server:latest
+  - name: "nextcloud"
+    os: linux
+    services: docker
+    apt_packages: libxml2-dev
+    before_install:
+    - docker run --name nextcloud -d -p 8080:80 nextcloud
 
 after_script:
  - ./travis-tool.sh dump_logs
