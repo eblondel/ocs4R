@@ -15,7 +15,7 @@ OCS <- ocsManager$new(
 
 if(is(OCS, "ocsManager")){
   cat(sprintf("OCS REST endpoint at '%s' configured with token. Running integration tests...\n", ocs_url))
-  test_check("ownCloud4R")
+  test_check("ocs4R")
 }else{
   cat("OCS REST endpoint at '%s' not configured. Skipping integration tests...\n")
 }
