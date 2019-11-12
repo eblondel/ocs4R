@@ -42,7 +42,7 @@ ocsRequest <- R6Class("ocsRequest",
     url = NA,
     type = NA,
     request = NA,
-	requestHeaders = NA,
+	  requestHeaders = NA,
     namedParams = list(),
     content = NULL,
     filename = NULL,
@@ -53,6 +53,8 @@ ocsRequest <- R6Class("ocsRequest",
 
     auth_scheme = "Basic",
     auth = NA,
+    token = NULL,
+    cookies = NULL,
     
     getUserAgent = function(){
       return(paste("ocs4R", packageVersion("ocs4R"), sep="-"))
@@ -78,12 +80,18 @@ ocsRequest <- R6Class("ocsRequest",
       if(self$verbose.debug){
         r <- with_verbose(GET(req, handle = handle(''), add_headers(
           "User-Agent" = private$getUserAgent(),
-          "Authorization" = private$auth
+          "Authorization" = private$auth,
+          "X-XSRF-TOKEN" = private$token,
+          "Set-Cookie" = private$cookies,
+          "OCS-APIRequest" = "true"
         )))
       }else{
         r <- GET(req, handle = handle(''), add_headers(
           "User-Agent" = private$getUserAgent(),
-          "Authorization" = private$auth
+          "Authorization" = private$auth,
+          "X-XSRF-TOKEN" = private$token,
+          "Set-Cookie" = private$cookies,
+          "OCS-APIRequest" = "true"
         ))
       }
       
@@ -98,7 +106,7 @@ ocsRequest <- R6Class("ocsRequest",
         }
       }
       
-      response <- list(request = request, requestHeaders = headers(r),
+      response <- list(request = request, requestHeaders = headers(r), cookies = cookies(r),
                        status = status_code(r), response = responseContent)
       return(response)
     },
@@ -125,14 +133,23 @@ ocsRequest <- R6Class("ocsRequest",
       
       r <- NULL
       if(self$verbose.debug){
-        r <- with_verbose(POST(req, handle = handle(''), add_headers(
-          "User-Agent" = private$getUserAgent(),
-          "Authorization" = private$auth), body = body
+        r <- with_verbose(POST(req, handle = handle(''), 
+          add_headers(
+            "User-Agent" = private$getUserAgent(),
+            "Authorization" = private$auth,
+            "X-XSRF-TOKEN" = private$token,
+            "Set-Cookie" = private$cookies,
+            "OCS-APIRequest" = "true"
+          ),
+          body = body
         ))
       }else{
         r <- POST(req, handle = handle(''), add_headers(
           "User-Agent" = private$getUserAgent(),
-          "Authorization" = private$auth), body = body)
+          "Authorization" = private$auth,
+          "X-XSRF-TOKEN" = private$token,
+          "Set-Cookie" = private$cookies,
+          "OCS-APIRequest" = "true"), body = body)
       }
       
       responseContent <- NULL
@@ -146,7 +163,7 @@ ocsRequest <- R6Class("ocsRequest",
         }
       }
       
-      response <- list(request = req, requestHeaders = headers(r),
+      response <- list(request = req, requestHeaders = headers(r), cookies = cookies(r),
                        status = status_code(r), response = responseContent)
       return(response)
     },
@@ -175,19 +192,25 @@ ocsRequest <- R6Class("ocsRequest",
       if(self$verbose.debug){
         r <- with_verbose(PUT(req_url, handle = handle(''), add_headers(
           "User-Agent" = private$getUserAgent(),
-          "Authorization" = private$auth), body = body
+          "Authorization" = private$auth,
+          "X-XSRF-TOKEN" = private$token,
+          "Set-Cookie" = private$cookies,
+          "OCS-APIRequest" = "true"), body = body
         ))
       }else{
         r <- PUT(req_url, handle = handle(''), add_headers(
           "User-Agent" = private$getUserAgent(),
-          "Authorization" = private$auth), body = body)
+          "Authorization" = private$auth,
+          "X-XSRF-TOKEN" = private$token,
+          "Set-Cookie" = private$cookies,
+          "OCS-APIRequest" = "true"), body = body)
       }
 
       if(status_code(r)==201){
         self$INFO(sprintf("HTTP/PUT - Content successfuly uploaded at '%s'", req_url))
       }
       
-      response <- list(request = req_url, requestHeaders = headers(r),
+      response <- list(request = req_url, requestHeaders = headers(r), cookies = cookies(r),
                        status = status_code(r), response = content)
       return(response)
     },
@@ -200,7 +223,10 @@ ocsRequest <- R6Class("ocsRequest",
       
       h <- new_handle()
       handle_setopt(h, customrequest = "PROPFIND")
-      handle_setheaders(h, Authorization = private$auth)
+      headers <- list("OCS-APIRequest" = "true", "Authorization" = private$auth)
+      if(!is.null(private$token)) headers <- c(headers, "X-XSRF-TOKEN" = private$token)
+      if(!is.null(private$cookies)) headers <- c(headers, "Set-Cookie" = private$cookies)
+      handle_setheaders(h, .list = headers)
       response <- curl_fetch_memory(req_url, h)
       xml <- rawToChar(response$content)
       response <- xmlParse(xml, asText = TRUE)
@@ -262,7 +288,10 @@ ocsRequest <- R6Class("ocsRequest",
       self$INFO(sprintf("WEBDAV/MKCOL - Creating collection '%s' at '%s'", request, req_url))
       h <- new_handle()
       handle_setopt(h, customrequest = "MKCOL")
-      handle_setheaders(h, Authorization = private$auth)
+      headers <- list("OCS-APIRequest" = "true", "Authorization" = private$auth)
+      if(!is.null(private$token)) headers <- c(headers, "X-XSRF-TOKEN" = private$token)
+      if(!is.null(private$cookies)) headers <- c(headers, "Set-Cookie" = private$cookies)
+      handle_setheaders(h, .list = headers)
       response <- curl_fetch_memory(req_url, h)
       if(response$status_code==201){
         self$INFO(sprintf("WEBDAV/MKCOL - Successfuly created collection '%s'", request))
@@ -282,6 +311,7 @@ ocsRequest <- R6Class("ocsRequest",
     #initialize
     initialize = function(type, url, request,
                           user = NULL, pwd = NULL,
+                          token = NULL, cookies = NULL,
                           namedParams = list(),
                           content = NULL, filename = NULL,
                           logger = NULL, ...) {
@@ -300,6 +330,8 @@ ocsRequest <- R6Class("ocsRequest",
         private$auth_scheme <- "Basic"
         private$auth <- paste(private$auth_scheme, openssl::base64_encode(paste(user, pwd,sep=":")))
       }
+      private$token <- token
+      private$cookies <- cookies
     },
     
     #execute

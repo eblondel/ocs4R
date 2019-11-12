@@ -15,6 +15,7 @@
 #' @importFrom httr authenticate
 #' @importFrom httr content
 #' @importFrom httr headers
+#' @importFrom httr cookies
 #' @importFrom httr http_status
 #' @importFrom httr status_code
 #' @importFrom httr with_verbose
@@ -31,7 +32,7 @@
 #'    Package: \tab ocs4R\cr
 #'    Type: \tab Package\cr
 #'    Version: \tab 0.0.9000\cr
-#'    Date: \tab 2019-11-06\cr
+#'    Date: \tab 2019-11-12\cr
 #'    License: \tab MIT\cr
 #'    LazyLoad: \tab yes\cr
 #'  }

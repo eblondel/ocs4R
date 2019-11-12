@@ -8,6 +8,12 @@ require(testthat)
 
 context("manager")
 
-test_that("OCS REST API manager",{
-  
+test_that("OCS API manager - version",{
+  version <- OCS$getVersion()
+  expect_equal(names(version)[1:5], c("major", "minor", "micro", "string", "edition"))
+})
+
+test_that("OCS API manager - capabilities",{
+  caps <- OCS$getCapabilities()
+  expect_true(all(c("core", "dav", "files", "files_sharing", "notifications") %in% names(caps)))
 })

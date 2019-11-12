@@ -83,6 +83,8 @@ ocsManager <-  R6Class("ocsManager",
     url = NULL,
     user = NULL,
     pwd = NULL,
+    token = NULL,
+    cookies = NULL,
     version = NULL,
     capabilities = NULL,
     
@@ -119,6 +121,26 @@ ocsManager <-  R6Class("ocsManager",
       )
       caps_req$execute()
       caps_resp <- caps_req$getResponse()
+      
+      req_cookies <- caps_resp$cookies
+      cookies <- as.list(req_cookies$value)
+      names(cookies) <- req_cookies$name
+      if(length(cookies[names(cookies)=="XSRF-TOKEN"])>0){
+        private$token <- cookies[names(cookies)=="XSRF-TOKEN"][[1]]
+      }
+      cookies <- unlist(cookies[names(cookies)!="XSRF-TOKEN"])
+      private$cookies <- paste0(sapply(names(cookies), function(cookiename){paste0(cookiename,"=",cookies[[cookiename]])}),collapse=";")
+      
+      if(!is.null(private$token)){
+        caps_req <- ocsRequest$new(
+          type = "HTTP_GET", private$url, "ocs/v1.php/cloud/capabilities",
+          private$user, private$pwd, token = private$token, cookies = private$cookies, 
+          logger = self$loggerType
+        )
+        caps_req$execute()
+        caps_resp <- caps_req$getResponse()
+      }
+      
       if(caps_resp$ocs$meta$status == "failure"){
         errMsg <- sprintf("Could not connect to ocs '%s': %s", private$url, caps_resp$ocs$meta$message)
         self$ERROR(errMsg)
@@ -152,7 +174,8 @@ ocsManager <-  R6Class("ocsManager",
       request <- paste0(self$getWebdavRoot(), relPath)
       list_req <- ocsRequest$new(
         type = "WEBDAV_PROPFIND", private$url, request,
-        private$user, private$pwd, logger = self$loggerType
+        private$user, private$pwd, token = private$token, cookies = private$cookies,
+        logger = self$loggerType
       )
       list_req$execute()
       list_resp <- list_req$getResponse()
@@ -166,7 +189,8 @@ ocsManager <-  R6Class("ocsManager",
         request <- paste0(self$getWebdavRoot(), relPath, name)
         mkcol_req <- ocsRequest$new(
           type = "WEBDAV_MKCOL", private$url, request,
-          private$user, private$pwd, logger = self$loggerType
+          private$user, private$pwd, token = private$token, cookies = private$cookies,
+          logger = self$loggerType
         )
         mkcol_req$execute()
         mkcol_resp <- mkcol_req$getResponse()
@@ -190,7 +214,7 @@ ocsManager <-  R6Class("ocsManager",
                         filename, paste(private$url, request, sep="/")))
       upload_req <- ocsRequest$new(
         type = "HTTP_PUT", private$url, request,
-        private$user, private$pwd, 
+        private$user, private$pwd, token = private$token, cookies = private$cookies,
         filename = filename,
         logger = self$loggerType
       )
@@ -229,7 +253,7 @@ ocsManager <-  R6Class("ocsManager",
       request <- "ocs/v1.php/apps/files_sharing/api/v1/shares"
       get_req <- ocsRequest$new(
         type = "HTTP_GET", private$url, request,
-        private$user, private$pwd, 
+        private$user, private$pwd, token = private$token, cookies = private$cookies,
         namedParams = list(
           path = path,
           reshares = reshares,
@@ -318,7 +342,7 @@ ocsManager <-  R6Class("ocsManager",
       request <- "ocs/v1.php/apps/files_sharing/api/v1/shares"
       post_req <- ocsRequest$new(
         type = "HTTP_POST", private$url, request,
-        private$user, private$pwd, 
+        private$user, private$pwd, token = private$token, cookies = private$cookies,
         namedParams = list(
           name = name,
           path = path,
