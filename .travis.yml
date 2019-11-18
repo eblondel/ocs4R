@@ -51,6 +51,8 @@ matrix:
     - docker run --name owncloud -d -p 8080:8080 owncloud/server:latest
   - name: "nextcloud | R oldrel"
     os: linux
+    environment:
+    - SQLITE_DATABASE=nextcloud
     r: oldrel
     r_packages:
     - R6
