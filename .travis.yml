@@ -53,6 +53,9 @@ matrix:
     os: linux
     environment:
     - SQLITE_DATABASE=nextcloud
+    - NEXTCLOUD_ADMIN_USER=admin
+    - NEXTCLOUD_ADMIN_PASSWORD=admin
+    - NEXTCLOUD_DATA_DIR=/var/www/html/data
     r: oldrel
     r_packages:
     - R6
@@ -66,6 +69,11 @@ matrix:
     - docker run --name nextcloud -d -p 0.0.0.0:8080:80 nextcloud
   - name: "nextcloud | R release"
     os: linux
+    environment:
+    - SQLITE_DATABASE=nextcloud
+    - NEXTCLOUD_ADMIN_USER=admin
+    - NEXTCLOUD_ADMIN_PASSWORD=admin
+    - NEXTCLOUD_DATA_DIR=/var/www/html/data
     r: release
     r_packages:
     - R6
@@ -79,6 +87,11 @@ matrix:
     - docker run --name nextcloud -d -p 0.0.0.0:8080:80 nextcloud
   - name: "nextcloud | R devel"
     os: linux
+    environment:
+    - SQLITE_DATABASE=nextcloud
+    - NEXTCLOUD_ADMIN_USER=admin
+    - NEXTCLOUD_ADMIN_PASSWORD=admin
+    - NEXTCLOUD_DATA_DIR=/var/www/html/data
     r: devel
     r_packages:
     - R6
