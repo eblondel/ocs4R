@@ -51,11 +51,6 @@ matrix:
     - docker run --name owncloud -d -p 8080:8080 owncloud/server:latest
   - name: "nextcloud | R oldrel"
     os: linux
-    environment:
-    - SQLITE_DATABASE=nextcloud
-    - NEXTCLOUD_ADMIN_USER=admin
-    - NEXTCLOUD_ADMIN_PASSWORD=admin
-    - NEXTCLOUD_DATA_DIR=/var/www/html/data
     r: oldrel
     r_packages:
     - R6
@@ -66,14 +61,9 @@ matrix:
     services: docker
     apt_packages: libxml2-dev
     before_install:
-    - docker run --name nextcloud -d -p 0.0.0.0:8080:80 nextcloud
+    - docker run --name nextcloud -v $TRAVIS_BUILD_DIR/tests/resources/nextcloud/autoconfig.php:/var/www/html/config/autoconfig.php -d -p 0.0.0.0:8080:80 nextcloud
   - name: "nextcloud | R release"
     os: linux
-    environment:
-    - SQLITE_DATABASE=nextcloud
-    - NEXTCLOUD_ADMIN_USER=admin
-    - NEXTCLOUD_ADMIN_PASSWORD=admin
-    - NEXTCLOUD_DATA_DIR=/var/www/html/data
     r: release
     r_packages:
     - R6
@@ -84,14 +74,9 @@ matrix:
     services: docker
     apt_packages: libxml2-dev
     before_install:
-    - docker run --name nextcloud -d -p 0.0.0.0:8080:80 nextcloud
+    - docker run --name nextcloud -v $TRAVIS_BUILD_DIR/tests/resources/nextcloud/autoconfig.php:/var/www/html/config/autoconfig.php -d -p 0.0.0.0:8080:80 nextcloud
   - name: "nextcloud | R devel"
     os: linux
-    environment:
-    - SQLITE_DATABASE=nextcloud
-    - NEXTCLOUD_ADMIN_USER=admin
-    - NEXTCLOUD_ADMIN_PASSWORD=admin
-    - NEXTCLOUD_DATA_DIR=/var/www/html/data
     r: devel
     r_packages:
     - R6
@@ -102,7 +87,7 @@ matrix:
     services: docker
     apt_packages: libxml2-dev
     before_install:
-    - docker run --name nextcloud -d -p 0.0.0.0:8080:80 nextcloud
+    - docker run --name nextcloud -v $TRAVIS_BUILD_DIR/tests/resources/nextcloud/autoconfig.php:/var/www/html/config/autoconfig.php -d -p 0.0.0.0:8080:80 nextcloud
 
 after_script:
  - ./travis-tool.sh dump_logs
