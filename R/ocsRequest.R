@@ -97,8 +97,9 @@ ocsRequest <- R6Class("ocsRequest",
       
       responseContent <- NULL
       if(status_code(r)==200){
-        self$INFO(sprintf("HTTP/POST - Successful request '%s'", req))
+        self$INFO(sprintf("HTTP/GET - Successful request '%s'", req))
         responseContent <- httr::content(r, type = "application/json", encoding = "UTF-8")
+        print(responseContent)
         if(responseContent$ocs$meta$status == "failure"){
           errMsg <- sprintf("%s [status code = %s]", responseContent$ocs$meta$message, responseContent$ocs$meta$statuscode)
           self$ERROR(errMsg)
@@ -156,6 +157,7 @@ ocsRequest <- R6Class("ocsRequest",
       if(status_code(r)==200){
         self$INFO(sprintf("HTTP/POST - Successful request '%s'", req))
         responseContent <- httr::content(r, type = "application/json", encoding = "UTF-8")
+        print(responseContent)
         if(responseContent$ocs$meta$status == "failure"){
           errMsg <- sprintf("%s [status code = %s]", responseContent$ocs$meta$message, responseContent$ocs$meta$statuscode)
           self$ERROR(errMsg)
