@@ -22,3 +22,33 @@ test_that("User Provisioning API - getUser",{
   expect_is(user.df, "data.frame")
   expect_equal(ncol(user.df), 9L)
 })
+
+test_that("User Provisioning API - addUser",{
+  added <- OCS$addUser("john.doe", password = "owncloud4john")
+  expect_true(added)
+  users <- OCS$getUsers()
+  expect_equal(length(users), 2L)
+  user <- OCS$getUser("john.doe")
+  expect_is(user, "list")
+  expect_true(user$enabled)
+  expect_equal(user$quota$definition, "default")
+  expect_equal(user$displayname, "john.doe")
+  expect_null(user$email)
+})
+
+test_that("User Provisioning API - editUser",{
+  edited <- OCS$editUser("johndoe", displayname = "John Doe")
+})
+
+test_that("User Provisioning API - disableUser",{
+  
+})
+
+test_that("User Provisioning API - enableUser",{
+  
+})
+
+test_that("User Provisioning API - deleteUser",{
+  
+})
+  

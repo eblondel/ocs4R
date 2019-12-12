@@ -25,6 +25,10 @@
 #'
 #' @section User Provisioning methods:
 #' \describe{
+#'  \item{\code{addUser(userid, email, password, groups)}}{
+#'    Adds a user given a \code{userid} (required). All other fields (email, password, groups) are
+#'    optional for the user creation. Returns \code{TRUE} if the user is added, \code{FALSE} otherwise.
+#'  }
 #'  \item{\code{getUsers()}}{
 #'    Get the list of users. This method returns a vector of class 'character' giving
 #'    the user IDs available in the OCS cloud plateform.
@@ -33,6 +37,11 @@
 #'    Get the user details from its \code{userid}. If the argument \code{pretty} is set to TRUE,
 #'    this will return an object of class \code{data.frame}, otherwise (by default) it returns 
 #'    an object of class \code{list}.
+#'  }
+#'  \item{\code{editUser(userid, key, value)}}{
+#'    Edits a user, identifier by a userid. The user property to be edited should be set using its
+#'    key (eg displayname) and the value to be modified for this key. Returns \code{TRUE} if the user 
+#'    is edited, \code{FALSE} otherwise.
 #'  }
 #' }
 #' 
@@ -52,8 +61,23 @@ ocsApiUserProvisioningManager <-  R6Class("ocsApiUserProvisioningManager",
     #-------------------------------------------------------------------------------------------
     
     #addUser
-    addUser = function(){
-      stop("'addUser' method not yet implemented")
+    addUser = function(userid, email = NULL, password = NULL, groups = NULL){
+      request <- "ocs/v1.php/cloud/users"
+      post_req <- ocs4R::ocsRequest$new(
+        type = "HTTP_POST", private$url, request,
+        private$user, private$pwd, token = private$token, cookies = private$cookies,
+        content = list(
+          userid = userid,
+          email = email,
+          password = password,
+          groups = groups
+        ),
+        logger = self$loggerType
+      )
+      post_req$execute()
+      post_req_resp <- post_req$getResponse()
+      added <- post_req_resp$ocs$meta$statuscode == 100
+      return(added)
     },
     
     #getUsers
@@ -87,8 +111,24 @@ ocsApiUserProvisioningManager <-  R6Class("ocsApiUserProvisioningManager",
     },
     
     #editUser
-    editUser = function(){
-      stop("'editUser' method not yet implemented")
+    editUser = function(userid, key, value){
+      request <- sprintf("ocs/v1.php/cloud/users/%s", userid)
+      post_req <- ocsRequest$new(
+        type = "HTTP_PUT", private$url, request,
+        private$user, private$pwd, token = private$token, cookies = private$cookies,
+        content = list(
+          key = key,
+          value = value
+        ),
+        logger = self$loggerType
+      )
+      post_req$execute()
+      post_req_resp <- post_req$getResponse()
+      edited <- FALSE
+      if(is(edited, "list")) if(!is.null(post_req_resp$key) && !is.null(post_req_resp$value)){
+        if(post_req_resp$key == key && post_req_resp$value == value) edited <- TRUE
+      }
+      return(edited)
     },
     
     #enableUser

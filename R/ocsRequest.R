@@ -106,6 +106,12 @@ ocsRequest <- R6Class("ocsRequest",
           stop(errMsg)
         }
       }
+      if(status_code(r)==401){
+        errMsg <- sprintf("HTTP/GET - Unauthorized request '%s' (insufficient privileges)", req)
+        self$ERROR(errMsg)
+        stop(errMsg)
+      }
+      
       
       response <- list(request = request, requestHeaders = headers(r), cookies = cookies(r),
                        status = status_code(r), response = responseContent)
@@ -163,6 +169,11 @@ ocsRequest <- R6Class("ocsRequest",
           stop(errMsg)
         }
       }
+      if(status_code(r)==401){
+        errMsg <- sprintf("HTTP/POST - Unauthorized request '%s' (insufficient privileges)", req)
+        self$ERROR(errMsg)
+        stop(errMsg)
+      }
       
       response <- list(request = req, requestHeaders = headers(r), cookies = cookies(r),
                        status = status_code(r), response = responseContent)
@@ -209,6 +220,11 @@ ocsRequest <- R6Class("ocsRequest",
 
       if(status_code(r)==201){
         self$INFO(sprintf("HTTP/PUT - Content successfuly uploaded at '%s'", req_url))
+      }
+      if(status_code(r)==401){
+        errMsg <- sprintf("HTTP/PUT - Unauthorized request '%s' (insufficient privileges)", req_url)
+        self$ERROR(errMsg)
+        stop(errMsg)
       }
       
       response <- list(request = req_url, requestHeaders = headers(r), cookies = cookies(r),
