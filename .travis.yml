@@ -61,7 +61,7 @@ matrix:
     services: docker
     apt_packages: libxml2-dev
     before_install:
-    - docker run --name nextcloud -v $TRAVIS_BUILD_DIR/tests/resources/nextcloud/autoconfig.php:/var/www/html/config/autoconfig.php -d -p 0.0.0.0:8080:80 nextcloud
+    - docker run --name nextcloud -d -p 0.0.0.0:8080:80 nextcloud
   - name: "nextcloud | R release"
     os: linux
     r: release
@@ -74,7 +74,7 @@ matrix:
     services: docker
     apt_packages: libxml2-dev
     before_install:
-    - docker run --name nextcloud -v $TRAVIS_BUILD_DIR/tests/resources/nextcloud/autoconfig.php:/var/www/html/config/autoconfig.php -d -p 0.0.0.0:8080:80 nextcloud
+    - docker run --name nextcloud -d -p 0.0.0.0:8080:80 nextcloud
   - name: "nextcloud | R devel"
     os: linux
     r: devel
@@ -87,7 +87,7 @@ matrix:
     services: docker
     apt_packages: libxml2-dev
     before_install:
-    - docker run --name nextcloud -v $TRAVIS_BUILD_DIR/tests/resources/nextcloud/autoconfig.php:/var/www/html/config/autoconfig.php -d -p 0.0.0.0:8080:80 nextcloud
+    - docker run --name nextcloud -d -p 0.0.0.0:8080:80 nextcloud
 
 after_script:
  - ./travis-tool.sh dump_logs

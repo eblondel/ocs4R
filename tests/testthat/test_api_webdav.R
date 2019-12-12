@@ -1,14 +1,14 @@
-# test_webdav.R
+# test_api_webdav.R
 # Author: Emmanuel Blondel <emmanuel.blondel1@gmail.com>
 #
-# Description: Unit tests for Webdav operations
+# Description: Unit tests for Webdav API methods
 #=======================
 require(ocs4R, quietly = TRUE)
 require(testthat)
 
-context("webdav")
+context("api-webdav")
 
-test_that("WEBDAV - list files",{
+test_that("WEBDAV API - list files",{
   files <- OCS$listFiles()
   expect_is(files, "data.frame")
   expect_true(nrow(files)>0)
@@ -17,7 +17,7 @@ test_that("WEBDAV - list files",{
   expect_true(nrow(subfiles)>0)
 })
 
-test_that("WEBDAV - make collection",{
+test_that("WEBDAV API - make collection",{
   myfolder_url <- OCS$makeCollection("myfolder")
   expect_is(myfolder_url, "character")
   expect_true(endsWith(myfolder_url, "myfolder"))
@@ -28,7 +28,7 @@ test_that("WEBDAV - make collection",{
   expect_true(nrow(subfiles)==0)
 })
 
-test_that("WEBDAV - upload file",{
+test_that("WEBDAV API - upload file",{
   nf <- file.create("test.txt")
   nfcon <- file("test.txt", "wb")
   writeChar("This is a test file", nfcon)
