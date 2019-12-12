@@ -79,6 +79,7 @@
 #' 
 ocsManager <-  R6Class("ocsManager",
   inherit = ocs4RLogger,
+  lock_objects = FALSE,
   private = list(
     url = NULL,
     user = NULL,
@@ -104,13 +105,38 @@ ocsManager <-  R6Class("ocsManager",
     }
   ),
   public = list(
-    
+    apis = list(),
     initialize = function(url, user, pwd, logger = NULL){
       super$initialize(logger = logger)
       private$url = url
       private$user <- user
       private$pwd <- pwd
-      self$connect()
+      
+      #try to connect
+      if(!startsWith(self$getClassName(), "ocsApi")){
+        
+        #test connection
+        self$connect()
+        
+        #inherit managers methods (experimenting)
+        list_of_classes <- rev(ls("package:ocs4R"))
+        supportedManagers <- list_of_classes[regexpr("ocsApi.+Manager", list_of_classes)>0]
+        for(manager in supportedManagers){
+          class <- eval(parse(text=manager))
+          man <- class$new(url, user, pwd, logger)
+          api_name <- tolower(unlist(strsplit(unlist(strsplit(manager, "ocsApi"))[2],"Manager"))[1])
+          self$apis[[api_name]] <- man
+          list_of_methods <- rev(names(man))
+          for(method in list_of_methods){
+            methodObj <- man[[method]]
+            if(!(method %in% names(self)) && class(methodObj) == "function"){1
+              self[[method]] <- methodObj
+              environment(self[[method]]) <- environment(self$connect)
+            } 
+          }
+        }
+      }
+      invisible(self)
     },
     
     #connect
@@ -163,256 +189,20 @@ ocsManager <-  R6Class("ocsManager",
       return(private$capabilities)
     },
     
-    #getWebdavRoot
-    getWebdavRoot = function(){
-      return(private$capabilities$core[["webdav-root"]])
+    #getAPIWebdavManager
+    getAPIWebdavManager = function(){
+      return(self$apis[["webdav"]])
     },
     
-    #listFiles
-    listFiles = function(relPath = "/"){
-      if(!startsWith(relPath, "/")) relPath <- paste0("/", relPath)
-      request <- paste0(self$getWebdavRoot(), relPath)
-      list_req <- ocsRequest$new(
-        type = "WEBDAV_PROPFIND", private$url, request,
-        private$user, private$pwd, token = private$token, cookies = private$cookies,
-        logger = self$loggerType
-      )
-      list_req$execute()
-      list_resp <- list_req$getResponse()
-      return(list_resp)
+    #getAPISharingManager
+    getAPISharingManager = function(){
+      return(self$apis[["sharing"]])
     },
     
-    #makeCollection
-    makeCollection = function(name, relPath = "/"){
-      col_names <- unlist(strsplit(name, "/"))
-      if(length(col_names)==1){
-        request <- paste0(self$getWebdavRoot(), relPath, name)
-        mkcol_req <- ocsRequest$new(
-          type = "WEBDAV_MKCOL", private$url, request,
-          private$user, private$pwd, token = private$token, cookies = private$cookies,
-          logger = self$loggerType
-        )
-        mkcol_req$execute()
-        mkcol_resp <- mkcol_req$getResponse()
-        return(mkcol_resp)
-      }else{
-        self$INFO(sprintf("Nested collections detected in '%s'. Splitting name to make nested collections", name))
-        for(i in 1:length(col_names)){
-          newRelPath <- "/"
-          if(i>1) newRelPath <- paste0(newRelPath, paste(col_names[1:(i-1)], collapse="/"), "/")
-          self$makeCollection(col_names[i], newRelPath)
-        }
-      }
-    },
-    
-    #uploadFile
-    uploadFile = function(filename, relPath = "/"){
-      if(!startsWith(relPath, "/")) relPath <- paste0("/", relPath)
-      if(!endsWith(relPath, "/")) relPath <- paste0(relPath, "/")
-      request <- paste0(self$getWebdavRoot(), relPath, filename)
-      self$INFO(sprintf("WEBDAV - Uploading file '%s' at '%s'", 
-                        filename, paste(private$url, request, sep="/")))
-      upload_req <- ocsRequest$new(
-        type = "HTTP_PUT", private$url, request,
-        private$user, private$pwd, token = private$token, cookies = private$cookies,
-        filename = filename,
-        logger = self$loggerType
-      )
-      upload_req$execute()
-      if(upload_req$getStatus()==201){
-        self$INFO(sprintf("Successfuly uploaded file '%s' at '%s'",
-                          filename, paste(private$url, request, sep="/")))
-      }else{
-        errMsg <- sprintf("WEBDAV - Error while uploading '%s' at '%s'",
-                          filename, paste(private$url, request, sep="/"))
-        self$ERROR(errMsg)
-        stop(errMsg)
-      }
-      upload_resp <- upload_req$getResponse()
-      return(upload_resp)
-    },
-    
-    #OCS SHARING API
-    #-------------------------------------------------------------------------------------------
-    
-    #getShares
-    getShares = function(path = NULL, reshares = FALSE, shared_with_me = NULL,
-                         state = NULL, subfiles = FALSE, 
-                         pretty = FALSE){
-      
-      private$checkSharingAPIAvailability()
-      
-      allowedStates <- c("accepted", "all", "declined", "pending", "rejected")
-      if(!is.null(state)) if(!(state %in% allowedStates)){
-        errMsg <- sprintf("'state' should be one value among [%s]", 
-                          paste(allowedStates, collapse=","))
-        self$ERROR(errMsg)
-        stop(errMsg)
-      }
-      
-      request <- "ocs/v1.php/apps/files_sharing/api/v1/shares"
-      get_req <- ocsRequest$new(
-        type = "HTTP_GET", private$url, request,
-        private$user, private$pwd, token = private$token, cookies = private$cookies,
-        namedParams = list(
-          path = path,
-          reshares = reshares,
-          shared_with_me = shared_with_me,
-          state = state,
-          subfiles = subfiles
-        ),
-        logger = self$loggerType
-      )
-      get_req$execute()
-      get_resp <- get_req$getResponse()
-      names(get_resp)
-      get_out <- get_resp$ocs$data
-      if(!is.null(get_out)) if(pretty){
-        get_out <- as.data.frame(do.call("rbind",lapply(get_out, unlist)))
-      }
-      return(get_out)
-    },
-    
-    #createShare
-    createShare = function(path, name, shareType, shareWith, publicUpload = NULL, password = NULL, 
-                           permissions = NULL, expireDate = NULL){
-      
-      private$checkSharingAPIAvailability()
-      
-      if(!private$capabilities$files_sharing$can_share){
-        errMsg <- "The file sharing is not enabled!"
-        self$ERROR(errMsg)
-        stop(errMsg)
-      }
-      
-      allowedShareTypes <- c("user", "group", "publiclink", "federated")
-      if(!(shareType %in% allowedShareTypes)){
-        errMsg <- sprintf("Share Type '%s' is not among allowed share types [%s]", 
-                          shareType, paste0(allowedShareTypes, collapse=","))
-        self$ERROR(errMsg)
-        stop(errMsg)
-      }
-      shareType <- switch(shareType,
-        "user" = 0,
-        "group" = 1,
-        "publiclink" = 3,
-        "federated" = 6
-      )
-      
-      if(!is.null(permissions)){
-        allowedPermissions <- c("read", "update", "create", "delete", "read/write", "share", "all")
-        if(!(permissions %in% allowedPermissions)){
-          errMsg <- sprintf("Permission '%s' is not among allowed permissions [%s]",
-                            permissions, paste0(allowedPermissions, collapse=","))
-          self$ERROR(errMsg)
-          stop(errMsg)
-        }
-        permissions <- switch(permissions,
-          "read" = 1,
-          "update" = 2,
-          "create" = 4,
-          "delete" = 8,
-          "read/write" = 15,
-          "share" = 16,
-          "all" = 31
-        )
-      }else{
-        permissions <- private$capabilities$files_sharing$default_permissions
-      }
-      
-      if(!is.null(expireDate)){
-        if(!is(expireDate, "Date")){
-          errMsg <- "The 'expireDate' should be an object of class 'Date'"
-          self$ERROR(errMsg)
-          stop(errMsg)
-        }else{
-          expireDate <- as(expireDate, "character")
-        }
-      }
-      
-      if(!is.null(password)) if(!private$capabilities$files_sharing$public$password$enforced){
-        self$WARN("The argument 'password' is ignored because OFCS Sharing public API 'password' is not enforced")
-        password <- NULL
-      }
-      if(!is.null(expireDate)) if(!private$capabilities$files_sharing$public$expire_date$enabled){
-        self$WARN("The argument 'expireDate' is ignored because OCS Sharing public API 'expireDate' is not enabled")
-        expireDate <- NULL
-      }
-      
-      request <- "ocs/v1.php/apps/files_sharing/api/v1/shares"
-      post_req <- ocsRequest$new(
-        type = "HTTP_POST", private$url, request,
-        private$user, private$pwd, token = private$token, cookies = private$cookies,
-        namedParams = list(
-          name = name,
-          path = path,
-          shareType = shareType,
-          shareWith = shareWith,
-          publicUpload = publicUpload,
-          password = password,
-          permissions = permissions,
-          expireDate = expireDate
-        ),
-        logger = self$loggerType
-      )
-      post_req$execute()
-      return(post_req$getResponse())
-    },
-    
-    #shareWithUser
-    shareWithUser = function(path, name, username, permissions = NULL, pretty = FALSE){
-      share_resp <- self$createShare(
-        path = path,
-        name = URLencode(name),
-        shareType = "user",
-        shareWith = username,
-        permissions = permissions
-      )
-      share_out <- share_resp$ocs$data
-      if(!is.null(share_out)) if(pretty){
-        share_out <- as.data.frame(t(share_out))
-      }
-      return(share_out)
-    },
-    
-    #shareWithGroup
-    shareWithGroup = function(path, name, group, permissions = NULL, pretty = FALSE){
-      share_resp <- self$createShare(
-        path = path,
-        name = URLencode(name),
-        shareType = "group",
-        shareWith = group,
-        permissions = permissions
-      )
-      share_out <- share_resp$ocs$data
-      if(!is.null(share_out)) if(pretty){
-        share_out <- as.data.frame(t(share_out))
-      }
-      return(share_out)
-    },
-    
-    #shareAsPublicLink
-    shareAsPublicLink = function(path, name = NULL, publicUpload = FALSE, password = NULL, 
-                                 permissions = NULL, expireDate = NULL){
-      if(!private$capabilities$files_sharing$public$enabled){
-        errMsg <- "The OCS Sharing public API is not enabled. Impossible to share as public link!"
-        self$ERROR(errMsg)
-        stop(errMsg)
-      }
-      if(is.null(name)) name <- private$capabilities$files_sharing$public$defaultPublicLinkShareName
-      
-      sharelink_resp <- self$createShare(
-        path = path,
-        name = URLencode(name),
-        shareType = "publiclink",
-        shareWith = NULL,
-        publicUpload = publicUpload,
-        password = password,
-        permissions = permissions,
-        expireDate = expireDate
-      )
-      self$INFO(sprintf("Public link for '%s': %s", path, sharelink_resp$ocs$data$url))
-      return(sharelink_resp$ocs$data$url)
+    #getAPIUserProvisioningManager
+    getAPIUserProvisioningManager = function(){
+      return(self$apis[["userprovisioning"]])
     }
+    
   )
 )

@@ -22,6 +22,7 @@
 #' @note Logger class used internally by ocs4R
 #'
 ocs4RLogger <-  R6Class("ocs4RLogger",
+  portable = TRUE,
   public = list(
     #logger
     verbose.info = FALSE,
