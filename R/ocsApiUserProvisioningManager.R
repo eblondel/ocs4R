@@ -124,10 +124,7 @@ ocsApiUserProvisioningManager <-  R6Class("ocsApiUserProvisioningManager",
       )
       post_req$execute()
       post_req_resp <- post_req$getResponse()
-      edited <- FALSE
-      if(is(edited, "list")) if(!is.null(post_req_resp$key) && !is.null(post_req_resp$value)){
-        if(post_req_resp$key == key && post_req_resp$value == value) edited <- TRUE
-      }
+      edited <- post_req_resp$ocs$meta$statuscode == 100
       return(edited)
     },
     
