@@ -3,7 +3,7 @@
 #
 # Description: Unit tests for OCS manager User Provisioning API methods
 #=======================
-require(ownCloud4R, quietly = TRUE)
+require(ocs4R, quietly = TRUE)
 require(testthat)
 
 context("api-user-provisioning")
@@ -36,20 +36,26 @@ test_that("User Provisioning API - addUser",{
   expect_null(user$email)
 })
 
+test_that("User Provisioning API - disableUser / enableUser",{
+  disabled <- OCS$disableUser("john.doe")
+  expect_true(disabled)
+  user <- OCS$getUser("john.doe")
+  expect_false(user$enabled)
+  enabled <- OCS$enableUser("john.doe")
+  expect_true(enabled)
+  user <- OCS$getUser("john.doe")
+  expect_true(user$enabled)
+})
+
 test_that("User Provisioning API - editUser",{
-  edited <- OCS$editUser("johndoe", key = "displayname", value = "John Doe")
-  expect_error(edited)
-})
-
-test_that("User Provisioning API - disableUser",{
-  
-})
-
-test_that("User Provisioning API - enableUser",{
-  
+  edited <- try(OCS$editUser("john.doe", key = "display", value = "John Doe"))
+  expect_is(edited, "try-error") #TODO check why we get error 401 Unauthorized
 })
 
 test_that("User Provisioning API - deleteUser",{
-  
+  deleted <- OCS$deleteUser("john.doe")
+  expect_true(deleted)
+  users <- OCS$getUsers()
+  expect_false("john.doe" %in% users)
 })
   

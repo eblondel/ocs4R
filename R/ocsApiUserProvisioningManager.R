@@ -23,7 +23,7 @@
 #'  }
 #' }
 #'
-#' @section User Provisioning methods:
+#' @section User Provisioning API methods:
 #' \describe{
 #'  \item{\code{addUser(userid, email, password, groups)}}{
 #'    Adds a user given a \code{userid} (required). All other fields (email, password, groups) are
@@ -42,6 +42,15 @@
 #'    Edits a user, identifier by a userid. The user property to be edited should be set using its
 #'    key (eg displayname) and the value to be modified for this key. Returns \code{TRUE} if the user 
 #'    is edited, \code{FALSE} otherwise.
+#'  }
+#'  \item{\code{enableUser(userid)}}{
+#'    Enables a user. Returns \code{TRUE} if enabled.
+#'  }
+#'  \item{\code{disableUser(userid)}}{
+#'    Disables a user. Returns \code{TRUE} if disabled.
+#'  }
+#'  \item{\code{deleteUser(userid)}}{
+#'    Deletes auser. Returns \code{TRUE} if delete.
 #'  }
 #' }
 #' 
@@ -72,6 +81,7 @@ ocsApiUserProvisioningManager <-  R6Class("ocsApiUserProvisioningManager",
           password = password,
           groups = groups
         ),
+        contentType = NULL,
         logger = self$loggerType
       )
       post_req$execute()
@@ -114,35 +124,62 @@ ocsApiUserProvisioningManager <-  R6Class("ocsApiUserProvisioningManager",
     
     #editUser
     editUser = function(userid, key, value){
+      allowedKeys <- c("email", "quota", "display", "password")
+      if(!key %in% allowedKeys){
+        errMsg <- sprintf("Key should be among the following [%s]", paste(allowedKeys, collapse=","))
+        self$ERROR(errMsg)
+        stop(errMs)
+      }
       request <- sprintf("ocs/v1.php/cloud/users/%s", userid)
-      post_req <- ocsRequest$new(
+      put_req <- ocsRequest$new(
         type = "HTTP_PUT", private$url, request,
         private$user, private$pwd, token = private$token, cookies = private$cookies,
-        content = list(
-          key = key,
-          value = value
-        ),
+        content = list(key = key, value = value),
         logger = self$loggerType
       )
-      post_req$execute()
-      post_req_resp <- post_req$getResponse()
-      edited <- post_req_resp$ocs$meta$statuscode == 100
+      put_req$execute()
+      put_req_resp <- put_req$getResponse()
+      edited <- put_req_resp$ocs$meta$statuscode == 100
+      edited <- put_req
       return(edited)
     },
     
     #enableUser
-    enableUser = function(){
-      stop("'enableUser' method not yet implemented")
+    enableUser = function(userid){
+      request <- sprintf("ocs/v1.php/cloud/users/%s/enable", userid)
+      put_req <- ocsRequest$new(
+        type = "HTTP_PUT", private$url, request,
+        private$user, private$pwd, token = private$token, cookies = private$cookies,
+        content = "",
+        logger = self$loggerType
+      )
+      put_req$execute()
+      return(TRUE)
     },
     
     #disableUser
-    disableUser = function(){
-      stop("'disableUser' method not yet implemented")
+    disableUser = function(userid){
+      request <- sprintf("ocs/v1.php/cloud/users/%s/disable", userid)
+      put_req <- ocsRequest$new(
+        type = "HTTP_PUT", private$url, request,
+        private$user, private$pwd, token = private$token, cookies = private$cookies,
+        content = "",
+        logger = self$loggerType
+      )
+      put_req$execute()
+      return(TRUE)
     },
     
-    #deleteuser
-    deleteuser = function(){
-      stop("'deleteUser' method not yet implemented")
+    #deleteUser
+    deleteUser = function(userid){
+      request <- sprintf("ocs/v1.php/cloud/users/%s", userid)
+      delete_req <- ocsRequest$new(
+        type = "HTTP_DELETE", private$url, request,
+        private$user, private$pwd, token = private$token, cookies = private$cookies,
+        logger = self$loggerType
+      )
+      delete_req$execute()
+      return(TRUE)
     },
     
     #getUserGroups

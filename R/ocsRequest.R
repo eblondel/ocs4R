@@ -46,6 +46,7 @@ ocsRequest <- R6Class("ocsRequest",
 	  requestHeaders = NA,
     namedParams = list(),
     content = NULL,
+    contentType = "text/plain",
     filename = NULL,
 	  status = NA,
     response = NA,
@@ -120,7 +121,7 @@ ocsRequest <- R6Class("ocsRequest",
     
     #HTTP_POST
     #---------------------------------------------------------------
-    HTTP_POST = function(url, request = NULL, namedParams = list(), content = ""){
+    HTTP_POST = function(url, request = NULL, namedParams = list(), content = "", contentType = "text/plain"){
       req <- url
       if(!is.null(request)) req <- paste(url, request, sep = "/")
       if(!endsWith(req,"?")) req <- paste0(req, "?")
@@ -143,6 +144,7 @@ ocsRequest <- R6Class("ocsRequest",
         r <- with_verbose(POST(req, handle = handle(''), 
           add_headers(
             "User-Agent" = private$getUserAgent(),
+            "Content-Type" = contentType,
             "Authorization" = private$auth,
             "X-XSRF-TOKEN" = private$token,
             "Set-Cookie" = private$cookies,
@@ -153,6 +155,7 @@ ocsRequest <- R6Class("ocsRequest",
       }else{
         r <- POST(req, handle = handle(''), add_headers(
           "User-Agent" = private$getUserAgent(),
+          "Content-Type" = contentType,
           "Authorization" = private$auth,
           "X-XSRF-TOKEN" = private$token,
           "Set-Cookie" = private$cookies,
@@ -182,11 +185,20 @@ ocsRequest <- R6Class("ocsRequest",
     
     #HTTP_PUT
     #---------------------------------------------------------------
-    HTTP_PUT = function(url, request = NULL, content = NULL, filename = NULL){
-      req_url <- url
-      if(!is.null(request)) req_url = paste(url, request, sep="/")
+    HTTP_PUT = function(url, request = NULL, namedParams = list(), content = NULL, contentType = "text/plain", filename = NULL){
+      req <- url
+      if(!is.null(request)) req = paste(url, request, sep="/")
+      if(!endsWith(req,"?")) req <- paste0(req, "?")
+      namedParams <- namedParams[!sapply(namedParams, is.null)]
+      paramNames <- names(namedParams)
+      namedParams <- lapply(namedParams, function(namedParam){
+        if(is.logical(namedParam)) namedParam <- tolower(as(namedParam, "character"))
+        return(namedParam)
+      })
+      params <- paste(paramNames, namedParams, sep = "=", collapse = "&")
+      req <- paste0(req, params)
 
-      self$INFO(sprintf("HTTP/PUT - Putting content at '%s'", req_url))
+      self$INFO(sprintf("HTTP/PUT - Putting content at '%s'", req))
       
       #content
       body <- NULL
@@ -202,16 +214,18 @@ ocsRequest <- R6Class("ocsRequest",
       
       r <- NULL
       if(self$verbose.debug){
-        r <- with_verbose(PUT(req_url, handle = handle(''), add_headers(
+        r <- with_verbose(PUT(req, handle = handle(''), add_headers(
           "User-Agent" = private$getUserAgent(),
+          "Content-Type" = contentType,
           "Authorization" = private$auth,
           "X-XSRF-TOKEN" = private$token,
           "Set-Cookie" = private$cookies,
           "OCS-APIRequest" = "true"), body = body
         ))
       }else{
-        r <- PUT(req_url, handle = handle(''), add_headers(
+        r <- PUT(req, handle = handle(''), add_headers(
           "User-Agent" = private$getUserAgent(),
+          "Content-Type" = contentType,
           "Authorization" = private$auth,
           "X-XSRF-TOKEN" = private$token,
           "Set-Cookie" = private$cookies,
@@ -219,24 +233,69 @@ ocsRequest <- R6Class("ocsRequest",
       }
 
       if(status_code(r)==201){
-        self$INFO(sprintf("HTTP/PUT - Content successfuly uploaded at '%s'", req_url))
+        self$INFO(sprintf("HTTP/PUT - Content successfuly uploaded at '%s'", req))
       }
       if(status_code(r)==401){
-        errMsg <- sprintf("HTTP/PUT - Unauthorized request '%s' (insufficient privileges)", req_url)
+        errMsg <- sprintf("HTTP/PUT - Unauthorized request '%s' (insufficient privileges)", req)
         self$ERROR(errMsg)
         stop(errMsg)
       }
       
-      response <- list(request = req_url, requestHeaders = headers(r), cookies = cookies(r),
+      response <- list(request = req, requestHeaders = headers(r), cookies = cookies(r),
+                       status = status_code(r), response = content)
+      return(response)
+    },
+    
+    #HTTP_DELETE
+    #---------------------------------------------------------------
+    HTTP_DELETE = function(url, request = NULL, contentType = "text/plain"){
+      req <- url
+      if(!is.null(request)) req = paste(url, request, sep="/")
+      
+      self$INFO(sprintf("HTTP/DELETE - Deleting content at '%s'", req))
+      
+      
+      r <- NULL
+      if(self$verbose.debug){
+        r <- with_verbose(DELETE(req, handle = handle(''), add_headers(
+          "User-Agent" = private$getUserAgent(),
+          "Content-Type" = contentType,
+          "Authorization" = private$auth,
+          "X-XSRF-TOKEN" = private$token,
+          "Set-Cookie" = private$cookies,
+          "OCS-APIRequest" = "true"
+          )
+        ))
+      }else{
+        r <- DELETE(req, handle = handle(''), add_headers(
+          "User-Agent" = private$getUserAgent(),
+          "Content-Type" = contentType,
+          "Authorization" = private$auth,
+          "X-XSRF-TOKEN" = private$token,
+          "Set-Cookie" = private$cookies,
+          "OCS-APIRequest" = "true")
+        )
+      }
+      
+      if(status_code(r)==201){
+        self$INFO(sprintf("HTTP/DELETE - Successful deletion at '%s'", req))
+      }
+      if(status_code(r)==401){
+        errMsg <- sprintf("HTTP/DELETE - Unauthorized request '%s' (insufficient privileges)", req)
+        self$ERROR(errMsg)
+        stop(errMsg)
+      }
+      
+      response <- list(request = req, requestHeaders = headers(r), cookies = cookies(r),
                        status = status_code(r), response = content)
       return(response)
     },
     
     #WEBDAV_PROPFIND
     WEBDAV_PROPFIND = function(url, request){
-      req_url <- paste(url, request, sep = "/")
+      req <- paste(url, request, sep = "/")
       
-      self$INFO(sprintf("WEBDAV/PROPFIND - Listing files at '%s'", req_url))
+      self$INFO(sprintf("WEBDAV/PROPFIND - Listing files at '%s'", req))
       
       h <- new_handle()
       handle_setopt(h, customrequest = "PROPFIND")
@@ -244,11 +303,11 @@ ocsRequest <- R6Class("ocsRequest",
       if(!is.null(private$token)) headers <- c(headers, "X-XSRF-TOKEN" = private$token)
       if(!is.null(private$cookies)) headers <- c(headers, "Set-Cookie" = private$cookies)
       handle_setheaders(h, .list = headers)
-      response <- curl_fetch_memory(req_url, h)
+      response <- curl_fetch_memory(req, h)
       xml <- rawToChar(response$content)
       response <- xmlParse(xml, asText = TRUE)
       webdavNS <- c(d = "DAV:")
-      base <- paste(paste("/", strsplit(req_url, "/")[[1]][-1:-3], sep="", collapse=""), "/", sep="")
+      base <- paste(paste("/", strsplit(req, "/")[[1]][-1:-3], sep="", collapse=""), "/", sep="")
       nodes <- getNodeSet(response, "//d:response")
       if(length(nodes)>0){
         self$INFO("WEBDAV/PROPFIND - Successful file listing!")
@@ -293,7 +352,7 @@ ocsRequest <- R6Class("ocsRequest",
       }))
       result <- result[result$name != "", ]
       
-      response <- list(request = req_url, requestHeaders = NA,
+      response <- list(request = req, requestHeaders = NA,
                        status = NA, response = result)
       return(response)
     },
@@ -301,21 +360,21 @@ ocsRequest <- R6Class("ocsRequest",
     #WEBDAV_MKCOL
     WEBDAV_MKCOL = function(url, request){
       response <- NULL
-      req_url <- paste(url, request, sep = "/")
-      self$INFO(sprintf("WEBDAV/MKCOL - Creating collection '%s' at '%s'", request, req_url))
+      req <- paste(url, request, sep = "/")
+      self$INFO(sprintf("WEBDAV/MKCOL - Creating collection '%s' at '%s'", request, req))
       h <- new_handle()
       handle_setopt(h, customrequest = "MKCOL")
       headers <- list("OCS-APIRequest" = "true", "Authorization" = private$auth)
       if(!is.null(private$token)) headers <- c(headers, "X-XSRF-TOKEN" = private$token)
       if(!is.null(private$cookies)) headers <- c(headers, "Set-Cookie" = private$cookies)
       handle_setheaders(h, .list = headers)
-      response <- curl_fetch_memory(req_url, h)
+      response <- curl_fetch_memory(req, h)
       if(response$status_code==201){
         self$INFO(sprintf("WEBDAV/MKCOL - Successfuly created collection '%s'", request))
-        response <- list(request = req_url, requestHeaders = NA,
+        response <- list(request = req, requestHeaders = NA,
                          status = response$status_code, response = response$url)
       }else{
-        errMsg <- sprintf("WEBDAV/MKCOL - Error while creating collection '%s' at '%s'", request, req_url)
+        errMsg <- sprintf("WEBDAV/MKCOL - Error while creating collection '%s' at '%s'", request, req)
         self$ERROR(errMsg)
         stop(errMsg)
       }
@@ -330,7 +389,8 @@ ocsRequest <- R6Class("ocsRequest",
                           user = NULL, pwd = NULL,
                           token = NULL, cookies = NULL,
                           namedParams = list(),
-                          content = NULL, filename = NULL,
+                          content = NULL, contentType = "text/plain", 
+                          filename = NULL,
                           logger = NULL, ...) {
       super$initialize(logger = logger)
       private$type = type
@@ -339,6 +399,7 @@ ocsRequest <- R6Class("ocsRequest",
       private$namedParams = namedParams
       private$namedParams$format = "json"
       private$content = content
+      private$contentType = contentType
       private$filename = filename
       
       #authentication schemes
@@ -356,8 +417,9 @@ ocsRequest <- R6Class("ocsRequest",
       
       req <- switch(private$type,
         "HTTP_GET" = private$HTTP_GET(private$url, private$request, private$namedParams),
-        "HTTP_POST" = private$HTTP_POST(private$url, private$request, private$namedParams, private$content),
-        "HTTP_PUT" = private$HTTP_PUT(private$url, private$request, private$content, private$filename),
+        "HTTP_POST" = private$HTTP_POST(private$url, private$request, private$namedParams, private$content, private$contentType),
+        "HTTP_PUT" = private$HTTP_PUT(private$url, private$request, private$namedParams, private$content, private$contentType, private$filename),
+        "HTTP_DELETE" = private$HTTP_DELETE(private$url, private$request, private$contentType),
         "WEBDAV_PROPFIND" = private$WEBDAV_PROPFIND(private$url, private$request),
         "WEBDAV_MKCOL" = private$WEBDAV_MKCOL(private$url, private$request)
       )

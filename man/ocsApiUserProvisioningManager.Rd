@@ -35,9 +35,13 @@ ocsApiUserProvisioningManager
 }
 }
 
-\section{User Provisioning methods}{
+\section{User Provisioning API methods}{
 
 \describe{
+ \item{\code{addUser(userid, email, password, groups)}}{
+   Adds a user given a \code{userid} (required). All other fields (email, password, groups) are
+   optional for the user creation. Returns \code{TRUE} if the user is added, \code{FALSE} otherwise.
+ }
  \item{\code{getUsers()}}{
    Get the list of users. This method returns a vector of class 'character' giving
    the user IDs available in the OCS cloud plateform.
@@ -46,6 +50,20 @@ ocsApiUserProvisioningManager
    Get the user details from its \code{userid}. If the argument \code{pretty} is set to TRUE,
    this will return an object of class \code{data.frame}, otherwise (by default) it returns 
    an object of class \code{list}.
+ }
+ \item{\code{editUser(userid, key, value)}}{
+   Edits a user, identifier by a userid. The user property to be edited should be set using its
+   key (eg displayname) and the value to be modified for this key. Returns \code{TRUE} if the user 
+   is edited, \code{FALSE} otherwise.
+ }
+ \item{\code{enableUser(userid)}}{
+   Enables a user. Returns \code{TRUE} if enabled.
+ }
+ \item{\code{disableUser(userid)}}{
+   Disables a user. Returns \code{TRUE} if disabled.
+ }
+ \item{\code{deleteUser(userid)}}{
+   Deletes auser. Returns \code{TRUE} if delete.
  }
 }
 }
