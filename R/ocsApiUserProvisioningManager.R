@@ -103,8 +103,10 @@ ocsApiUserProvisioningManager <-  R6Class("ocsApiUserProvisioningManager",
       get_user$execute()
       get_user_resp <- get_user$getResponse()
       user <- get_user_resp$ocs$data
+      class(user$enabled) <- "logical"
+      class(user$two_factor_auth_enabled) <- "logical"
       if(pretty){
-        user <- t(as.data.frame(unlist(user)))
+        user <- as.data.frame(t(unlist(user)))
         row.names(user) <- 1
       }
       return(user)

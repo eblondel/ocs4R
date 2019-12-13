@@ -37,7 +37,8 @@ test_that("User Provisioning API - addUser",{
 })
 
 test_that("User Provisioning API - editUser",{
-  edited <- OCS$editUser("johndoe", displayname = "John Doe")
+  edited <- OCS$editUser("johndoe", key = "displayname", value = "John Doe")
+  expect_error(edited)
 })
 
 test_that("User Provisioning API - disableUser",{
