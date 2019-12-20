@@ -230,7 +230,7 @@ ocsRequest <- R6Class("ocsRequest",
           "X-XSRF-TOKEN" = private$token,
           "Set-Cookie" = private$cookies,
           "OCS-APIRequest" = "true",
-          "Content-Type" = contentType), body = body)
+          "Content-Type" = contentType), body = body, query = query)
       }
 
       if(status_code(r)==201){
