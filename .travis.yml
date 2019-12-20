@@ -49,45 +49,45 @@ matrix:
     apt_packages: libxml2-dev
     before_install:
     - docker run --name owncloud -d -p 8080:8080 owncloud/server:latest
-  - name: "nextcloud | R oldrel"
-    os: linux
-    r: oldrel
-    r_packages:
-    - R6
-    - httr
-    - jsonlite
-    - testthat
-    - covr
-    services: docker
-    apt_packages: libxml2-dev
-    before_install:
-    - docker run --name nextcloud -d -p 0.0.0.0:8080:80 nextcloud
-  - name: "nextcloud | R release"
-    os: linux
-    r: release
-    r_packages:
-    - R6
-    - httr
-    - jsonlite
-    - testthat
-    - covr
-    services: docker
-    apt_packages: libxml2-dev
-    before_install:
-    - docker run --name nextcloud -d -p 0.0.0.0:8080:80 nextcloud
-  - name: "nextcloud | R devel"
-    os: linux
-    r: devel
-    r_packages:
-    - R6
-    - httr
-    - jsonlite
-    - testthat
-    - covr
-    services: docker
-    apt_packages: libxml2-dev
-    before_install:
-    - docker run --name nextcloud -d -p 0.0.0.0:8080:80 nextcloud
+  #- name: "nextcloud | R oldrel"
+  #  os: linux
+  #  r: oldrel
+  #  r_packages:
+  #  - R6
+  #  - httr
+  #  - jsonlite
+  #  - testthat
+  #  - covr
+  #  services: docker
+  #  apt_packages: libxml2-dev
+  #  before_install:
+  #  - docker run --name nextcloud -d -p 0.0.0.0:8080:80 nextcloud
+  #- name: "nextcloud | R release"
+  #  os: linux
+  #  r: release
+  #  r_packages:
+  #  - R6
+  #  - httr
+  #  - jsonlite
+  #  - testthat
+  #  - covr
+  #  services: docker
+  #  apt_packages: libxml2-dev
+  #  before_install:
+  #  - docker run --name nextcloud -d -p 0.0.0.0:8080:80 nextcloud
+  #- name: "nextcloud | R devel"
+  #  os: linux
+  #  r: devel
+  #  r_packages:
+  #  - R6
+  #  - httr
+  #  - jsonlite
+  #  - testthat
+  #  - covr
+  #  services: docker
+  #  apt_packages: libxml2-dev
+  #  before_install:
+  #  - docker run --name nextcloud -d -p 0.0.0.0:8080:80 nextcloud
 
 after_script:
  - ./travis-tool.sh dump_logs
