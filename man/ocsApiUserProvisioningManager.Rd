@@ -75,11 +75,30 @@ ocsApiUserProvisioningManager
    Disables a user. Returns \code{TRUE} if disabled.
  }
  \item{\code{deleteUser(userid)}}{
-   Deletes auser. Returns \code{TRUE} if delete.
+   Deletes a user. Returns \code{TRUE} if deleted.
  }
  \item{\code{getUserGroups(userid)}}{
    Get user group(s). This method returns a vector of class 'character' giving
    the usergroups IDs
+ }
+ \item{code{addToGroup(userid, groupid)}}{
+   Adds a user to a group.
+ }
+ \item{\code{removeFromGroup(userid, groupid)}}{
+   Removes a user from a group.
+ }
+ \item{\code{getGroups(search, limit, offset)}}{
+   Get the list of groups. This method returns a vector of class 'character' giving
+   the usergroups IDs
+ }
+ \item{\code{getGroup(groupid)}}{
+   Get the group including member users from its \code{groupid}.
+ }
+ \item{\code{addGroup(groupid)}}{
+   Add group given a \code{groupid} (required).
+ }
+ \item{\code{deleteGroup(groupid)}}{
+   Deletes a group. Returns \code{TRUE} if deleted.
  }
 }
 }

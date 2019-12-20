@@ -62,11 +62,30 @@
 #'    Disables a user. Returns \code{TRUE} if disabled.
 #'  }
 #'  \item{\code{deleteUser(userid)}}{
-#'    Deletes auser. Returns \code{TRUE} if delete.
+#'    Deletes a user. Returns \code{TRUE} if deleted.
 #'  }
 #'  \item{\code{getUserGroups(userid)}}{
 #'    Get user group(s). This method returns a vector of class 'character' giving
 #'    the usergroups IDs
+#'  }
+#'  \item{code{addToGroup(userid, groupid)}}{
+#'    Adds a user to a group.
+#'  }
+#'  \item{\code{removeFromGroup(userid, groupid)}}{
+#'    Removes a user from a group.
+#'  }
+#'  \item{\code{getGroups(search, limit, offset)}}{
+#'    Get the list of groups. This method returns a vector of class 'character' giving
+#'    the usergroups IDs
+#'  }
+#'  \item{\code{getGroup(groupid)}}{
+#'    Get the group including member users from its \code{groupid}.
+#'  }
+#'  \item{\code{addGroup(groupid)}}{
+#'    Add group given a \code{groupid} (required).
+#'  }
+#'  \item{\code{deleteGroup(groupid)}}{
+#'    Deletes a group. Returns \code{TRUE} if deleted.
 #'  }
 #' }
 #' 
@@ -234,13 +253,32 @@ ocsApiUserProvisioningManager <-  R6Class("ocsApiUserProvisioningManager",
     },
     
     #addToGroup
-    addToGroup = function(){
-      stop("'addToGroup' method not yet implemented")
+    addToGroup = function(userid, groupid){
+      request <- sprintf("ocs/v1.php/cloud/users/%s/groups", userid)
+      post_req <- ocs4R::ocsRequest$new(
+        type = "HTTP_POST", private$url, request,
+        private$user, private$pwd, token = private$token, cookies = private$cookies,
+        content = list(groupid = groupid),
+        contentType = NULL,
+        logger = self$loggerType
+      )
+      post_req$execute()
+      post_req_resp <- post_req$getResponse()
+      added <- post_req_resp$ocs$meta$statuscode == 100
+      return(added)
     },
     
     #removeFromGroup
-    removeFromGroup = function(){
-      stop("'removeFromGroup' method not yet implemented")
+    removeFromGroup = function(userid, groupid){
+      request <- sprintf("ocs/v1.php/cloud/users/%s/groups", userid)
+      delete_req <- ocsRequest$new(
+        type = "HTTP_DELETE", private$url, request,
+        private$user, private$pwd, token = private$token, cookies = private$cookies,
+        content = list(groupid = groupid),
+        logger = self$loggerType
+      )
+      delete_req$execute()
+      return(TRUE)
     },
     
     #createSubadmin
@@ -262,28 +300,63 @@ ocsApiUserProvisioningManager <-  R6Class("ocsApiUserProvisioningManager",
     #-------------------------------------------------------------------------------------------
     
     #getGroups
-    getGroups = function(){
-      stop("'getGroups' method not yet implemented")
+    getGroups = function(search = NULL, limit = NULL, offset = NULL){
+      get_groups <- ocs4R::ocsRequest$new(
+        type = "HTTP_GET", private$url, "ocs/v1.php/cloud/groups",
+        private$user, private$pwd, token = private$token, cookies = private$cookies,
+        namedParams = list(search = search, limit = limit, offset = offset),
+        logger = self$loggerType
+      )
+      get_groups$execute()
+      get_groups_resp <- get_groups$getResponse()
+      groups <- unlist(get_groups_resp$ocs$data$groups)
+      return(groups)
     },
     
     #addGroup
-    addGroup = function(){
-      stop("'addGroup' method not yet implemented")
+    addGroup = function(groupid){
+      request <- "ocs/v1.php/cloud/groups"
+      post_req <- ocs4R::ocsRequest$new(
+        type = "HTTP_POST", private$url, request,
+        private$user, private$pwd, token = private$token, cookies = private$cookies,
+        content = list(groupid = groupid),
+        contentType = NULL,
+        logger = self$loggerType
+      )
+      post_req$execute()
+      post_req_resp <- post_req$getResponse()
+      added <- post_req_resp$ocs$meta$statuscode == 100
+      return(added)
     },
     
     #getGroup
-    getGroup = function(){
-      stop("'getGroup' method not yet implemented")
+    getGroup = function(groupid){
+      get_group <- ocs4R::ocsRequest$new(
+        type = "HTTP_GET", private$url, sprintf("ocs/v1.php/cloud/groups/%s", groupid),
+        private$user, private$pwd, token = private$token, cookies = private$cookies,
+        logger = self$loggerType
+      )
+      get_group$execute()
+      get_group_resp <- get_group$getResponse()
+      group <- list(id = groupid, users = unlist(get_group_resp$ocs$data$users))
+      return(group)
+    },
+    
+    #deleteGroup
+    deleteGroup = function(groupid){
+      request <- sprintf("ocs/v1.php/cloud/groups/%s", groupid)
+      delete_req <- ocsRequest$new(
+        type = "HTTP_DELETE", private$url, request,
+        private$user, private$pwd, token = private$token, cookies = private$cookies,
+        logger = self$loggerType
+      )
+      delete_req$execute()
+      return(TRUE)
     },
     
     #getSubadmins
     getSubadmins = function(){
       stop("'getSubadmins' method not yet implemented")
-    },
-    
-    #deleteGroup
-    deleteGroup = function(){
-      stop("'deleteGroup' method not yet implemented")
     }
     
   )

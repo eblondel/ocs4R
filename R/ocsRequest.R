@@ -249,7 +249,7 @@ ocsRequest <- R6Class("ocsRequest",
     
     #HTTP_DELETE
     #---------------------------------------------------------------
-    HTTP_DELETE = function(url, request = NULL, contentType = "text/plain"){
+    HTTP_DELETE = function(url, request = NULL, content = NULL, contentType = "text/plain"){
       req <- url
       if(!is.null(request)) req = paste(url, request, sep="/")
       
@@ -265,7 +265,7 @@ ocsRequest <- R6Class("ocsRequest",
           "X-XSRF-TOKEN" = private$token,
           "Set-Cookie" = private$cookies,
           "OCS-APIRequest" = "true"
-          )
+          ), query = content
         ))
       }else{
         r <- DELETE(req, handle = handle(''), add_headers(
@@ -274,7 +274,7 @@ ocsRequest <- R6Class("ocsRequest",
           "Authorization" = private$auth,
           "X-XSRF-TOKEN" = private$token,
           "Set-Cookie" = private$cookies,
-          "OCS-APIRequest" = "true")
+          "OCS-APIRequest" = "true"), query = content
         )
       }
       
@@ -421,7 +421,7 @@ ocsRequest <- R6Class("ocsRequest",
         "HTTP_GET" = private$HTTP_GET(private$url, private$request, private$namedParams),
         "HTTP_POST" = private$HTTP_POST(private$url, private$request, private$namedParams, private$content, private$contentType),
         "HTTP_PUT" = private$HTTP_PUT(private$url, private$request, private$namedParams, private$content, private$contentType, private$filename),
-        "HTTP_DELETE" = private$HTTP_DELETE(private$url, private$request, private$contentType),
+        "HTTP_DELETE" = private$HTTP_DELETE(private$url, private$request, private$content, private$contentType),
         "WEBDAV_PROPFIND" = private$WEBDAV_PROPFIND(private$url, private$request),
         "WEBDAV_MKCOL" = private$WEBDAV_MKCOL(private$url, private$request)
       )

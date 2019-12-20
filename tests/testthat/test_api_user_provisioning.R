@@ -70,3 +70,35 @@ test_that("User Provisioning API - deleteUser",{
   expect_false("john.doe" %in% users)
 })
   
+test_that("User Provisioning API - getGroups",{
+  groups <- OCS$getGroups()
+  expect_equal(groups, "admin")
+})
+
+test_that("User Provisioning API - addGroup",{
+  added <- OCS$addGroup("scientists")
+  expect_true(added)
+  groups <-  OCS$getGroups()
+  expect_equal(groups, c("admin", "scientists"))
+})
+
+test_that("User Provisioning API - getGroup",{
+  admin_group <- OCS$getGroup("admin")
+  expect_equal(admin_group$id, "admin")
+  expect_equal(admin_group$users, "admin")
+  sc_group <- OCS$getGroup("scientists")
+  expect_equal(sc_group$id, "scientists")
+  expect_null(sc_group$users)
+})
+
+test_that("User Provisioning API - addToGroup",{
+  added <- OCS$addToGroup("john.doe", "scientists")
+  expect_true(added)
+  expect_true("john.doe" %in% OCS$getGroup("scientists")$users)
+})
+
+test_that("User Provisioning API - removeFromGroup",{
+  removed <- OCS$removeFromGroup("john.doe", "scientists")
+  expect_true(removed)
+  expect_false("john.doe" %in% OCS$getGroup("scientists")$users)
+})
