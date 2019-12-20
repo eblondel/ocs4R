@@ -48,8 +48,14 @@ test_that("User Provisioning API - disableUser / enableUser",{
 })
 
 test_that("User Provisioning API - editUser",{
-  edited <- try(OCS$editUser("john.doe", key = "display", value = "John Doe"))
-  expect_is(edited, "try-error") #TODO check why we get error 401 Unauthorized
+  edited <- OCS$editUser("john.doe", key = "display", value = "John Doe")
+  expect_true(edited)
+  john <- OCS$getUser("john.doe")
+  expect_equal(john$displayname, "John Doe")
+  edited2 <- OCS$editUserDisplayName("john.doe", displayName = "John Doe Jr.")
+  expect_true(edited2)
+  john <- OCS$getUser("john.doe")
+  expect_equal(john$displayname, "John Doe Jr.")
 })
 
 test_that("User Provisioning API - deleteUser",{

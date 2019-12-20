@@ -53,8 +53,20 @@ ocsApiUserProvisioningManager
  }
  \item{\code{editUser(userid, key, value)}}{
    Edits a user, identifier by a userid. The user property to be edited should be set using its
-   key (eg displayname) and the value to be modified for this key. Returns \code{TRUE} if the user 
+   key (eg display) and the value to be modified for this key. Returns \code{TRUE} if the user 
    is edited, \code{FALSE} otherwise.
+ }
+ \item{\code{editUserDisplayName(userid, displayName)}}{
+   Edits a user display name.
+ }
+ \item{\code{editUserEmail(userid, email)}}{
+   Edits a user email.
+ }
+ \item{\code{editUserPassword(userid, password)}}{
+   Edits a user password.
+ }
+ \item{\code{editUserQuota(userid, quota)}}{
+   Edits a user quota.
  }
  \item{\code{enableUser(userid)}}{
    Enables a user. Returns \code{TRUE} if enabled.

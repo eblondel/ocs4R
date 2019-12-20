@@ -185,7 +185,7 @@ ocsRequest <- R6Class("ocsRequest",
     
     #HTTP_PUT
     #---------------------------------------------------------------
-    HTTP_PUT = function(url, request = NULL, namedParams = list(), content = NULL, contentType = "text/plain", filename = NULL){
+    HTTP_PUT = function(url, request = NULL, namedParams = list(), content = NULL, contentType = "application/x-www-form-urlencoded", filename = NULL){
       req <- url
       if(!is.null(request)) req = paste(url, request, sep="/")
       if(!endsWith(req,"?")) req <- paste0(req, "?")
@@ -201,6 +201,7 @@ ocsRequest <- R6Class("ocsRequest",
       self$INFO(sprintf("HTTP/PUT - Putting content at '%s'", req))
       
       #content
+      query <- NULL
       body <- NULL
       if(missing(content) | is.null(content)){
         if(missing(filename) | is.null(filename)){
@@ -209,27 +210,27 @@ ocsRequest <- R6Class("ocsRequest",
         content <- filename
         body <- httr::upload_file(filename)
       }else{
-        body <- content
+        query <- content
       }
       
       r <- NULL
       if(self$verbose.debug){
         r <- with_verbose(PUT(req, handle = handle(''), add_headers(
           "User-Agent" = private$getUserAgent(),
-          "Content-Type" = contentType,
           "Authorization" = private$auth,
           "X-XSRF-TOKEN" = private$token,
           "Set-Cookie" = private$cookies,
-          "OCS-APIRequest" = "true"), body = body
+          "OCS-APIRequest" = "true",
+          "Content-Type" = contentType), body = body, query = query
         ))
       }else{
         r <- PUT(req, handle = handle(''), add_headers(
           "User-Agent" = private$getUserAgent(),
-          "Content-Type" = contentType,
           "Authorization" = private$auth,
           "X-XSRF-TOKEN" = private$token,
           "Set-Cookie" = private$cookies,
-          "OCS-APIRequest" = "true"), body = body)
+          "OCS-APIRequest" = "true",
+          "Content-Type" = contentType), body = body)
       }
 
       if(status_code(r)==201){
@@ -399,6 +400,7 @@ ocsRequest <- R6Class("ocsRequest",
       private$namedParams = namedParams
       private$namedParams$format = "json"
       private$content = content
+      if(type == "HTTP_PUT") contentType = "application/x-www-form-urlencoded"
       private$contentType = contentType
       private$filename = filename
       

@@ -40,8 +40,20 @@
 #'  }
 #'  \item{\code{editUser(userid, key, value)}}{
 #'    Edits a user, identifier by a userid. The user property to be edited should be set using its
-#'    key (eg displayname) and the value to be modified for this key. Returns \code{TRUE} if the user 
+#'    key (eg display) and the value to be modified for this key. Returns \code{TRUE} if the user 
 #'    is edited, \code{FALSE} otherwise.
+#'  }
+#'  \item{\code{editUserDisplayName(userid, displayName)}}{
+#'    Edits a user display name.
+#'  }
+#'  \item{\code{editUserEmail(userid, email)}}{
+#'    Edits a user email.
+#'  }
+#'  \item{\code{editUserPassword(userid, password)}}{
+#'    Edits a user password.
+#'  }
+#'  \item{\code{editUserQuota(userid, quota)}}{
+#'    Edits a user quota.
 #'  }
 #'  \item{\code{enableUser(userid)}}{
 #'    Enables a user. Returns \code{TRUE} if enabled.
@@ -139,9 +151,31 @@ ocsApiUserProvisioningManager <-  R6Class("ocsApiUserProvisioningManager",
       )
       put_req$execute()
       put_req_resp <- put_req$getResponse()
-      edited <- put_req_resp$ocs$meta$statuscode == 100
-      edited <- put_req
+      edited <- FALSE
+      if(is(put_req_resp, "list")) if(!is.null(put_req_resp$key) && !is.null(put_req_resp$value)){
+        if(put_req_resp$key == key && put_req_resp$value == value) edited <- TRUE
+      }
       return(edited)
+    },
+    
+    #editUserDisplayName
+    editUserDisplayName = function(userid, displayName){
+      return(self$editUser(userid, key = "display", value = displayName))
+    },
+    
+    #editUserEmail
+    editUserEmail = function(userid, email){
+      return(self$editUser(userid, key = "email", value = email))
+    },
+    
+    #editUserPassword
+    editUserPassword = function(userid, password){
+      return(self$editUser(userid, key = "password", value = password))
+    },
+    
+    #editUserQuota
+    editUserQuota = function(userid, quota){
+      return(self$editUser(userid, key = "quota", value = quota))
     },
     
     #enableUser
