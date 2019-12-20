@@ -64,6 +64,10 @@
 #'  \item{\code{deleteUser(userid)}}{
 #'    Deletes auser. Returns \code{TRUE} if delete.
 #'  }
+#'  \item{\code{getUserGroups(userid)}}{
+#'    Get user group(s). This method returns a vector of class 'character' giving
+#'    the usergroups IDs
+#'  }
 #' }
 #' 
 #' @author Emmanuel Blondel <emmanuel.blondel1@@gmail.com>
@@ -217,8 +221,16 @@ ocsApiUserProvisioningManager <-  R6Class("ocsApiUserProvisioningManager",
     },
     
     #getUserGroups
-    getUserGroups = function(){
-      stop("'getGroups' method not yet implemented")
+    getUserGroups = function(userid){
+      get_usergroups <- ocs4R::ocsRequest$new(
+        type = "HTTP_GET", private$url, sprintf("ocs/v1.php/cloud/users/%s/groups", userid),
+        private$user, private$pwd, token = private$token, cookies = private$cookies,
+        logger = self$loggerType
+      )
+      get_usergroups$execute()
+      get_usergroups_resp <- get_usergroups$getResponse()
+      usergroups <- unlist(get_usergroups_resp$ocs$data$groups)
+      return(usergroups)
     },
     
     #addToGroup

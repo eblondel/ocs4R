@@ -77,6 +77,10 @@ ocsApiUserProvisioningManager
  \item{\code{deleteUser(userid)}}{
    Deletes auser. Returns \code{TRUE} if delete.
  }
+ \item{\code{getUserGroups(userid)}}{
+   Get user group(s). This method returns a vector of class 'character' giving
+   the usergroups IDs
+ }
 }
 }
 

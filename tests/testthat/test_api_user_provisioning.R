@@ -58,6 +58,11 @@ test_that("User Provisioning API - editUser",{
   expect_equal(john$displayname, "John Doe Jr.")
 })
 
+test_that("User Provisioning API - getUserGroups",{
+  admingroups <- OCS$getUserGroups("admin")
+  expect_equal(admingroups, "admin")
+})
+
 test_that("User Provisioning API - deleteUser",{
   deleted <- OCS$deleteUser("john.doe")
   expect_true(deleted)
