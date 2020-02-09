@@ -61,7 +61,7 @@ matrix:
     services: docker
     apt_packages: libxml2-dev
     before_install:
-    - docker run --name nextcloud -e SQLITE_DATABASE='nextcloud' -d -p 0.0.0.0:8080:80 nextcloud
+    - docker run --name nextcloud -d -p 8080:8080 linuxserver/nextcloud
   #- name: "nextcloud | R release"
   #  os: linux
   #  r: release
