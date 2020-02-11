@@ -51,7 +51,7 @@ matrix:
     - docker run --name owncloud -d -p 8080:8080 owncloud/server:latest
   - name: "nextcloud | R oldrel"
     os: linux
-    r: oldrel
+    r: release
     r_packages:
     - R6
     - httr
