@@ -4,7 +4,7 @@
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ocs4R)](https://cran.r-project.org/package=ocs4R)
 [![cran checks](https://cranchecks.info/badges/worst/ocs4R)](https://cran.r-project.org/web/checks/check_results_ocs4R.html)
 [![Github_Status_Badge](https://img.shields.io/badge/Github-0.1-blue.svg)](https://github.com/eblondel/ocs4R)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3663615.svg)](https://doi.org/10.5281/zenodo.3663615)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3663614.svg)](https://doi.org/10.5281/zenodo.3663614)
 
 **R Interface to Open Collaboration Services (OCS) REST APIs**
 
@@ -25,6 +25,6 @@ For ocs4R sponsoring/funding new developments, enhancements, support requests, p
 
 ## Citation
 
-You can get the preferred citation by using the ``ocs4R`` Document Object Identifier (DOI): [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3663615.svg)](https://doi.org/10.5281/zenodo.3663615)
+You can get the preferred citation by using the ``ocs4R`` Document Object Identifier (DOI): [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3663614.svg)](https://doi.org/10.5281/zenodo.3663614)
 
 We thank in advance people that use ``ocs4R`` for citing it in their work / publication(s). 
