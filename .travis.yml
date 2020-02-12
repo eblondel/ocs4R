@@ -19,6 +19,9 @@ matrix:
     - jsonlite
     - testthat
     - covr
+    env:
+      matrix:
+      - NOT_CRAN=true
     services: docker
     apt_packages: libxml2-dev
     before_install:
@@ -32,6 +35,9 @@ matrix:
     - jsonlite
     - testthat
     - covr
+    env:
+      matrix:
+      - NOT_CRAN=true
     services: docker
     apt_packages: libxml2-dev
     before_install:
@@ -45,6 +51,9 @@ matrix:
     - jsonlite
     - testthat
     - covr
+    env:
+      matrix:
+      - NOT_CRAN=true
     services: docker
     apt_packages: libxml2-dev
     before_install:
@@ -59,6 +68,9 @@ matrix:
     - jsonlite
     - testthat
     - covr
+    env:
+      matrix:
+      - NOT_CRAN=true
     services: docker
     apt_packages: libxml2-dev
     before_install:
