@@ -25,6 +25,6 @@ For ocs4R sponsoring/funding new developments, enhancements, support requests, p
 
 ## Citation
 
-You can get the preferred citation by using the ``ocs4R`` Document Object Identifier (DOI): [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3401578.svg)](https://doi.org/10.5281/zenodo.3401578)
+You can get the preferred citation by using the ``ocs4R`` Document Object Identifier (DOI): [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3663615.svg)](https://doi.org/10.5281/zenodo.3663615)
 
 We thank in advance people that use ``ocs4R`` for citing it in their work / publication(s). 
