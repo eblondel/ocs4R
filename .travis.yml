@@ -65,7 +65,7 @@ matrix:
     - docker network create nextnet
     - docker run --network nextnet --name selenium -d -p 4445:4444 selenium/standalone-chrome
     - docker run --network nextnet --name nextcloud -e SQLITE_DATABASE='nextcloud' -d -p 0.0.0.0:8080:80 nextcloud
-    - Rscript -e 'install.packages("RSelenium"); library(RSelenium); remDr <- remoteDriver(remoteServerAddr = "localhost", port = 4445L, browserName = "chrome"); remDr$open(); remDr$navigate("http://host.docker.internal:8080"); Sys.sleep(30); input_user <- remDr$findElement("xpath","//*/input[@id=\"adminlogin\"]"); input_user$sendKeysToElement(list("admin", key = "enter")); input_pwd <- remDr$findElement("xpath","//*/input[@id=\"adminpass\"]"); input_pwd$sendKeysToElement(list("admin", key = "enter")); Sys.sleep(60)'
+    - Rscript -e 'install.packages("RSelenium"); library(RSelenium); remDr <- remoteDriver(remoteServerAddr = "localhost", port = 4445L, browserName = "chrome"); remDr$open(); remDr$navigate("http://host.docker.internal:8080"); Sys.sleep(120); input_user <- remDr$findElement("xpath","//*/input[@id=\"adminlogin\"]"); input_user$sendKeysToElement(list("admin", key = "enter")); input_pwd <- remDr$findElement("xpath","//*/input[@id=\"adminpass\"]"); input_pwd$sendKeysToElement(list("admin", key = "enter")); Sys.sleep(60)'
   #- name: "nextcloud | R release"
   #  os: linux
   #  r: release
