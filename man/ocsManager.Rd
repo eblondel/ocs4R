@@ -91,6 +91,61 @@ ocsManager
 }
 }
 
+\examples{
+\dontrun{
+   #Not Run:
+   #Connect to an OCS API
+   OCS <- ocsManager$new(url = ocs_url, user = ocs_user, pwd = ocs_pwd, logger = "DEBUG")
+   version <- OCS$getVersion()
+   caps <- OCS$getCapabilities()
+   
+   #OCS User Provisioning API
+   #-------------------------------------
+   #users
+   users <- OCS$getUsers() #get users
+   user <- OCS$getUser("admin") #get a user
+   user.df <- OCS$getUser("admin", TRUE) #the same user as data.frame
+   added <- OCS$addUser("john.doe", password = "ocs4john") #add a user
+   disabled <- OCS$disableUser("john.doe") #disable a user
+   enabled <- OCS$enableUser("john.doe") #enable auser
+   edited <- OCS$editUser("john.doe", key = "display", value = "John Doe") #edit user
+   edited2 <- OCS$editUserDisplayName("john.doe", displayName = "John Doe Jr.") #edit some user field
+   deleted <- OCS$deleteUser("john.doe")
+   
+   #groups
+   admingroups <- OCS$getUserGroups("admin")
+   groups <- OCS$getGroups()
+   added <- OCS$addGroup("scientists") #add a new group
+   sc_group <- OCS$getGroup("scientists") #get group details
+   added <- OCS$addToGroup("john.doe", "scientists") #add user to group
+   removed <- OCS$removeFromGroup("john.doe", "scientists") #remove user from group
+   deleted <- OCS$deleteGroup("scientists")
+   
+   #OCS Webdav API
+   #-------------------------------------
+   #list files
+   files <- OCS$listFiles()
+   subfiles <- OCS$listFiles("Documents")
+   #make collection
+   OCS$makeCollection("myfolder")
+   subfiles <- OCS$listFiles("myfolder")
+   #upload a file?
+   filename <- "magic.txt"
+   file.create(filename); writeLines("ocs4R is great", filename)
+   #we upload the file in 'Documents' folder
+   OCS$uploadFile(filename, "/Documents")
+   #check if file is uploaded
+   OCS$listFiles('Documents')
+   
+   #OCS Sharing API
+   #-------------------------------------
+   #let's add a user with User provisioning API
+   added <- OCS$addUser("john.doe", password = "ocs4john") #add a user
+   #let's share the previously uploaded file with John Doe
+   OCS$shareWithUser("/Documents", filename, "john.doe")
+}
+
+}
 \author{
 Emmanuel Blondel <emmanuel.blondel1@gmail.com>
 }

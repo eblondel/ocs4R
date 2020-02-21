@@ -9,7 +9,7 @@ if(Sys.getenv("NOT_CRAN") == "true"){
   ocs_pwd <- "admin"
   
   OCS <- ocsManager$new(
-    url = "http://localhost:8080", 
+    url = ocs_url, 
     user = ocs_user, 
     pwd = ocs_pwd, 
     logger = "DEBUG"
