@@ -109,7 +109,8 @@ ocsManager
    disabled <- OCS$disableUser("john.doe") #disable a user
    enabled <- OCS$enableUser("john.doe") #enable auser
    edited <- OCS$editUser("john.doe", key = "display", value = "John Doe") #edit user
-   edited2 <- OCS$editUserDisplayName("john.doe", displayName = "John Doe Jr.") #edit some user field
+   #edit some user field
+   edited2 <- OCS$editUserDisplayName("john.doe", displayName = "John Doe Jr.") 
    deleted <- OCS$deleteUser("john.doe")
    
    #groups
