@@ -28,10 +28,21 @@ test_that("WEBDAV API - make collection",{
   expect_true(nrow(subfiles)==0)
 })
 
-test_that("WEBDAV API - upload file",{
+test_that("WEBDAV API - upload file - from working dir",{
   nf <- file.create("test.txt")
   nfcon <- file("test.txt", "wb")
   writeChar("This is a test file", nfcon)
+  close(nfcon)
   nfname <- OCS$uploadFile("test.txt")
   expect_true("test.txt" %in% OCS$listFiles()$name)
+})
+
+test_that("WEBDAV API - upload file - from subdir",{
+  dir.create("myfolder")
+  nf <- file.create(file.path("myfolder","test.txt"))
+  nfcon <- file(file.path("myfolder","test.txt"), "wb")
+  writeChar("This is a test file", nfcon)
+  close(nfcon)
+  nfname <- OCS$uploadFile("myfolder/test.txt", relPath = "myfolder")
+  expect_true("test.txt" %in% OCS$listFiles("myfolder")$name)
 })

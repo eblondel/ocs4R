@@ -102,7 +102,7 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
     uploadFile = function(filename, relPath = "/"){
       if(!startsWith(relPath, "/")) relPath <- paste0("/", relPath)
       if(!endsWith(relPath, "/")) relPath <- paste0(relPath, "/")
-      request <- paste0(self$getWebdavRoot(), relPath, filename)
+      request <- paste0(self$getWebdavRoot(), relPath, basename(filename))
       self$INFO(sprintf("WEBDAV - Uploading file '%s' at '%s'", 
                         filename, paste(private$url, request, sep="/")))
       upload_req <- ocsRequest$new(
