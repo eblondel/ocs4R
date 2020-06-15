@@ -165,7 +165,8 @@ ocsManager <-  R6Class("ocsManager",
       super$initialize(logger = logger)
       private$url = url
       private$user <- user
-      private$pwd <- pwd
+      key_set_with_value("ocs4R", password = pwd)
+      private$pwd <- "ocs4R"
       
       #try to connect
       if(!startsWith(self$getClassName(), "ocsApi")){

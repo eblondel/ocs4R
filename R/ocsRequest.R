@@ -405,10 +405,10 @@ ocsRequest <- R6Class("ocsRequest",
       private$filename = filename
       
       #authentication schemes
-      if(!is.null(user) && !is.null(pwd)){
+      if(!is.null(user) && "ocs4R" %in% key_list()){
         #Basic authentication (user/pwd) scheme
         private$auth_scheme <- "Basic"
-        private$auth <- paste(private$auth_scheme, openssl::base64_encode(paste(user, pwd,sep=":")))
+        private$auth <- paste(private$auth_scheme, openssl::base64_encode(paste(user, key_get(pwd),sep=":")))
       }
       private$token <- token
       private$cookies <- cookies
