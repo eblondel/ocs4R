@@ -8,7 +8,7 @@
 #'
 #' @section Methods:
 #' \describe{
-#'  \item{\code{new(type, url, request, user, pwd, logger)}}{
+#'  \item{\code{new(type, url, request, user, logger)}}{
 #'    This method is used to instantiate a object for doing an 'ocs' web-service request
 #'  }
 #'  \item{\code{getRequest()}}{
@@ -57,6 +57,8 @@ ocsRequest <- R6Class("ocsRequest",
     auth = NA,
     token = NULL,
     cookies = NULL,
+    
+    keyring_service = NULL,
     
     getUserAgent = function(){
       return(paste("ocs4R", packageVersion("ocs4R"), sep="-"))
@@ -387,7 +389,7 @@ ocsRequest <- R6Class("ocsRequest",
   public = list(
     #initialize
     initialize = function(type, url, request,
-                          user = NULL, pwd = NULL,
+                          user = NULL,
                           token = NULL, cookies = NULL,
                           namedParams = list(),
                           content = NULL, contentType = "text/plain", 
@@ -396,6 +398,7 @@ ocsRequest <- R6Class("ocsRequest",
       super$initialize(logger = logger)
       private$type = type
       private$url = url
+      private$keyring_service <- paste0("ocs4R@", url)
       private$request = request
       private$namedParams = namedParams
       private$namedParams$format = "json"
@@ -405,10 +408,13 @@ ocsRequest <- R6Class("ocsRequest",
       private$filename = filename
       
       #authentication schemes
-      if(!is.null(user) && "ocs4R" %in% key_list()){
+      if(!is.null(user)){
         #Basic authentication (user/pwd) scheme
         private$auth_scheme <- "Basic"
-        private$auth <- paste(private$auth_scheme, openssl::base64_encode(paste(user, key_get(pwd),sep=":")))
+        private$auth <- paste(
+          private$auth_scheme, 
+          openssl::base64_encode(paste(user, keyring::key_get(service = private$keyring_service, username = user),sep=":"))
+        )
       }
       private$token <- token
       private$cookies <- cookies

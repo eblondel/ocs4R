@@ -4,9 +4,8 @@
 \name{ocsApiUserProvisioningManager}
 \alias{ocsApiUserProvisioningManager}
 \title{ocsApiUserProvisioningManager}
-\format{\code{\link{R6Class}} object.}
-\usage{
-ocsApiUserProvisioningManager
+\format{
+\code{\link{R6Class}} object.
 }
 \value{
 Object of \code{\link{R6Class}} for modelling an ocsManager for Webdav API

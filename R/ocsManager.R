@@ -138,11 +138,12 @@ ocsManager <-  R6Class("ocsManager",
   private = list(
     url = NULL,
     user = NULL,
-    pwd = NULL,
     token = NULL,
     cookies = NULL,
     version = NULL,
     capabilities = NULL,
+    
+    keyring_service = NULL,
     
     #checkAPIAvailability
     checkAPIAvailability = function(name, element){
@@ -165,8 +166,8 @@ ocsManager <-  R6Class("ocsManager",
       super$initialize(logger = logger)
       private$url = url
       private$user <- user
-      key_set_with_value("ocs4R", password = pwd)
-      private$pwd <- "ocs4R"
+      private$keyring_service <- paste0("ocs4R@", url)
+      keyring::key_set_with_value(private$keyring_service, username = user, password = pwd)
       
       #try to connect
       if(!startsWith(self$getClassName(), "ocsApi")){
@@ -199,7 +200,7 @@ ocsManager <-  R6Class("ocsManager",
     connect = function(){
       caps_req <- ocsRequest$new(
         type = "HTTP_GET", private$url, "ocs/v1.php/cloud/capabilities",
-        private$user, private$pwd, logger = self$loggerType
+        private$user, logger = self$loggerType
       )
       caps_req$execute()
       caps_resp <- caps_req$getResponse()
@@ -216,7 +217,7 @@ ocsManager <-  R6Class("ocsManager",
       if(!is.null(private$token)){
         caps_req <- ocsRequest$new(
           type = "HTTP_GET", private$url, "ocs/v1.php/cloud/capabilities",
-          private$user, private$pwd, token = private$token, cookies = private$cookies, 
+          private$user, token = private$token, cookies = private$cookies, 
           logger = self$loggerType
         )
         caps_req$execute()

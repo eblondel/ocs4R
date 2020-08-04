@@ -6,11 +6,12 @@ Authors@R: c(
   person("Emmanuel", "Blondel", role = c("aut", "cre"), email = "emmanuel.blondel1@gmail.com", comment = c(ORCID = "0000-0002-5870-5762")))
 Maintainer: Emmanuel Blondel <emmanuel.blondel1@gmail.com>
 Depends: R (>= 3.3.0), methods
-Imports: R6, openssl, curl, httr, jsonlite, XML, keyring
+Imports: R6, openssl, curl,httr, jsonlite, XML, keyring
 Suggests: testthat
 Description: Provides an Interface to Open Collaboration Services 'OCS' (<http://www.open-collaboration-services.org/>) REST API.
 License: MIT + file LICENSE
 URL: https://github.com/eblondel/ocs4R
 BugReports: https://github.com/eblondel/ocs4R/issues
 LazyLoad: yes
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
+Roxygen: list(r6 = FALSE)

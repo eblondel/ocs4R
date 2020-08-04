@@ -4,9 +4,8 @@
 \name{ocsRequest}
 \alias{ocsRequest}
 \title{ocsRequest}
-\format{\code{\link{R6Class}} object.}
-\usage{
-ocsRequest
+\format{
+\code{\link{R6Class}} object.
 }
 \value{
 Object of \code{\link{R6Class}} for modelling a generic 'ocs' web-service request
@@ -20,7 +19,7 @@ Abstract class used internally by \pkg{ocs4R}
 \section{Methods}{
 
 \describe{
- \item{\code{new(type, url, request, user, pwd, logger)}}{
+ \item{\code{new(type, url, request, user, logger)}}{
    This method is used to instantiate a object for doing an 'ocs' web-service request
  }
  \item{\code{getRequest()}}{

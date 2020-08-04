@@ -4,9 +4,8 @@
 \name{ocsManager}
 \alias{ocsManager}
 \title{ocsManager}
-\format{\code{\link{R6Class}} object.}
-\usage{
-ocsManager
+\format{
+\code{\link{R6Class}} object.
 }
 \value{
 Object of \code{\link{R6Class}} for modelling an ocsManager
