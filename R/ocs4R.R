@@ -23,6 +23,7 @@
 #' @importFrom httr handle
 #' @import jsonlite
 #' @import XML
+#' @import keyring
 #' 
 #' @title Interface to 'OCS' REST API
 #' @description Provides an Interface to 'OCS' (<http://www.open-collaboration-services.org/>) REST API.
