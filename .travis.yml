@@ -23,7 +23,9 @@ matrix:
       matrix:
       - NOT_CRAN=true
     services: docker
-    apt_packages: libxml2-dev
+    apt_packages: 
+      - libxml2-dev
+      - libsodium-dev
     before_install:
     - docker run --name owncloud -d -p 8080:8080 owncloud/server:latest
   - name: "owncloud | R devel"
@@ -39,7 +41,9 @@ matrix:
       matrix:
       - NOT_CRAN=true
     services: docker
-    apt_packages: libxml2-dev
+    apt_packages:
+      - libxml2-dev
+      - libsodium-dev
     before_install:
     - docker run --name owncloud -d -p 8080:8080 owncloud/server:latest
   - name: "nextcloud | R release"
@@ -55,7 +59,9 @@ matrix:
       matrix:
       - NOT_CRAN=true
     services: docker
-    apt_packages: libxml2-dev
+    apt_packages:
+      - libxml2-dev
+      - libsodium-dev
     before_install:
     - docker network create nextnet
     - docker run --network nextnet --name nextcloud -e SQLITE_DATABASE='nextcloud'  -e NEXTCLOUD_ADMIN_USER='admin' -e NEXTCLOUD_ADMIN_PASSWORD='admin' -d -p 0.0.0.0:8080:80 nextcloud
@@ -72,7 +78,9 @@ matrix:
       matrix:
       - NOT_CRAN=true
     services: docker
-    apt_packages: libxml2-dev
+    apt_packages:
+      - libxml2-dev
+      - libsodium-dev
     before_install:
     - docker network create nextnet
     - docker run --network nextnet --name nextcloud -e SQLITE_DATABASE='nextcloud'  -e NEXTCLOUD_ADMIN_USER='admin' -e NEXTCLOUD_ADMIN_PASSWORD='admin' -d -p 0.0.0.0:8080:80 nextcloud
