@@ -42,6 +42,9 @@
 #'  \item{\code{uploadFile(filename, relPath)}}{
 #'    WebDAV method to upload a file. By default \code{relPath} is set to \code{"/"} (root).
 #'  }
+#'  \item{\code{getPublicFile(share_token)}}{
+#'    Get details of a shared public file given its share token
+#'  }
 #' }
 #' 
 #' @author Emmanuel Blondel <emmanuel.blondel1@@gmail.com>
@@ -123,6 +126,18 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
       }
       upload_resp <- upload_req$getResponse()
       return(upload_resp)
+    },
+    
+    #getPublicFile
+    getPublicFile = function(share_token){
+      request <- file.path("remote.php/dav/public-files", share_token)
+      file_req <- ocsRequest$new(
+        type = "WEBDAV_PROPFIND", private$url, request,
+        anonymous = TRUE, logger = self$loggerType
+      )
+      file_req$execute()
+      file_resp <- file_req$getResponse()
+      return(file_resp)
     }
     
   )
