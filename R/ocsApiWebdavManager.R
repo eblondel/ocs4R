@@ -42,6 +42,9 @@
 #'  \item{\code{uploadFile(filename, relPath)}}{
 #'    WebDAV method to upload a file. By default \code{relPath} is set to \code{"/"} (root).
 #'  }
+#'  \item{\code{deleteFile(filename, relPath)}}{
+#'    WebDAV method to delete a file. By default \code{relPath} is set to \code{"/"} (root).
+#'  }
 #'  \item{\code{getPublicFile(share_token)}}{
 #'    Get details of a shared public file given its share token
 #'  }
@@ -127,6 +130,34 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
       upload_resp <- upload_req$getResponse()
       return(upload_resp)
     },
+    
+    #deleteFile
+    deleteFile = function(filename, relPath = "/"){
+      if(!startsWith(relPath, "/")) relPath <- paste0("/", relPath)
+      if(!endsWith(relPath, "/")) relPath <- paste0(relPath, "/")
+      request <- paste0(self$getWebdavRoot(), relPath, basename(filename))
+      self$INFO(sprintf("WEBDAV - Delete file '%s' at '%s'", 
+                        filename, paste(private$url, request, sep="/")))
+      upload_req <- ocsRequest$new(
+        type = "HTTP_DELETE", private$url, request,
+        private$user, private$pwd, token = private$token, cookies = private$cookies,
+        filename = filename,
+        logger = self$loggerType
+      )
+      upload_req$execute()
+      if(upload_req$getStatus()==204){
+        self$INFO(sprintf("Successfuly deleted file '%s' at '%s'",
+                          filename, paste(private$url, request, sep="/")))
+      }else{
+        errMsg <- sprintf("WEBDAV - Error while deleting '%s' at '%s'",
+                          filename, paste(private$url, request, sep="/"))
+        self$ERROR(errMsg)
+        stop(errMsg)
+      }
+      upload_resp <- upload_req$getResponse()
+      return(upload_resp)
+    },
+    
     
     #getPublicFile
     getPublicFile = function(share_token){

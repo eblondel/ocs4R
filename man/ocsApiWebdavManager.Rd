@@ -54,6 +54,9 @@ ocsApiWebdavManager
  \item{\code{uploadFile(filename, relPath)}}{
    WebDAV method to upload a file. By default \code{relPath} is set to \code{"/"} (root).
  }
+ \item{\code{deleteFile(filename, relPath)}}{
+   WebDAV method to delete a file. By default \code{relPath} is set to \code{"/"} (root).
+ }
  \item{\code{getPublicFile(share_token)}}{
    Get details of a shared public file given its share token
  }
