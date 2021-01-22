@@ -39,7 +39,7 @@
 #'    (eg \code{newfolder1/newfolder2/newfolder3}), the function will create recursively as 
 #'    many collections are handled in the name. 
 #'  }
-#'  \item{\code{uploadFile(filename, relPath)}}{
+#'  \item{\code{uploadFile(filename, relPath, delete_if_existing)}}{
 #'    WebDAV method to upload a file. By default \code{relPath} is set to \code{"/"} (root).
 #'  }
 #'  \item{\code{deleteFile(filename, relPath)}}{
@@ -105,7 +105,12 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
     },
     
     #uploadFile
-    uploadFile = function(filename, relPath = "/"){
+    uploadFile = function(filename, relPath = "/", delete_if_existing = TRUE){
+      
+      if(delete_if_existing){
+        try(self$deleteFile(filename = filename, relPath = relPath))
+      }
+      
       if(!startsWith(relPath, "/")) relPath <- paste0("/", relPath)
       if(!endsWith(relPath, "/")) relPath <- paste0(relPath, "/")
       request <- paste0(self$getWebdavRoot(), relPath, basename(filename))
