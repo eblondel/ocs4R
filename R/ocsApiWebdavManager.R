@@ -105,7 +105,7 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
     },
     
     #uploadFile
-    uploadFile = function(filename, relPath = "/", delete_if_existing = TRUE){
+    uploadFile = function(filename, relPath = "/", delete_if_existing = FALSE){
       
       if(delete_if_existing){
         try(self$deleteFile(filename = filename, relPath = relPath))
