@@ -26,7 +26,7 @@
 #' @import keyring
 #' 
 #' @title Interface to 'OCS' REST API
-#' @description Provides an Interface to 'OCS' (<http://www.open-collaboration-services.org/>) REST API.
+#' @description Provides an Interface to 'OCS' (<https://www.open-collaboration-services.org/>) REST API.
 #'
 #' @details
 #'  \tabular{ll}{

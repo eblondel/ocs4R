@@ -8,7 +8,7 @@
 
 **R Interface to Open Collaboration Services (OCS) REST APIs**
 
-``ocs4R`` provides a R interface to the [Open Collaboration Services (OCS)](http://www.open-collaboration-services.org/ocs/) REST APIs. ``ocs4R`` includes support for the below APIs:
+``ocs4R`` provides a R interface to the [Open Collaboration Services (OCS)](https://www.open-collaboration-services.org) REST APIs. ``ocs4R`` includes support for the below APIs:
 * OCS Webdav API
 * OCS Share API
 * OCS User Provisioning API
