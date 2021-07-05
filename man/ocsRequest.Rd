@@ -4,9 +4,8 @@
 \name{ocsRequest}
 \alias{ocsRequest}
 \title{ocsRequest}
-\format{\code{\link{R6Class}} object.}
-\usage{
-ocsRequest
+\format{
+\code{\link{R6Class}} object.
 }
 \value{
 Object of \code{\link{R6Class}} for modelling a generic 'ocs' web-service request

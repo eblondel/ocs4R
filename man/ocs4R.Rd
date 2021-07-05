@@ -13,7 +13,7 @@ Provides an Interface to 'OCS' (<http://www.open-collaboration-services.org/>) R
    Package: \tab ocs4R\cr
    Type: \tab Package\cr
    Version: \tab 0.1\cr
-   Date: \tab 2020-02-22\cr
+   Date: \tab 2020-03-09\cr
    License: \tab MIT\cr
    LazyLoad: \tab yes\cr
  }

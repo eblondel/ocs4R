@@ -4,9 +4,8 @@
 \name{ocsApiWebdavManager}
 \alias{ocsApiWebdavManager}
 \title{ocsApiWebdavManager}
-\format{\code{\link{R6Class}} object.}
-\usage{
-ocsApiWebdavManager
+\format{
+\code{\link{R6Class}} object.
 }
 \value{
 Object of \code{\link{R6Class}} for modelling an ocsManager for Webdav API
