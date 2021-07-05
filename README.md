@@ -13,7 +13,7 @@
 * OCS Share API
 * OCS User Provisioning API
 
-``ocs4R`` constitutes the generic R client to access to OCS-compliant cloud platforms such as [ownCloud](https://owncloud.org/) and [Nextcloud](https://nextcloud.com/), either directly using [ocs4R](https://github.com/eblondel/ocs4R) or through product-specific ``ocs4R`` wrappers such as [ownCloud4R](https://github.com/eblondel/ownCloud4R) and [nextCloud4R](https://github.com/eblondel/nextCloud4R)
+``ocs4R`` constitutes the generic R client to access to OCS-compliant cloud platforms such as [ownCloud](https://owncloud.com/) and [Nextcloud](https://nextcloud.com/), either directly using [ocs4R](https://github.com/eblondel/ocs4R) or through product-specific ``ocs4R`` wrappers such as [ownCloud4R](https://github.com/eblondel/ownCloud4R) and [nextCloud4R](https://github.com/eblondel/nextCloud4R)
 
 <a name="package_status"/>
 
