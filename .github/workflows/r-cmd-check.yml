@@ -25,12 +25,12 @@ jobs:
       - uses: actions/checkout@v2
       #Docker OwnCloud set-up
       - name: OwnCloud set-up
-        if: ${{matrix.config.provider}} == 'owncloud'
+        if: ${{matrix.config.provider == 'owncloud'}}
         run: |
           docker run --name owncloud -d -p 8080:8080 owncloud/server:latest
       #Docker NextCloud set-up
       - name: NextCloud set-up
-        if: ${{matrix.config.provider}} == 'nextcloud'
+        if: ${{matrix.config.provider == 'nextcloud'}}
         run: |
           docker network create nextnet
           docker run --network nextnet --name nextcloud -e SQLITE_DATABASE='nextcloud'  -e NEXTCLOUD_ADMIN_USER='admin' -e NEXTCLOUD_ADMIN_PASSWORD='admin' -d -p 0.0.0.0:8080:80 nextcloud
