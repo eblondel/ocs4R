@@ -22,7 +22,7 @@ test_that("User Provisioning API - getUser",{
 })
 
 test_that("User Provisioning API - addUser",{
-  added <- OCS$addUser("john.doe", password = "ocs4john")
+  added <- OCS$addUser("john.doe", password = "ocs4johnsecret")
   expect_true(added)
   users <- OCS$getUsers()
   expect_equal(length(users), 2L)
