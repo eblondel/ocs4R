@@ -398,7 +398,7 @@ ocsRequest <- R6Class("ocsRequest",
   public = list(
     #initialize
     initialize = function(type, url, request,
-                          user = NULL,
+                          user = NULL, pwd = NULL,
                           token = NULL, cookies = NULL,
                           namedParams = list(),
                           content = NULL, contentType = "text/plain", 
