@@ -145,6 +145,16 @@ ocsManager <-  R6Class("ocsManager",
     keyring_backend = keyring::backend_env$new(),
     keyring_service = NULL,
     
+    #getToken (if existing)
+    getToken = function(){
+      token <- NULL
+      if(!is.null(private$keyring_service)){
+        keyring_token <- suppressWarnings(try(private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user, "_token")), silent = TRUE))
+        if(!is(keyring_token, "try-error")) token <- keyring_token
+      }
+      return(token)
+    },
+    
     #checkAPIAvailability
     checkAPIAvailability = function(name, element){
       if(!private$capabilities[[element]]$api_enabled){
@@ -200,7 +210,8 @@ ocsManager <-  R6Class("ocsManager",
     connect = function(){
       caps_req <- ocsRequest$new(
         type = "HTTP_GET", private$url, "ocs/v1.php/cloud/capabilities",
-        private$user, logger = self$loggerType
+        private$user, pwd = private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd")), 
+        logger = self$loggerType
       )
       caps_req$execute()
       caps_resp <- caps_req$getResponse()
@@ -215,7 +226,7 @@ ocsManager <-  R6Class("ocsManager",
       cookies <- unlist(cookies[names(cookies)!="XSRF-TOKEN"])
       private$cookies <- paste0(sapply(names(cookies), function(cookiename){paste0(cookiename,"=",cookies[[cookiename]])}),collapse=";")
       
-      keyring_token <- private$keyring_backend$get(private$keyring_service, username = paste0(private$user,"_token"))
+      keyring_token <- private$getToken()
       if(!is.null(keyring_token)){
         caps_req <- ocsRequest$new(
           type = "HTTP_GET", private$url, "ocs/v1.php/cloud/capabilities",
