@@ -138,7 +138,6 @@ ocsManager <-  R6Class("ocsManager",
   private = list(
     url = NULL,
     user = NULL,
-    token = NULL,
     cookies = NULL,
     version = NULL,
     capabilities = NULL,
@@ -168,7 +167,7 @@ ocsManager <-  R6Class("ocsManager",
       private$url = url
       private$user <- user
       private$keyring_service <- paste0("ocs4R@", url)
-      private$keyring_backend$set_with_value(private$keyring_service, username = user, password = pwd)
+      private$keyring_backend$set_with_value(private$keyring_service, username = paste0(user,"_pwd"), password = pwd)
       
       #try to connect
       if(!startsWith(self$getClassName(), "ocsApi")){
@@ -210,15 +209,17 @@ ocsManager <-  R6Class("ocsManager",
       cookies <- as.list(req_cookies$value)
       names(cookies) <- req_cookies$name
       if(length(cookies[names(cookies)=="XSRF-TOKEN"])>0){
-        private$token <- cookies[names(cookies)=="XSRF-TOKEN"][[1]]
+        token <- cookies[names(cookies)=="XSRF-TOKEN"][[1]]
+        private$keyring_backend$set_with_value(private$keyring_service, username = paste0(private$user,"_token"), password = token)
       }
       cookies <- unlist(cookies[names(cookies)!="XSRF-TOKEN"])
       private$cookies <- paste0(sapply(names(cookies), function(cookiename){paste0(cookiename,"=",cookies[[cookiename]])}),collapse=";")
       
-      if(!is.null(private$token)){
+      keyring_token <- private$keyring_backend$get(private$keyring_service, username = paste0(private$user,"_token"))
+      if(!is.null(keyring_token)){
         caps_req <- ocsRequest$new(
           type = "HTTP_GET", private$url, "ocs/v1.php/cloud/capabilities",
-          private$user, token = private$token, cookies = private$cookies, 
+          private$user, token = keyring_token, cookies = private$cookies, 
           logger = self$loggerType
         )
         caps_req$execute()

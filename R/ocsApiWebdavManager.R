@@ -73,7 +73,8 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
       request <- paste0(self$getWebdavRoot(), relPath)
       list_req <- ocsRequest$new(
         type = "WEBDAV_PROPFIND", private$url, request,
-        private$user, private$pwd, token = private$token, cookies = private$cookies,
+        private$user, pwd = private$keyring_backend$get(private$keyring_service, username = paste0(private$user,"_pwd")), 
+        token = private$keyring_backend$get(private$keyring_service, username = paste0(private$user,"_token")), cookies = private$cookies,
         logger = self$loggerType
       )
       list_req$execute()
@@ -88,7 +89,8 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
         request <- paste0(self$getWebdavRoot(), relPath, name)
         mkcol_req <- ocsRequest$new(
           type = "WEBDAV_MKCOL", private$url, request,
-          private$user, private$pwd, token = private$token, cookies = private$cookies,
+          private$user, pwd = private$keyring_backend$get(private$keyring_service, username = paste0(private$user,"_pwd")), 
+          token = private$keyring_backend$get(private$keyring_service, username = paste0(private$user,"_token")), cookies = private$cookies,
           logger = self$loggerType
         )
         mkcol_req$execute()
@@ -118,7 +120,8 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
                         filename, paste(private$url, request, sep="/")))
       upload_req <- ocsRequest$new(
         type = "HTTP_PUT", private$url, request,
-        private$user, private$pwd, token = private$token, cookies = private$cookies,
+        private$user, pwd = private$keyring_backend$get(private$keyring_service, username = paste0(private$user,"_pwd")), 
+        token = private$keyring_backend$get(private$keyring_service, username = paste0(private$user,"_token")), cookies = private$cookies,
         filename = filename,
         logger = self$loggerType
       )
@@ -145,7 +148,8 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
                         filename, paste(private$url, request, sep="/")))
       upload_req <- ocsRequest$new(
         type = "HTTP_DELETE", private$url, request,
-        private$user, private$pwd, token = private$token, cookies = private$cookies,
+        private$user, pwd = private$keyring_backend$get(private$keyring_service, username = paste0(private$user,"_pwd")), 
+        token = private$keyring_backend$get(private$keyring_service, username = paste0(private$user,"_token")), cookies = private$cookies,
         filename = filename,
         logger = self$loggerType
       )

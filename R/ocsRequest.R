@@ -422,7 +422,7 @@ ocsRequest <- R6Class("ocsRequest",
         private$auth_scheme <- "Basic"
         private$auth <- paste(
           private$auth_scheme, 
-          openssl::base64_encode(paste(user, keyring::key_get(service = private$keyring_service, username = user),sep=":"))
+          openssl::base64_encode(paste(user, pwd,sep=":"))
         )
       }
       private$token <- token
