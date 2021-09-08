@@ -143,6 +143,7 @@ ocsManager <-  R6Class("ocsManager",
     version = NULL,
     capabilities = NULL,
     
+    keyring_backend = keyring::backend_env$new(),
     keyring_service = NULL,
     
     #checkAPIAvailability
@@ -167,7 +168,7 @@ ocsManager <-  R6Class("ocsManager",
       private$url = url
       private$user <- user
       private$keyring_service <- paste0("ocs4R@", url)
-      keyring::key_set_with_value(private$keyring_service, username = user, password = pwd)
+      private$keyring_backend$set_with_value(private$keyring_service, username = user, password = pwd)
       
       #try to connect
       if(!startsWith(self$getClassName(), "ocsApi")){
