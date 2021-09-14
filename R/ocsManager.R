@@ -6,11 +6,16 @@
 #' @format \code{\link{R6Class}} object.
 #' @section General Methods:
 #' \describe{
-#'  \item{\code{new(url, user, pwd, logger)}}{
+#'  \item{\code{new(url, user, pwd, logger, keyring_backend)}}{
 #'    This method is used to instantiate an ocsManager. The user/pwd are
-#'    mandatory in order to connect to 'ocs'. The logger can be either
-#'    NULL, "INFO" (with minimum logs), or "DEBUG" (for complete curl 
-#'    http calls logs)
+#'    mandatory in order to connect to 'ocs'. 
+#'    
+#'    The logger can be either NULL, "INFO" (with minimum logs), or "DEBUG" 
+#'    (for complete curl http calls logs).
+#'    
+#'    The \code{keyring_backend} can be set to use a different backend for storing 
+#'    the user password with \pkg{keyring} (Default value is 'env').
+#'   
 #'  }
 #'  \item{\code{connect()}}{
 #'    A method to connect to 'ocs' and set version/capabilities
@@ -142,7 +147,7 @@ ocsManager <-  R6Class("ocsManager",
     version = NULL,
     capabilities = NULL,
     
-    keyring_backend = keyring::backend_env$new(),
+    keyring_backend = NULL,
     keyring_service = NULL,
     
     #getToken (if existing)
@@ -172,10 +177,17 @@ ocsManager <-  R6Class("ocsManager",
   ),
   public = list(
     apis = list(),
-    initialize = function(url, user, pwd, logger = NULL){
+    initialize = function(url, user, pwd, logger = NULL,
+                          keyring_backend = 'env'){
       super$initialize(logger = logger)
       private$url = url
       private$user <- user
+      if(!keyring_backend %in% names(keyring:::known_backends)){
+        errMsg <- sprintf("Backend '%s' is not a known keyring backend!", keyring_backend)
+        self$ERROR(errMsg)
+        stop(errMsg)
+      }
+      private$keyring_backend <- keyring:::known_backends[[keyring_backend]]$new()
       private$keyring_service <- paste0("ocs4R@", url)
       private$keyring_backend$set_with_value(private$keyring_service, username = paste0(user,"_pwd"), password = pwd)
       
@@ -190,7 +202,7 @@ ocsManager <-  R6Class("ocsManager",
         supportedManagers <- list_of_classes[regexpr("ocsApi.+Manager", list_of_classes)>0]
         for(manager in supportedManagers){
           class <- eval(parse(text=manager))
-          man <- class$new(url, user, pwd, logger)
+          man <- class$new(url, user, pwd, logger, keyring_backend)
           api_name <- tolower(unlist(strsplit(unlist(strsplit(manager, "ocsApi"))[2],"Manager"))[1])
           self$apis[[api_name]] <- man
           list_of_methods <- rev(names(man))

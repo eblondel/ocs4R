@@ -16,11 +16,15 @@ ocsApiWebdavManager
 \section{General Methods (inherited from 'ocsManager')}{
 
 \describe{
- \item{\code{new(url, user, pwd, logger)}}{
+ \item{\code{new(url, user, pwd, logger, keyring_backend)}}{
    This method is used to instantiate an ocsApiWebdavManager. The user/pwd are
-   mandatory in order to connect to 'ocs'. The logger can be either
-   NULL, "INFO" (with minimum logs), or "DEBUG" (for complete curl 
-   http calls logs)
+   mandatory in order to connect to 'ocs'. 
+   
+   The logger can be either NULL, "INFO" (with minimum logs), or "DEBUG" 
+   (for complete curl http calls logs).
+   
+   The \code{keyring_backend} can be set to use a different backend for storing 
+   the user password with \pkg{keyring} (Default value is 'env').
  }
  \item{\code{connect()}}{
    A method to connect to 'ocs' and set version/capabilities
