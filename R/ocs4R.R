@@ -32,8 +32,8 @@
 #'  \tabular{ll}{
 #'    Package: \tab ocs4R\cr
 #'    Type: \tab Package\cr
-#'    Version: \tab 0.2-1\cr
-#'    Date: \tab 2021-09-16\cr
+#'    Version: \tab 0.2-2\cr
+#'    Date: \tab 2021-10-07\cr
 #'    License: \tab MIT\cr
 #'    LazyLoad: \tab yes\cr
 #'  }
