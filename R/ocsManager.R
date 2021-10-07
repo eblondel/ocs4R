@@ -221,7 +221,7 @@ ocsManager <-  R6Class("ocsManager",
     #connect
     connect = function(){
       caps_req <- ocsRequest$new(
-        type = "HTTP_GET", private$url, "ocs/v1.php/cloud/capabilities",
+        type = "HTTP_GET", private$url, "ocs/v1.php/cloud/capabilities", namedParams = list(format = "json"),
         private$user, pwd = private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd")), 
         logger = self$loggerType
       )
@@ -241,7 +241,7 @@ ocsManager <-  R6Class("ocsManager",
       keyring_token <- private$getToken()
       if(!is.null(keyring_token)){
         caps_req <- ocsRequest$new(
-          type = "HTTP_GET", private$url, "ocs/v1.php/cloud/capabilities",
+          type = "HTTP_GET", private$url, "ocs/v1.php/cloud/capabilities", namedParams = list(format = "json"),
           private$user, token = keyring_token, cookies = private$cookies, 
           logger = self$loggerType
         )
