@@ -91,7 +91,8 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
     makeCollection = function(name, relPath = "/"){
       col_names <- unlist(strsplit(name, "/"))
       if(length(col_names)==1){
-        request <- paste(self$getWebdavRoot(), relPath, name, sep = "/")
+        if(!endsWith(relPath, "/")) relPath <- paste0(relPath, "/")
+        request <- paste0(self$getWebdavRoot(), relPath, name)
         mkcol_req <- ocsRequest$new(
           type = "WEBDAV_MKCOL", private$url, request,
           private$user, pwd = private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd")), 
