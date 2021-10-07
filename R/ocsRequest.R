@@ -66,7 +66,7 @@ ocsRequest <- R6Class("ocsRequest",
 
     #HTTP_GET
     #---------------------------------------------------------------
-    HTTP_GET = function(url, request = NULL, namedParams, contentType = "application/json"){
+    HTTP_GET = function(url, request = NULL, namedParams){
       req <- url
       if(!is.null(request)) req <- paste(url, request, sep = "/")
       namedParams <- namedParams[!sapply(namedParams, is.null)]
@@ -103,6 +103,8 @@ ocsRequest <- R6Class("ocsRequest",
       print(status_code(r))
       if(status_code(r)==200){
         self$INFO(sprintf("HTTP/GET - Successful request '%s'", req))
+        contentType <- "raw"
+        if(!is.null(namedParams$format)) if(namedParams$format == "json") contentType = "application/json"
         responseContent <- httr::content(r, type = contentType, encoding = "UTF-8")
         if(contentType == "application/json") if(responseContent$ocs$meta$status == "failure"){
           errMsg <- sprintf("%s [status code = %s]", responseContent$ocs$meta$message, responseContent$ocs$meta$statuscode)
@@ -444,7 +446,7 @@ ocsRequest <- R6Class("ocsRequest",
     execute = function(){
       
       req <- switch(private$type,
-        "HTTP_GET" = private$HTTP_GET(private$url, private$request, private$namedParams, private$contentType),
+        "HTTP_GET" = private$HTTP_GET(private$url, private$request, private$namedParams),
         "HTTP_POST" = private$HTTP_POST(private$url, private$request, private$namedParams, private$content, private$contentType),
         "HTTP_PUT" = private$HTTP_PUT(private$url, private$request, private$namedParams, private$content, private$contentType, private$filename),
         "HTTP_DELETE" = private$HTTP_DELETE(private$url, private$request, private$content, private$contentType),
