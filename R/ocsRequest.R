@@ -8,7 +8,8 @@
 #'
 #' @section Methods:
 #' \describe{
-#'  \item{\code{new(type, url, request, user, logger)}}{
+#'  \item{\code{new(type, url, request, user, pwd, token, cookies,
+#'                  format, namedParams, content, contentType, filename, logger, ...)}}{
 #'    This method is used to instantiate a object for doing an 'ocs' web-service request
 #'  }
 #'  \item{\code{getRequest()}}{
@@ -44,6 +45,7 @@ ocsRequest <- R6Class("ocsRequest",
     type = NA,
     request = NA,
 	  requestHeaders = NA,
+    format = "json",
     namedParams = list(),
     content = NULL,
     contentType = "text/plain",
@@ -66,9 +68,10 @@ ocsRequest <- R6Class("ocsRequest",
 
     #HTTP_GET
     #---------------------------------------------------------------
-    HTTP_GET = function(url, request = NULL, namedParams){
+    HTTP_GET = function(url, request = NULL, format = "json", namedParams){
       req <- url
       if(!is.null(request)) req <- paste(url, request, sep = "/")
+      namedParams$format = format
       namedParams <- namedParams[!sapply(namedParams, is.null)]
       paramNames <- names(namedParams)
       namedParams <- lapply(namedParams, function(namedParam){
@@ -100,10 +103,9 @@ ocsRequest <- R6Class("ocsRequest",
       }
       
       responseContent <- NULL
-      print(status_code(r))
       if(status_code(r)==200){
         self$INFO(sprintf("HTTP/GET - Successful request '%s'", req))
-        contentType <- "raw"
+        contentType = "raw"
         if(!is.null(namedParams$format)) if(namedParams$format == "json") contentType = "application/json"
         responseContent <- httr::content(r, type = contentType, encoding = "UTF-8")
         if(contentType == "application/json") if(responseContent$ocs$meta$status == "failure"){
@@ -131,7 +133,7 @@ ocsRequest <- R6Class("ocsRequest",
     
     #HTTP_POST
     #---------------------------------------------------------------
-    HTTP_POST = function(url, request = NULL, namedParams = list(), content = "", contentType = "text/plain"){
+    HTTP_POST = function(url, request = NULL, format = "json", namedParams = list(), content = "", contentType = "text/plain"){
       req <- url
       if(!is.null(request)) req <- paste(url, request, sep = "/")
       namedParams <- namedParams[!sapply(namedParams, is.null)]
@@ -140,6 +142,7 @@ ocsRequest <- R6Class("ocsRequest",
         if(is.logical(namedParam)) namedParam <- tolower(as(namedParam, "character"))
         return(namedParam)
       })
+      namedParams$format = format
       if(!endsWith(req,"?") && length(namedParams)>0) req <- paste0(req, "?")
       params <- paste(paramNames, namedParams, sep = "=", collapse = "&")
       req <- paste0(req, params)
@@ -195,7 +198,7 @@ ocsRequest <- R6Class("ocsRequest",
     
     #HTTP_PUT
     #---------------------------------------------------------------
-    HTTP_PUT = function(url, request = NULL, namedParams = list(), content = NULL, contentType = "application/x-www-form-urlencoded", filename = NULL){
+    HTTP_PUT = function(url, request = NULL, format = "json", namedParams = list(), content = NULL, contentType = "application/x-www-form-urlencoded", filename = NULL){
       req <- url
       if(!is.null(request)) req = paste(url, request, sep="/")
       namedParams <- namedParams[!sapply(namedParams, is.null)]
@@ -204,6 +207,7 @@ ocsRequest <- R6Class("ocsRequest",
         if(is.logical(namedParam)) namedParam <- tolower(as(namedParam, "character"))
         return(namedParam)
       })
+      namedParams$format = format
       if(!endsWith(req,"?") && length(namedParams)>0) req <- paste0(req, "?")
       params <- paste(paramNames, namedParams, sep = "=", collapse = "&")
       req <- paste0(req, params)
@@ -256,7 +260,6 @@ ocsRequest <- R6Class("ocsRequest",
           stop(errMsg)
         }
       }
-      
       
       response <- list(request = req, requestHeaders = headers(r), cookies = cookies(r),
                        status = status_code(r), response = content)
@@ -413,6 +416,7 @@ ocsRequest <- R6Class("ocsRequest",
     initialize = function(type, url, request,
                           user = NULL, pwd = NULL,
                           token = NULL, cookies = NULL,
+                          format = "json",
                           namedParams = list(),
                           content = NULL, contentType = "text/plain", 
                           filename = NULL,
@@ -422,8 +426,8 @@ ocsRequest <- R6Class("ocsRequest",
       private$url = url
       private$keyring_service <- paste0("ocs4R@", url)
       private$request = request
+      private$format = format
       private$namedParams = namedParams
-      private$namedParams$format = "json"
       private$content = content
       if(type == "HTTP_PUT") contentType = "application/x-www-form-urlencoded"
       private$contentType = contentType
@@ -449,11 +453,13 @@ ocsRequest <- R6Class("ocsRequest",
         "HTTP_GET" = private$HTTP_GET(
           url = private$url, 
           request = private$request,
+          format = private$format,
           namedParams = private$namedParams
         ),
         "HTTP_POST" = private$HTTP_POST(
           url = private$url, 
-          request = private$request, 
+          request = private$request,
+          format = private$format,
           namedParams = private$namedParams,
           content = private$content,
           contentType = private$contentType
@@ -461,6 +467,7 @@ ocsRequest <- R6Class("ocsRequest",
         "HTTP_PUT" = private$HTTP_PUT(
           url = private$url, 
           request = private$request,
+          format = private$format,
           namedParams = private$namedParams,
           content = private$content,
           contentType = private$contentType,

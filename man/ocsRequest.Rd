@@ -19,7 +19,8 @@ Abstract class used internally by \pkg{ocs4R}
 \section{Methods}{
 
 \describe{
- \item{\code{new(type, url, request, user, logger)}}{
+ \item{\code{new(type, url, request, user, pwd, token, cookies,
+                 format, namedParams, content, contentType, filename, logger, ...)}}{
    This method is used to instantiate a object for doing an 'ocs' web-service request
  }
  \item{\code{getRequest()}}{
