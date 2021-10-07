@@ -411,7 +411,7 @@ ocsRequest <- R6Class("ocsRequest",
     initialize = function(type, url, request,
                           user = NULL, pwd = NULL,
                           token = NULL, cookies = NULL,
-                          namedParams = list(),
+                          namedParams = list(format = "json"),
                           content = NULL, contentType = "text/plain", 
                           filename = NULL,
                           logger = NULL, ...) {
