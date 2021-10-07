@@ -91,7 +91,7 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
     makeCollection = function(name, relPath = "/"){
       col_names <- unlist(strsplit(name, "/"))
       if(length(col_names)==1){
-        request <- paste0(self$getWebdavRoot(), relPath, name)
+        request <- paste(self$getWebdavRoot(), relPath, name, sep = "/")
         mkcol_req <- ocsRequest$new(
           type = "WEBDAV_MKCOL", private$url, request,
           private$user, pwd = private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd")), 
@@ -106,7 +106,11 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
         for(i in 1:length(col_names)){
           newRelPath <- "/"
           if(i>1) newRelPath <- paste0(newRelPath, paste(col_names[1:(i-1)], collapse="/"), "/")
-          self$makeCollection(col_names[i], newRelPath)
+          print(col_names[i])
+          print(newRelPath)
+          if(!paste0(col_names[i],"/") %in% self$listFiles(relPath = newRelPath)$name) {
+            self$makeCollection(col_names[i], newRelPath)
+          }
         }
       }
     },
@@ -171,7 +175,6 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
       upload_resp <- upload_req$getResponse()
       return(upload_resp)
     },
-    
     
     #getPublicFile
     getPublicFile = function(share_token){
