@@ -320,7 +320,7 @@ ocsApiUserProvisioningManager <-  R6Class("ocsApiUserProvisioningManager",
         type = "HTTP_GET", private$url, "ocs/v1.php/cloud/groups",
         private$user, pwd = private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd")), 
         token = private$getToken(), cookies = private$cookies,
-        namedParams = list(format = "json", search = search, limit = limit, offset = offset),
+        namedParams = list(search = search, limit = limit, offset = offset),
         logger = self$loggerType
       )
       get_groups$execute()

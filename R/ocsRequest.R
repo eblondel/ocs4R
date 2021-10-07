@@ -413,7 +413,7 @@ ocsRequest <- R6Class("ocsRequest",
     initialize = function(type, url, request,
                           user = NULL, pwd = NULL,
                           token = NULL, cookies = NULL,
-                          namedParams = list(format = "json"),
+                          namedParams = list(),
                           content = NULL, contentType = "text/plain", 
                           filename = NULL,
                           logger = NULL, ...) {
@@ -422,8 +422,8 @@ ocsRequest <- R6Class("ocsRequest",
       private$url = url
       private$keyring_service <- paste0("ocs4R@", url)
       private$request = request
-      if(!is.null(namedParams$format)) if(namedParams$format == "json") contentType = "application/json"
       private$namedParams = namedParams
+      private$namedParams$format = "json"
       private$content = content
       if(type == "HTTP_PUT") contentType = "application/x-www-form-urlencoded"
       private$contentType = contentType
@@ -446,12 +446,41 @@ ocsRequest <- R6Class("ocsRequest",
     execute = function(){
       
       req <- switch(private$type,
-        "HTTP_GET" = private$HTTP_GET(private$url, private$request, private$namedParams),
-        "HTTP_POST" = private$HTTP_POST(private$url, private$request, private$namedParams, private$content, private$contentType),
-        "HTTP_PUT" = private$HTTP_PUT(private$url, private$request, private$namedParams, private$content, private$contentType, private$filename),
-        "HTTP_DELETE" = private$HTTP_DELETE(private$url, private$request, private$content, private$contentType),
-        "WEBDAV_PROPFIND" = private$WEBDAV_PROPFIND(private$url, private$request, anonymous = is.null(private$user)&is.null(private$token)&is.null(private$cookies)),
-        "WEBDAV_MKCOL" = private$WEBDAV_MKCOL(private$url, private$request)
+        "HTTP_GET" = private$HTTP_GET(
+          url = private$url, 
+          request = private$request,
+          namedParams = private$namedParams
+        ),
+        "HTTP_POST" = private$HTTP_POST(
+          url = private$url, 
+          request = private$request, 
+          namedParams = private$namedParams,
+          content = private$content,
+          contentType = private$contentType
+        ),
+        "HTTP_PUT" = private$HTTP_PUT(
+          url = private$url, 
+          request = private$request,
+          namedParams = private$namedParams,
+          content = private$content,
+          contentType = private$contentType,
+          filename = private$filename
+        ),
+        "HTTP_DELETE" = private$HTTP_DELETE(
+          url = private$url,
+          request = private$request,
+          content = private$content,
+          contentType = private$contentType
+        ),
+        "WEBDAV_PROPFIND" = private$WEBDAV_PROPFIND(
+          url = private$url,
+          request = private$request, 
+          anonymous = is.null(private$user)&is.null(private$token)&is.null(private$cookies)
+        ),
+        "WEBDAV_MKCOL" = private$WEBDAV_MKCOL(
+          url = private$url, 
+          request = private$request
+        )
       )
       
       private$request <- req$request
