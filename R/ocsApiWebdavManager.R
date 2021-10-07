@@ -178,6 +178,21 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
       return(upload_resp)
     },
     
+    #downloadFile
+    downloadFile = function(relPath, filename, outdir = "."){
+      request <- sprintf("remote.php/dav/files/%s/%s/%s", private$user, relPath, filename)
+      file_req <- ocsRequest$new(
+        type = "HTTP_GET", private$url, request, namedParams = list(), contentType = "raw",
+        private$user, pwd = private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd")), 
+        token = private$getToken(), cookies = private$cookies,
+        logger = self$loggerType
+      )
+      file_req$execute()
+      file_resp <- file_req$getResponse()
+      writeBin(object = file_resp, con = file.path(outdir, filename))
+      return(file.path(outdir, filename))
+    },
+    
     #getPublicFile
     getPublicFile = function(share_token){
       request <- file.path("remote.php/dav/public-files", share_token)
