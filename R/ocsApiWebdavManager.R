@@ -90,8 +90,9 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
     #makeCollection
     makeCollection = function(name, relPath = "/"){
       col_names <- unlist(strsplit(name, "/"))
+      if(!startsWith(relPath, "/")) relPath <- paste0("/", relPath)
+      if(!endsWith(relPath, "/")) relPath <- paste0(relPath, "/")
       if(length(col_names)==1){
-        if(!endsWith(relPath, "/")) relPath <- paste0(relPath, "/")
         request <- paste0(self$getWebdavRoot(), relPath, name)
         mkcol_req <- ocsRequest$new(
           type = "WEBDAV_MKCOL", private$url, request,
@@ -105,7 +106,7 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
       }else{
         self$INFO(sprintf("Nested collections detected in '%s'. Splitting name to make nested collections", name))
         for(i in 1:length(col_names)){
-          newRelPath <- "/"
+          newRelPath <- relPath
           if(i>1) newRelPath <- paste0(newRelPath, paste(col_names[1:(i-1)], collapse="/"), "/")
           print(col_names[i])
           print(newRelPath)
