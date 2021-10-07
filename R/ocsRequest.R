@@ -243,7 +243,7 @@ ocsRequest <- R6Class("ocsRequest",
           "Content-Type" = contentType), body = body, query = query)
       }
 
-      if(status_code(r)==201){
+      if(status_code(r) %in% c(200,201)){
         self$INFO(sprintf("HTTP/PUT - Content successfuly uploaded at '%s'", req))
       }else{
         if(status_code(r)==401){
