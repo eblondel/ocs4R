@@ -422,8 +422,8 @@ ocsRequest <- R6Class("ocsRequest",
       private$url = url
       private$keyring_service <- paste0("ocs4R@", url)
       private$request = request
-      private$namedParams = namedParams
       if(!is.null(namedParams$format)) if(namedParams$format == "json") contentType = "application/json"
+      private$namedParams = namedParams
       private$content = content
       if(type == "HTTP_PUT") contentType = "application/x-www-form-urlencoded"
       private$contentType = contentType
