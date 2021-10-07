@@ -136,13 +136,13 @@ ocsRequest <- R6Class("ocsRequest",
     HTTP_POST = function(url, request = NULL, format = "json", namedParams = list(), content = "", contentType = "text/plain"){
       req <- url
       if(!is.null(request)) req <- paste(url, request, sep = "/")
+      namedParams$format = format
       namedParams <- namedParams[!sapply(namedParams, is.null)]
       paramNames <- names(namedParams)
       namedParams <- lapply(namedParams, function(namedParam){
         if(is.logical(namedParam)) namedParam <- tolower(as(namedParam, "character"))
         return(namedParam)
       })
-      namedParams$format = format
       if(!endsWith(req,"?") && length(namedParams)>0) req <- paste0(req, "?")
       params <- paste(paramNames, namedParams, sep = "=", collapse = "&")
       req <- paste0(req, params)
@@ -201,13 +201,13 @@ ocsRequest <- R6Class("ocsRequest",
     HTTP_PUT = function(url, request = NULL, format = "json", namedParams = list(), content = NULL, contentType = "application/x-www-form-urlencoded", filename = NULL){
       req <- url
       if(!is.null(request)) req = paste(url, request, sep="/")
+      namedParams$format = format
       namedParams <- namedParams[!sapply(namedParams, is.null)]
       paramNames <- names(namedParams)
       namedParams <- lapply(namedParams, function(namedParam){
         if(is.logical(namedParam)) namedParam <- tolower(as(namedParam, "character"))
         return(namedParam)
       })
-      namedParams$format = format
       if(!endsWith(req,"?") && length(namedParams)>0) req <- paste0(req, "?")
       params <- paste(paramNames, namedParams, sep = "=", collapse = "&")
       req <- paste0(req, params)
