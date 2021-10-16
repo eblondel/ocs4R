@@ -137,7 +137,7 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
         logger = self$loggerType
       )
       upload_req$execute()
-      if(upload_req$getStatus()==201){
+      if(upload_req$getStatus() %in% c(201, 204)){
         self$INFO(sprintf("Successfuly uploaded file '%s' at '%s'",
                           filename, paste(private$url, request, sep="/")))
       }else{
