@@ -33,7 +33,7 @@
 #'    Package: \tab ocs4R\cr
 #'    Type: \tab Package\cr
 #'    Version: \tab 0.2-2\cr
-#'    Date: \tab 2021-10-07\cr
+#'    Date: \tab 2021-11-01\cr
 #'    License: \tab MIT\cr
 #'    LazyLoad: \tab yes\cr
 #'  }
