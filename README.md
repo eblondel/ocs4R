@@ -3,7 +3,7 @@
 [![Build Status](https://github.com/eblondel/ocs4R/actions/workflows/r-cmd-check.yml/badge.svg?branch=master)](https://github.com/eblondel/ocs4R/actions/workflows/r-cmd-check.yml)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ocs4R)](https://cran.r-project.org/package=ocs4R)
 [![cran checks](https://cranchecks.info/badges/worst/ocs4R)](https://cran.r-project.org/web/checks/check_results_ocs4R.html)
-[![Github_Status_Badge](https://img.shields.io/badge/Github-0.2--2-blue.svg)](https://github.com/eblondel/ocs4R)
+[![Github_Status_Badge](https://img.shields.io/badge/Github-0.2--3-blue.svg)](https://github.com/eblondel/ocs4R)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3663614.svg)](https://doi.org/10.5281/zenodo.3663614)
 
 **R Interface to Open Collaboration Services (OCS) REST APIs**
@@ -21,7 +21,7 @@ Please check the [online documentation](https://github.com/eblondel/ocs4R/wiki) 
 
 ## Sponsors
 
-For ocs4R sponsoring/funding new developments, enhancements, support requests, please contact me by [e-mail](mailto:emmanuel.blondel1@gmail.com).
+For ocs4R sponsoring/funding new developments, enhancements, support requests, please contact me by [e-mail](mailto:eblondel.pro@gmail.com).
 
 ## Citation
 
