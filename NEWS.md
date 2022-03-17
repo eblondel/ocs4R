@@ -1,3 +1,10 @@
+## **_0.2-3_**
+
+* [#12](https://github.com/eblondel/ocs4R/issues/12) Fix file upload for overwriting support
+
+## **_0.2-2_**
+
+* Fix status codes for data upload https://github.com/eblondel/ocs4R/commit/89eebfdac6f64a61b202b4e55cfd9fc654c9f244
 
 ## **_0.2-1_**
 
