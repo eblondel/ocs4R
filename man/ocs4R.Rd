@@ -12,8 +12,8 @@ Provides an Interface to 'OCS' (<https://www.open-collaboration-services.org/>) 
 \tabular{ll}{
    Package: \tab ocs4R\cr
    Type: \tab Package\cr
-   Version: \tab 0.2-2\cr
-   Date: \tab 2021-11-01\cr
+   Version: \tab 0.2-3\cr
+   Date: \tab 2022-3-17\cr
    License: \tab MIT\cr
    LazyLoad: \tab yes\cr
  }
