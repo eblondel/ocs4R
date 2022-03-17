@@ -33,6 +33,10 @@ test_that("WEBDAV API - upload file - from working dir",{
   nfcon <- file("test.txt", "wb")
   writeChar("This is a test file", nfcon)
   close(nfcon)
+  #1st upload
+  nfname <- OCS$uploadFile("test.txt")
+  expect_true("test.txt" %in% OCS$listFiles()$name)
+  #2d upload (overwrite test)
   nfname <- OCS$uploadFile("test.txt")
   expect_true("test.txt" %in% OCS$listFiles()$name)
 })
