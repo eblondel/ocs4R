@@ -59,7 +59,9 @@
     </div>
     <div id="value">
     <h2>Value</h2>
-    <p>Object of <code>R6Class</code> for modelling an ocsManager</p>
+    
+
+<p>Object of <code>R6Class</code> for modelling an ocsManager</p>
     </div>
     <div id="general-methods">
     <h2>General Methods</h2>
@@ -148,88 +150,88 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \dontrun{</span></span>
-<span class="r-in">   <span class="co">#Not Run:</span></span>
-<span class="r-in">   <span class="co">#Connect to an OCS API</span></span>
-<span class="r-in">   <span class="va">OCS</span> <span class="op">&lt;-</span> <span class="va">ocsManager</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>url <span class="op">=</span> <span class="va">ocs_url</span>, user <span class="op">=</span> <span class="va">ocs_user</span>, pwd <span class="op">=</span> <span class="va">ocs_pwd</span>, logger <span class="op">=</span> <span class="st">"DEBUG"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span>   <span class="co">#Not Run:</span></span></span>
+<span class="r-in"><span>   <span class="co">#Connect to an OCS API</span></span></span>
+<span class="r-in"><span>   <span class="va">OCS</span> <span class="op">&lt;-</span> <span class="va">ocsManager</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>url <span class="op">=</span> <span class="va">ocs_url</span>, user <span class="op">=</span> <span class="va">ocs_user</span>, pwd <span class="op">=</span> <span class="va">ocs_pwd</span>, logger <span class="op">=</span> <span class="st">"DEBUG"</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in initialize(...):</span> object 'ocs_url' not found</span>
-<span class="r-in">   <span class="va">version</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">getVersion</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span>   <span class="va">version</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">getVersion</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'OCS' not found</span>
-<span class="r-in">   <span class="va">caps</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">getCapabilities</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span>   <span class="va">caps</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">getCapabilities</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'OCS' not found</span>
-<span class="r-in">   </span>
-<span class="r-in">   <span class="co">#OCS User Provisioning API</span></span>
-<span class="r-in">   <span class="co">#-------------------------------------</span></span>
-<span class="r-in">   <span class="co">#users</span></span>
-<span class="r-in">   <span class="va">users</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">getUsers</span><span class="op">(</span><span class="op">)</span> <span class="co">#get users</span></span>
+<span class="r-in"><span>   </span></span>
+<span class="r-in"><span>   <span class="co">#OCS User Provisioning API</span></span></span>
+<span class="r-in"><span>   <span class="co">#-------------------------------------</span></span></span>
+<span class="r-in"><span>   <span class="co">#users</span></span></span>
+<span class="r-in"><span>   <span class="va">users</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">getUsers</span><span class="op">(</span><span class="op">)</span> <span class="co">#get users</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'OCS' not found</span>
-<span class="r-in">   <span class="va">user</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">getUser</span><span class="op">(</span><span class="st">"admin"</span><span class="op">)</span> <span class="co">#get a user</span></span>
+<span class="r-in"><span>   <span class="va">user</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">getUser</span><span class="op">(</span><span class="st">"admin"</span><span class="op">)</span> <span class="co">#get a user</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'OCS' not found</span>
-<span class="r-in">   <span class="va">user.df</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">getUser</span><span class="op">(</span><span class="st">"admin"</span>, <span class="cn">TRUE</span><span class="op">)</span> <span class="co">#the same user as data.frame</span></span>
+<span class="r-in"><span>   <span class="va">user.df</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">getUser</span><span class="op">(</span><span class="st">"admin"</span>, <span class="cn">TRUE</span><span class="op">)</span> <span class="co">#the same user as data.frame</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'OCS' not found</span>
-<span class="r-in">   <span class="va">added</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">addUser</span><span class="op">(</span><span class="st">"john.doe"</span>, password <span class="op">=</span> <span class="st">"ocs4john"</span><span class="op">)</span> <span class="co">#add a user</span></span>
+<span class="r-in"><span>   <span class="va">added</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">addUser</span><span class="op">(</span><span class="st">"john.doe"</span>, password <span class="op">=</span> <span class="st">"ocs4john"</span><span class="op">)</span> <span class="co">#add a user</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'OCS' not found</span>
-<span class="r-in">   <span class="va">disabled</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">disableUser</span><span class="op">(</span><span class="st">"john.doe"</span><span class="op">)</span> <span class="co">#disable a user</span></span>
+<span class="r-in"><span>   <span class="va">disabled</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">disableUser</span><span class="op">(</span><span class="st">"john.doe"</span><span class="op">)</span> <span class="co">#disable a user</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'OCS' not found</span>
-<span class="r-in">   <span class="va">enabled</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">enableUser</span><span class="op">(</span><span class="st">"john.doe"</span><span class="op">)</span> <span class="co">#enable auser</span></span>
+<span class="r-in"><span>   <span class="va">enabled</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">enableUser</span><span class="op">(</span><span class="st">"john.doe"</span><span class="op">)</span> <span class="co">#enable auser</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'OCS' not found</span>
-<span class="r-in">   <span class="va">edited</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">editUser</span><span class="op">(</span><span class="st">"john.doe"</span>, key <span class="op">=</span> <span class="st">"display"</span>, value <span class="op">=</span> <span class="st">"John Doe"</span><span class="op">)</span> <span class="co">#edit user</span></span>
+<span class="r-in"><span>   <span class="va">edited</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">editUser</span><span class="op">(</span><span class="st">"john.doe"</span>, key <span class="op">=</span> <span class="st">"display"</span>, value <span class="op">=</span> <span class="st">"John Doe"</span><span class="op">)</span> <span class="co">#edit user</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'OCS' not found</span>
-<span class="r-in">   <span class="co">#edit some user field</span></span>
-<span class="r-in">   <span class="va">edited2</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">editUserDisplayName</span><span class="op">(</span><span class="st">"john.doe"</span>, displayName <span class="op">=</span> <span class="st">"John Doe Jr."</span><span class="op">)</span> </span>
+<span class="r-in"><span>   <span class="co">#edit some user field</span></span></span>
+<span class="r-in"><span>   <span class="va">edited2</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">editUserDisplayName</span><span class="op">(</span><span class="st">"john.doe"</span>, displayName <span class="op">=</span> <span class="st">"John Doe Jr."</span><span class="op">)</span> </span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'OCS' not found</span>
-<span class="r-in">   <span class="va">deleted</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">deleteUser</span><span class="op">(</span><span class="st">"john.doe"</span><span class="op">)</span></span>
+<span class="r-in"><span>   <span class="va">deleted</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">deleteUser</span><span class="op">(</span><span class="st">"john.doe"</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'OCS' not found</span>
-<span class="r-in">   </span>
-<span class="r-in">   <span class="co">#groups</span></span>
-<span class="r-in">   <span class="va">admingroups</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">getUserGroups</span><span class="op">(</span><span class="st">"admin"</span><span class="op">)</span></span>
+<span class="r-in"><span>   </span></span>
+<span class="r-in"><span>   <span class="co">#groups</span></span></span>
+<span class="r-in"><span>   <span class="va">admingroups</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">getUserGroups</span><span class="op">(</span><span class="st">"admin"</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'OCS' not found</span>
-<span class="r-in">   <span class="va">groups</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">getGroups</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span>   <span class="va">groups</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">getGroups</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'OCS' not found</span>
-<span class="r-in">   <span class="va">added</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">addGroup</span><span class="op">(</span><span class="st">"scientists"</span><span class="op">)</span> <span class="co">#add a new group</span></span>
+<span class="r-in"><span>   <span class="va">added</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">addGroup</span><span class="op">(</span><span class="st">"scientists"</span><span class="op">)</span> <span class="co">#add a new group</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'OCS' not found</span>
-<span class="r-in">   <span class="va">sc_group</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">getGroup</span><span class="op">(</span><span class="st">"scientists"</span><span class="op">)</span> <span class="co">#get group details</span></span>
+<span class="r-in"><span>   <span class="va">sc_group</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">getGroup</span><span class="op">(</span><span class="st">"scientists"</span><span class="op">)</span> <span class="co">#get group details</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'OCS' not found</span>
-<span class="r-in">   <span class="va">added</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">addToGroup</span><span class="op">(</span><span class="st">"john.doe"</span>, <span class="st">"scientists"</span><span class="op">)</span> <span class="co">#add user to group</span></span>
+<span class="r-in"><span>   <span class="va">added</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">addToGroup</span><span class="op">(</span><span class="st">"john.doe"</span>, <span class="st">"scientists"</span><span class="op">)</span> <span class="co">#add user to group</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'OCS' not found</span>
-<span class="r-in">   <span class="va">removed</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">removeFromGroup</span><span class="op">(</span><span class="st">"john.doe"</span>, <span class="st">"scientists"</span><span class="op">)</span> <span class="co">#remove user from group</span></span>
+<span class="r-in"><span>   <span class="va">removed</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">removeFromGroup</span><span class="op">(</span><span class="st">"john.doe"</span>, <span class="st">"scientists"</span><span class="op">)</span> <span class="co">#remove user from group</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'OCS' not found</span>
-<span class="r-in">   <span class="va">deleted</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">deleteGroup</span><span class="op">(</span><span class="st">"scientists"</span><span class="op">)</span></span>
+<span class="r-in"><span>   <span class="va">deleted</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">deleteGroup</span><span class="op">(</span><span class="st">"scientists"</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'OCS' not found</span>
-<span class="r-in">   </span>
-<span class="r-in">   <span class="co">#OCS Webdav API</span></span>
-<span class="r-in">   <span class="co">#-------------------------------------</span></span>
-<span class="r-in">   <span class="co">#list files</span></span>
-<span class="r-in">   <span class="va">files</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">listFiles</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span>   </span></span>
+<span class="r-in"><span>   <span class="co">#OCS Webdav API</span></span></span>
+<span class="r-in"><span>   <span class="co">#-------------------------------------</span></span></span>
+<span class="r-in"><span>   <span class="co">#list files</span></span></span>
+<span class="r-in"><span>   <span class="va">files</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">listFiles</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'OCS' not found</span>
-<span class="r-in">   <span class="va">subfiles</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">listFiles</span><span class="op">(</span><span class="st">"Documents"</span><span class="op">)</span></span>
+<span class="r-in"><span>   <span class="va">subfiles</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">listFiles</span><span class="op">(</span><span class="st">"Documents"</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'OCS' not found</span>
-<span class="r-in">   <span class="co">#make collection</span></span>
-<span class="r-in">   <span class="va">OCS</span><span class="op">$</span><span class="fu">makeCollection</span><span class="op">(</span><span class="st">"myfolder"</span><span class="op">)</span></span>
+<span class="r-in"><span>   <span class="co">#make collection</span></span></span>
+<span class="r-in"><span>   <span class="va">OCS</span><span class="op">$</span><span class="fu">makeCollection</span><span class="op">(</span><span class="st">"myfolder"</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'OCS' not found</span>
-<span class="r-in">   <span class="va">subfiles</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">listFiles</span><span class="op">(</span><span class="st">"myfolder"</span><span class="op">)</span></span>
+<span class="r-in"><span>   <span class="va">subfiles</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">listFiles</span><span class="op">(</span><span class="st">"myfolder"</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'OCS' not found</span>
-<span class="r-in">   <span class="co">#upload a file?</span></span>
-<span class="r-in">   <span class="va">filename</span> <span class="op">&lt;-</span> <span class="st">"magic.txt"</span></span>
-<span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.create</a></span><span class="op">(</span><span class="va">filename</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines</a></span><span class="op">(</span><span class="st">"ocs4R is great"</span>, <span class="va">filename</span><span class="op">)</span></span>
+<span class="r-in"><span>   <span class="co">#upload a file?</span></span></span>
+<span class="r-in"><span>   <span class="va">filename</span> <span class="op">&lt;-</span> <span class="st">"magic.txt"</span></span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.create</a></span><span class="op">(</span><span class="va">filename</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines</a></span><span class="op">(</span><span class="st">"ocs4R is great"</span>, <span class="va">filename</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in">   <span class="co">#we upload the file in 'Documents' folder</span></span>
-<span class="r-in">   <span class="va">OCS</span><span class="op">$</span><span class="fu">uploadFile</span><span class="op">(</span><span class="va">filename</span>, <span class="st">"/Documents"</span><span class="op">)</span></span>
+<span class="r-in"><span>   <span class="co">#we upload the file in 'Documents' folder</span></span></span>
+<span class="r-in"><span>   <span class="va">OCS</span><span class="op">$</span><span class="fu">uploadFile</span><span class="op">(</span><span class="va">filename</span>, <span class="st">"/Documents"</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'OCS' not found</span>
-<span class="r-in">   <span class="co">#check if file is uploaded</span></span>
-<span class="r-in">   <span class="va">OCS</span><span class="op">$</span><span class="fu">listFiles</span><span class="op">(</span><span class="st">'Documents'</span><span class="op">)</span></span>
+<span class="r-in"><span>   <span class="co">#check if file is uploaded</span></span></span>
+<span class="r-in"><span>   <span class="va">OCS</span><span class="op">$</span><span class="fu">listFiles</span><span class="op">(</span><span class="st">'Documents'</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'OCS' not found</span>
-<span class="r-in">   </span>
-<span class="r-in">   <span class="co">#OCS Sharing API</span></span>
-<span class="r-in">   <span class="co">#-------------------------------------</span></span>
-<span class="r-in">   <span class="co">#let's add a user with User provisioning API</span></span>
-<span class="r-in">   <span class="va">added</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">addUser</span><span class="op">(</span><span class="st">"john.doe"</span>, password <span class="op">=</span> <span class="st">"ocs4john"</span><span class="op">)</span> <span class="co">#add a user</span></span>
+<span class="r-in"><span>   </span></span>
+<span class="r-in"><span>   <span class="co">#OCS Sharing API</span></span></span>
+<span class="r-in"><span>   <span class="co">#-------------------------------------</span></span></span>
+<span class="r-in"><span>   <span class="co">#let's add a user with User provisioning API</span></span></span>
+<span class="r-in"><span>   <span class="va">added</span> <span class="op">&lt;-</span> <span class="va">OCS</span><span class="op">$</span><span class="fu">addUser</span><span class="op">(</span><span class="st">"john.doe"</span>, password <span class="op">=</span> <span class="st">"ocs4john"</span><span class="op">)</span> <span class="co">#add a user</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'OCS' not found</span>
-<span class="r-in">   <span class="co">#let's share the previously uploaded file with John Doe</span></span>
-<span class="r-in">   <span class="va">OCS</span><span class="op">$</span><span class="fu">shareWithUser</span><span class="op">(</span><span class="st">"/Documents"</span>, <span class="va">filename</span>, <span class="st">"john.doe"</span><span class="op">)</span></span>
+<span class="r-in"><span>   <span class="co">#let's share the previously uploaded file with John Doe</span></span></span>
+<span class="r-in"><span>   <span class="va">OCS</span><span class="op">$</span><span class="fu">shareWithUser</span><span class="op">(</span><span class="st">"/Documents"</span>, <span class="va">filename</span>, <span class="st">"john.doe"</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'OCS' not found</span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -244,7 +246,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
