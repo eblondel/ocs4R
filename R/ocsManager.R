@@ -2,8 +2,8 @@
 #' @docType class
 #' @export
 #' @keywords ocs manager
-#' @return Object of \code{\link{R6Class}} for modelling an ocsManager
-#' @format \code{\link{R6Class}} object.
+#' @return Object of \code{\link[R6]{R6Class}} for modelling an ocsManager
+#' @format \code{\link[R6]{R6Class}} object.
 
 #' @examples
 #' \dontrun{
@@ -234,19 +234,19 @@ ocsManager <-  R6Class("ocsManager",
     },
     
     #'@description Get the Webdav API manager
-    #'@return an instance of \llink{ocsApiWebdavManager}
+    #'@return an instance of \link{ocsApiWebdavManager}
     getAPIWebdavManager = function(){
       return(self$apis[["webdav"]])
     },
     
     #'@description Get the Sharing API manager
-    #'@return an instance of \llink{ocsApiSharingManager}
+    #'@return an instance of \link{ocsApiSharingManager}
     getAPISharingManager = function(){
       return(self$apis[["sharing"]])
     },
     
     #'@description Get the User Provisioning API manager
-    #'@return an instance of \llink{ocsApiUserProvisioningManager}
+    #'@return an instance of \link{ocsApiUserProvisioningManager}
     getAPIUserProvisioningManager = function(){
       return(self$apis[["userprovisioning"]])
     }

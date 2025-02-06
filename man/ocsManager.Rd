@@ -5,10 +5,10 @@
 \alias{ocsManager}
 \title{ocsManager}
 \format{
-\code{\link{R6Class}} object.
+\code{\link[R6]{R6Class}} object.
 }
 \value{
-Object of \code{\link{R6Class}} for modelling an ocsManager
+Object of \code{\link[R6]{R6Class}} for modelling an ocsManager
 }
 \description{
 ocsManager
@@ -182,7 +182,7 @@ Get the Webdav API manager
 }
 
 \subsection{Returns}{
-an instance of \llink{ocsApiWebdavManager}
+an instance of \link{ocsApiWebdavManager}
 }
 }
 \if{html}{\out{<hr>}}
@@ -195,7 +195,7 @@ Get the Sharing API manager
 }
 
 \subsection{Returns}{
-an instance of \llink{ocsApiSharingManager}
+an instance of \link{ocsApiSharingManager}
 }
 }
 \if{html}{\out{<hr>}}
@@ -208,7 +208,7 @@ Get the User Provisioning API manager
 }
 
 \subsection{Returns}{
-an instance of \llink{ocsApiUserProvisioningManager}
+an instance of \link{ocsApiUserProvisioningManager}
 }
 }
 \if{html}{\out{<hr>}}
