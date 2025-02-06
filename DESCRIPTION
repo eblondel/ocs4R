@@ -13,5 +13,4 @@ License: MIT + file LICENSE
 URL: https://github.com/eblondel/ocs4R
 BugReports: https://github.com/eblondel/ocs4R/issues
 LazyLoad: yes
-RoxygenNote: 7.1.0
-Roxygen: list(r6 = FALSE)
+RoxygenNote: 7.3.1

@@ -12,61 +12,9 @@ Object of \code{\link{R6Class}} for modelling an ocsManager for Webdav API
 }
 \description{
 ocsApiWebdavManager
-}
-\section{General Methods (inherited from 'ocsManager')}{
 
-\describe{
- \item{\code{new(url, user, pwd, logger, keyring_backend)}}{
-   This method is used to instantiate an ocsApiWebdavManager. The user/pwd are
-   mandatory in order to connect to 'ocs'. 
-   
-   The logger can be either NULL, "INFO" (with minimum logs), or "DEBUG" 
-   (for complete curl http calls logs).
-   
-   The \code{keyring_backend} can be set to use a different backend for storing 
-   the user password with \pkg{keyring} (Default value is 'env').
- }
- \item{\code{connect()}}{
-   A method to connect to 'ocs' and set version/capabilities
- }
- \item{\code{getVersion()}}{
-   Get the 'ocs' server version
- }
- \item{\code{getCapabilities()}}{
-   Get the 'ocs' server capabilities
- }
+ocsApiWebdavManager
 }
-}
-
-\section{WebDAV methods}{
-
-\describe{
- \item{\code{getWebdavRoot()}}{
-   Get the 'ocs' WebDAV root URL
- }
- \item{\code{listFiles(relPath)}}{
-   WebDAV method to list folders/files given a relative path. The relative path is set
-   to \code{"/"} by default, which corresponds to the root of the 'ocs' repository.
- }
- \item{\code{makeCollection(name, relPath)}}{
-   WebDAV method to make a collection. By default \code{relPath} is set to \code{"/"} (root).
-   The \code{name} is the name of the new collection to be created. The function is recursive
-   in the sense that a \code{name} can be provided as relative path of a collection tree 
-   (eg \code{newfolder1/newfolder2/newfolder3}), the function will create recursively as 
-   many collections are handled in the name. 
- }
- \item{\code{uploadFile(filename, relPath, delete_if_existing)}}{
-   WebDAV method to upload a file. By default \code{relPath} is set to \code{"/"} (root).
- }
- \item{\code{deleteFile(filename, relPath)}}{
-   WebDAV method to delete a file. By default \code{relPath} is set to \code{"/"} (root).
- }
- \item{\code{getPublicFile(share_token)}}{
-   Get details of a shared public file given its share token
- }
-}
-}
-
 \author{
 Emmanuel Blondel <emmanuel.blondel1@gmail.com>
 }
@@ -74,3 +22,217 @@ Emmanuel Blondel <emmanuel.blondel1@gmail.com>
 \keyword{manager}
 \keyword{ocs}
 \keyword{webdav}
+\section{Super classes}{
+\code{\link[ocs4R:ocs4RLogger]{ocs4R::ocs4RLogger}} -> \code{\link[ocs4R:ocsManager]{ocs4R::ocsManager}} -> \code{ocsApiWebdavManager}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-ocsApiWebdavManager-new}{\code{ocsApiWebdavManager$new()}}
+\item \href{#method-ocsApiWebdavManager-getWebdavRoot}{\code{ocsApiWebdavManager$getWebdavRoot()}}
+\item \href{#method-ocsApiWebdavManager-listFiles}{\code{ocsApiWebdavManager$listFiles()}}
+\item \href{#method-ocsApiWebdavManager-makeCollection}{\code{ocsApiWebdavManager$makeCollection()}}
+\item \href{#method-ocsApiWebdavManager-uploadFile}{\code{ocsApiWebdavManager$uploadFile()}}
+\item \href{#method-ocsApiWebdavManager-deleteFile}{\code{ocsApiWebdavManager$deleteFile()}}
+\item \href{#method-ocsApiWebdavManager-downloadFile}{\code{ocsApiWebdavManager$downloadFile()}}
+\item \href{#method-ocsApiWebdavManager-getPublicFile}{\code{ocsApiWebdavManager$getPublicFile()}}
+\item \href{#method-ocsApiWebdavManager-clone}{\code{ocsApiWebdavManager$clone()}}
+}
+}
+\if{html}{\out{
+<details><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocs4RLogger" data-id="ERROR"><a href='../../ocs4R/html/ocs4RLogger.html#method-ocs4RLogger-ERROR'><code>ocs4R::ocs4RLogger$ERROR()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocs4RLogger" data-id="INFO"><a href='../../ocs4R/html/ocs4RLogger.html#method-ocs4RLogger-INFO'><code>ocs4R::ocs4RLogger$INFO()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocs4RLogger" data-id="WARN"><a href='../../ocs4R/html/ocs4RLogger.html#method-ocs4RLogger-WARN'><code>ocs4R::ocs4RLogger$WARN()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocs4RLogger" data-id="getClass"><a href='../../ocs4R/html/ocs4RLogger.html#method-ocs4RLogger-getClass'><code>ocs4R::ocs4RLogger$getClass()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocs4RLogger" data-id="getClassName"><a href='../../ocs4R/html/ocs4RLogger.html#method-ocs4RLogger-getClassName'><code>ocs4R::ocs4RLogger$getClassName()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocs4RLogger" data-id="logger"><a href='../../ocs4R/html/ocs4RLogger.html#method-ocs4RLogger-logger'><code>ocs4R::ocs4RLogger$logger()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocsManager" data-id="connect"><a href='../../ocs4R/html/ocsManager.html#method-ocsManager-connect'><code>ocs4R::ocsManager$connect()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocsManager" data-id="getAPISharingManager"><a href='../../ocs4R/html/ocsManager.html#method-ocsManager-getAPISharingManager'><code>ocs4R::ocsManager$getAPISharingManager()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocsManager" data-id="getAPIUserProvisioningManager"><a href='../../ocs4R/html/ocsManager.html#method-ocsManager-getAPIUserProvisioningManager'><code>ocs4R::ocsManager$getAPIUserProvisioningManager()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocsManager" data-id="getAPIWebdavManager"><a href='../../ocs4R/html/ocsManager.html#method-ocsManager-getAPIWebdavManager'><code>ocs4R::ocsManager$getAPIWebdavManager()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocsManager" data-id="getCapabilities"><a href='../../ocs4R/html/ocsManager.html#method-ocsManager-getCapabilities'><code>ocs4R::ocsManager$getCapabilities()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocsManager" data-id="getVersion"><a href='../../ocs4R/html/ocsManager.html#method-ocsManager-getVersion'><code>ocs4R::ocsManager$getVersion()</code></a></span></li>
+</ul>
+</details>
+}}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiWebdavManager-new"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiWebdavManager-new}{}}}
+\subsection{Method \code{new()}}{
+Initialize manager
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiWebdavManager$new(url, user, pwd, logger = NULL, keyring_backend = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{url}}{url}
+
+\item{\code{user}}{user}
+
+\item{\code{pwd}}{pwd}
+
+\item{\code{logger}}{logger}
+
+\item{\code{keyring_backend}}{backend to use with \pkg{keyring}. Default is \code{NULL}}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiWebdavManager-getWebdavRoot"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiWebdavManager-getWebdavRoot}{}}}
+\subsection{Method \code{getWebdavRoot()}}{
+Get the 'ocs' WebDAV root URL
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiWebdavManager$getWebdavRoot()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiWebdavManager-listFiles"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiWebdavManager-listFiles}{}}}
+\subsection{Method \code{listFiles()}}{
+WebDAV method to list folders/files given a relative path. The relative path is set
+   to \code{"/"} by default, which corresponds to the root of the 'ocs' repository.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiWebdavManager$listFiles(relPath = "/")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{relPath}}{relative path}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+the list of files
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiWebdavManager-makeCollection"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiWebdavManager-makeCollection}{}}}
+\subsection{Method \code{makeCollection()}}{
+WebDAV method to make a collection. By default \code{relPath} is set to \code{"/"} (root).
+   The \code{name} is the name of the new collection to be created. The function is recursive
+   in the sense that a \code{name} can be provided as relative path of a collection tree 
+   (eg \code{newfolder1/newfolder2/newfolder3}), the function will create recursively as 
+   many collections are handled in the name.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiWebdavManager$makeCollection(name, relPath = "/")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{name}
+
+\item{\code{relPath}}{relative path}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiWebdavManager-uploadFile"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiWebdavManager-uploadFile}{}}}
+\subsection{Method \code{uploadFile()}}{
+WebDAV method to upload a file. By default \code{relPath} is set to \code{"/"} (root).
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiWebdavManager$uploadFile(
+  filename,
+  relPath = "/",
+  delete_if_existing = FALSE
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{filename}}{file name}
+
+\item{\code{relPath}}{relative path}
+
+\item{\code{delete_if_existing}}{delete if existing file? Default is \code{FALSE}}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiWebdavManager-deleteFile"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiWebdavManager-deleteFile}{}}}
+\subsection{Method \code{deleteFile()}}{
+WebDAV method to delete a file. By default \code{relPath} is set to \code{"/"} (root).
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiWebdavManager$deleteFile(filename, relPath = "/")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{filename}}{file name}
+
+\item{\code{relPath}}{relative path}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiWebdavManager-downloadFile"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiWebdavManager-downloadFile}{}}}
+\subsection{Method \code{downloadFile()}}{
+Downloads a file
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiWebdavManager$downloadFile(relPath, filename, outdir = ".")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{relPath}}{relative path}
+
+\item{\code{filename}}{file name}
+
+\item{\code{outdir}}{the out directory where to download the file}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiWebdavManager-getPublicFile"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiWebdavManager-getPublicFile}{}}}
+\subsection{Method \code{getPublicFile()}}{
+Get details of a shared public file given its share token
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiWebdavManager$getPublicFile(share_token)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{share_token}}{the share token}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiWebdavManager-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiWebdavManager-clone}{}}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiWebdavManager$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

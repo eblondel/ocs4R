@@ -12,6 +12,8 @@ Object of \code{\link{R6Class}} for modelling a generic 'ocs' web-service reques
 }
 \description{
 ocsRequest
+
+ocsRequest
 }
 \note{
 Abstract class used internally by \pkg{ocs4R}
@@ -49,3 +51,196 @@ Emmanuel Blondel <emmanuel.blondel1@gmail.com>
 }
 \keyword{ocs}
 \keyword{request}
+\section{Super class}{
+\code{\link[ocs4R:ocs4RLogger]{ocs4R::ocs4RLogger}} -> \code{ocsRequest}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-ocsRequest-new}{\code{ocsRequest$new()}}
+\item \href{#method-ocsRequest-execute}{\code{ocsRequest$execute()}}
+\item \href{#method-ocsRequest-getRequest}{\code{ocsRequest$getRequest()}}
+\item \href{#method-ocsRequest-getRequestHeaders}{\code{ocsRequest$getRequestHeaders()}}
+\item \href{#method-ocsRequest-getStatus}{\code{ocsRequest$getStatus()}}
+\item \href{#method-ocsRequest-getResponse}{\code{ocsRequest$getResponse()}}
+\item \href{#method-ocsRequest-getException}{\code{ocsRequest$getException()}}
+\item \href{#method-ocsRequest-getResult}{\code{ocsRequest$getResult()}}
+\item \href{#method-ocsRequest-setResult}{\code{ocsRequest$setResult()}}
+\item \href{#method-ocsRequest-clone}{\code{ocsRequest$clone()}}
+}
+}
+\if{html}{\out{
+<details><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocs4RLogger" data-id="ERROR"><a href='../../ocs4R/html/ocs4RLogger.html#method-ocs4RLogger-ERROR'><code>ocs4R::ocs4RLogger$ERROR()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocs4RLogger" data-id="INFO"><a href='../../ocs4R/html/ocs4RLogger.html#method-ocs4RLogger-INFO'><code>ocs4R::ocs4RLogger$INFO()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocs4RLogger" data-id="WARN"><a href='../../ocs4R/html/ocs4RLogger.html#method-ocs4RLogger-WARN'><code>ocs4R::ocs4RLogger$WARN()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocs4RLogger" data-id="getClass"><a href='../../ocs4R/html/ocs4RLogger.html#method-ocs4RLogger-getClass'><code>ocs4R::ocs4RLogger$getClass()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocs4RLogger" data-id="getClassName"><a href='../../ocs4R/html/ocs4RLogger.html#method-ocs4RLogger-getClassName'><code>ocs4R::ocs4RLogger$getClassName()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocs4RLogger" data-id="logger"><a href='../../ocs4R/html/ocs4RLogger.html#method-ocs4RLogger-logger'><code>ocs4R::ocs4RLogger$logger()</code></a></span></li>
+</ul>
+</details>
+}}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsRequest-new"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsRequest-new}{}}}
+\subsection{Method \code{new()}}{
+This method is used to instantiate a object for doing an 'ocs' web-service request
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsRequest$new(
+  type,
+  url,
+  request,
+  user = NULL,
+  pwd = NULL,
+  token = NULL,
+  cookies = NULL,
+  format = "json",
+  namedParams = list(),
+  content = NULL,
+  contentType = "text/plain",
+  filename = NULL,
+  logger = NULL,
+  ...
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{type of request}
+
+\item{\code{url}}{url}
+
+\item{\code{request}}{request}
+
+\item{\code{user}}{user}
+
+\item{\code{pwd}}{pwd}
+
+\item{\code{token}}{token}
+
+\item{\code{cookies}}{cookies}
+
+\item{\code{format}}{format. Default is "json"}
+
+\item{\code{namedParams}}{a list of named parameters}
+
+\item{\code{content}}{content}
+
+\item{\code{contentType}}{content type. Default is "text/plain"}
+
+\item{\code{filename}}{file name}
+
+\item{\code{logger}}{logger}
+
+\item{\code{...}}{additional parameters}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsRequest-execute"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsRequest-execute}{}}}
+\subsection{Method \code{execute()}}{
+Executes the request
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsRequest$execute()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsRequest-getRequest"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsRequest-getRequest}{}}}
+\subsection{Method \code{getRequest()}}{
+Get request
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsRequest$getRequest()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsRequest-getRequestHeaders"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsRequest-getRequestHeaders}{}}}
+\subsection{Method \code{getRequestHeaders()}}{
+Get request headers
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsRequest$getRequestHeaders()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsRequest-getStatus"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsRequest-getStatus}{}}}
+\subsection{Method \code{getStatus()}}{
+Get status
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsRequest$getStatus()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsRequest-getResponse"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsRequest-getResponse}{}}}
+\subsection{Method \code{getResponse()}}{
+Get response
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsRequest$getResponse()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsRequest-getException"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsRequest-getException}{}}}
+\subsection{Method \code{getException()}}{
+Get exception
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsRequest$getException()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsRequest-getResult"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsRequest-getResult}{}}}
+\subsection{Method \code{getResult()}}{
+Get result
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsRequest$getResult()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsRequest-setResult"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsRequest-setResult}{}}}
+\subsection{Method \code{setResult()}}{
+Set result
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsRequest$setResult(result)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{result}}{result}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsRequest-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsRequest-clone}{}}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsRequest$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

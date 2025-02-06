@@ -412,7 +412,22 @@ ocsRequest <- R6Class("ocsRequest",
   
   #public methods
   public = list(
-    #initialize
+    
+    #'@description This method is used to instantiate a object for doing an 'ocs' web-service request
+    #'@param type type of request
+    #'@param url url
+    #'@param request request
+    #'@param user user
+    #'@param pwd pwd
+    #'@param token token
+    #'@param cookies cookies
+    #'@param format format. Default is "json"
+    #'@param namedParams a list of named parameters
+    #'@param content content
+    #'@param contentType content type. Default is "text/plain"
+    #'@param filename file name
+    #'@param logger logger
+    #'@param ... additional parameters
     initialize = function(type, url, request,
                           user = NULL, pwd = NULL,
                           token = NULL, cookies = NULL,
@@ -446,7 +461,7 @@ ocsRequest <- R6Class("ocsRequest",
       private$cookies <- cookies
     },
     
-    #execute
+    #'@description Executes the request
     execute = function(){
       
       req <- switch(private$type,
@@ -496,37 +511,38 @@ ocsRequest <- R6Class("ocsRequest",
       private$response <- req$response
     },
     
-    #getRequest
+    #'@description Get request
     getRequest = function(){
       return(private$request)
     },
     
-    #getRequestHeaders
+    #'@description Get request headers
     getRequestHeaders = function(){
       return(private$requestHeaders)
     },
     
-    #getStatus
+    #'@description Get status
     getStatus = function(){
       return(private$status)
     },
     
-    #getResponse
+    #'@description Get response
     getResponse = function(){
       return(private$response)
     },
     
-    #getException
+    #'@description Get exception
     getException = function(){
       return(private$exception)
     },
     
-    #getResult
+    #'@description Get result
     getResult = function(){
       return(private$result)
     },
     
-    #setResult
+    #'@description Set result
+    #'@param result result
     setResult = function(result){
       private$result = result
     }

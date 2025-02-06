@@ -12,23 +12,165 @@ Object of \code{\link{R6Class}} for modelling a simple logger
 }
 \description{
 ocs4RLogger
+
+ocs4RLogger
 }
 \note{
 Logger class used internally by ocs4R
 }
-\section{Abstract Methods}{
-
-\describe{
- \item{\code{INFO(text)}}{
-   Logger to report information. Used internally
- }
- \item{\code{WARN(text)}}{
-   Logger to report warnings. Used internally
- }
- \item{\code{ERROR(text)}}{
-   Logger to report errors. Used internally
- }
-}
-}
-
 \keyword{logger}
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{verbose.info}}{is info logger active?}
+
+\item{\code{verbose.debug}}{is debug logger active?}
+
+\item{\code{loggerType}}{logger type}
+}
+\if{html}{\out{</div>}}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-ocs4RLogger-new}{\code{ocs4RLogger$new()}}
+\item \href{#method-ocs4RLogger-logger}{\code{ocs4RLogger$logger()}}
+\item \href{#method-ocs4RLogger-INFO}{\code{ocs4RLogger$INFO()}}
+\item \href{#method-ocs4RLogger-WARN}{\code{ocs4RLogger$WARN()}}
+\item \href{#method-ocs4RLogger-ERROR}{\code{ocs4RLogger$ERROR()}}
+\item \href{#method-ocs4RLogger-getClassName}{\code{ocs4RLogger$getClassName()}}
+\item \href{#method-ocs4RLogger-getClass}{\code{ocs4RLogger$getClass()}}
+\item \href{#method-ocs4RLogger-clone}{\code{ocs4RLogger$clone()}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocs4RLogger-new"></a>}}
+\if{latex}{\out{\hypertarget{method-ocs4RLogger-new}{}}}
+\subsection{Method \code{new()}}{
+Initializes the logger
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocs4RLogger$new(logger = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{logger}}{the type of logger. Default is \code{NULL}, accepts \code{INFO} or \code{DEBUG}}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocs4RLogger-logger"></a>}}
+\if{latex}{\out{\hypertarget{method-ocs4RLogger-logger}{}}}
+\subsection{Method \code{logger()}}{
+Logger function
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocs4RLogger$logger(type, text)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{type}}{type of log}
+
+\item{\code{text}}{text}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocs4RLogger-INFO"></a>}}
+\if{latex}{\out{\hypertarget{method-ocs4RLogger-INFO}{}}}
+\subsection{Method \code{INFO()}}{
+Logger to report information. Used internally
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocs4RLogger$INFO(text)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{text}}{text}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocs4RLogger-WARN"></a>}}
+\if{latex}{\out{\hypertarget{method-ocs4RLogger-WARN}{}}}
+\subsection{Method \code{WARN()}}{
+Logger to report warnings. Used internally
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocs4RLogger$WARN(text)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{text}}{text}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocs4RLogger-ERROR"></a>}}
+\if{latex}{\out{\hypertarget{method-ocs4RLogger-ERROR}{}}}
+\subsection{Method \code{ERROR()}}{
+Logger to report errors Used internally
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocs4RLogger$ERROR(text)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{text}}{text}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocs4RLogger-getClassName"></a>}}
+\if{latex}{\out{\hypertarget{method-ocs4RLogger-getClassName}{}}}
+\subsection{Method \code{getClassName()}}{
+Get class name
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocs4RLogger$getClassName()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+the class name
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocs4RLogger-getClass"></a>}}
+\if{latex}{\out{\hypertarget{method-ocs4RLogger-getClass}{}}}
+\subsection{Method \code{getClass()}}{
+Get class
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocs4RLogger$getClass()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+the class
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocs4RLogger-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-ocs4RLogger-clone}{}}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocs4RLogger$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

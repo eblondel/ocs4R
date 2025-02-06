@@ -8,15 +8,13 @@
 \description{
 Provides an Interface to 'OCS' (<https://www.open-collaboration-services.org/>) REST API.
 }
-\details{
-\tabular{ll}{
-   Package: \tab ocs4R\cr
-   Type: \tab Package\cr
-   Version: \tab 0.2-3\cr
-   Date: \tab 2022-3-17\cr
-   License: \tab MIT\cr
-   LazyLoad: \tab yes\cr
- }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/eblondel/ocs4R}
+  \item Report bugs at \url{https://github.com/eblondel/ocs4R/issues}
+}
+
 }
 \author{
 Emmanuel Blondel \email{emmanuel.blondel1@gmail.com}

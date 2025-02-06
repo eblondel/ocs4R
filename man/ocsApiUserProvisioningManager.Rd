@@ -12,100 +12,9 @@ Object of \code{\link{R6Class}} for modelling an ocsManager for Webdav API
 }
 \description{
 ocsApiUserProvisioningManager
-}
-\section{General Methods (inherited from 'ocsManager')}{
 
-\describe{
- \item{\code{new(url, user, pwd, logger, keyring_backend)}}{
-   This method is used to instantiate an ocsApiUserProvisioningManager. The user/pwd are
-   mandatory in order to connect to 'ocs' 
-   
-   The logger can be either NULL, "INFO" (with minimum logs), or "DEBUG" 
-   (for complete curl http calls logs).
-   
-   The \code{keyring_backend} can be set to use a different backend for storing 
-   the user password with \pkg{keyring} (Default value is 'env').
- }
- \item{\code{connect()}}{
-   A method to connect to 'ocs' and set version/capabilities
- }
- \item{\code{getVersion()}}{
-   Get the 'ocs' server version
- }
- \item{\code{getCapabilities()}}{
-   Get the 'ocs' server capabilities
- }
+ocsApiUserProvisioningManager
 }
-}
-
-\section{User Provisioning API methods}{
-
-\describe{
- \item{\code{addUser(userid, email, password, groups)}}{
-   Adds a user given a \code{userid} (required). All other fields (email, password, groups) are
-   optional for the user creation. Returns \code{TRUE} if the user is added, \code{FALSE} otherwise.
- }
- \item{\code{getUsers()}}{
-   Get the list of users. This method returns a vector of class 'character' giving
-   the user IDs available in the OCS cloud plateform.
- }
- \item{\code{getUser(userid, pretty)}}{
-   Get the user details from its \code{userid}. If the argument \code{pretty} is set to TRUE,
-   this will return an object of class \code{data.frame}, otherwise (by default) it returns 
-   an object of class \code{list}.
- }
- \item{\code{editUser(userid, key, value)}}{
-   Edits a user, identifier by a userid. The user property to be edited should be set using its
-   key (eg display) and the value to be modified for this key. Returns \code{TRUE} if the user 
-   is edited, \code{FALSE} otherwise.
- }
- \item{\code{editUserDisplayName(userid, displayName)}}{
-   Edits a user display name.
- }
- \item{\code{editUserEmail(userid, email)}}{
-   Edits a user email.
- }
- \item{\code{editUserPassword(userid, password)}}{
-   Edits a user password.
- }
- \item{\code{editUserQuota(userid, quota)}}{
-   Edits a user quota.
- }
- \item{\code{enableUser(userid)}}{
-   Enables a user. Returns \code{TRUE} if enabled.
- }
- \item{\code{disableUser(userid)}}{
-   Disables a user. Returns \code{TRUE} if disabled.
- }
- \item{\code{deleteUser(userid)}}{
-   Deletes a user. Returns \code{TRUE} if deleted.
- }
- \item{\code{getUserGroups(userid)}}{
-   Get user group(s). This method returns a vector of class 'character' giving
-   the usergroups IDs
- }
- \item{code{addToGroup(userid, groupid)}}{
-   Adds a user to a group.
- }
- \item{\code{removeFromGroup(userid, groupid)}}{
-   Removes a user from a group.
- }
- \item{\code{getGroups(search, limit, offset)}}{
-   Get the list of groups. This method returns a vector of class 'character' giving
-   the usergroups IDs
- }
- \item{\code{getGroup(groupid)}}{
-   Get the group including member users from its \code{groupid}.
- }
- \item{\code{addGroup(groupid)}}{
-   Add group given a \code{groupid} (required).
- }
- \item{\code{deleteGroup(groupid)}}{
-   Deletes a group. Returns \code{TRUE} if deleted.
- }
-}
-}
-
 \author{
 Emmanuel Blondel <emmanuel.blondel1@gmail.com>
 }
@@ -113,3 +22,512 @@ Emmanuel Blondel <emmanuel.blondel1@gmail.com>
 \keyword{manager}
 \keyword{ocs}
 \keyword{userprovisioning}
+\section{Super classes}{
+\code{\link[ocs4R:ocs4RLogger]{ocs4R::ocs4RLogger}} -> \code{\link[ocs4R:ocsManager]{ocs4R::ocsManager}} -> \code{ocsApiUserProvisioningManager}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-ocsApiUserProvisioningManager-new}{\code{ocsApiUserProvisioningManager$new()}}
+\item \href{#method-ocsApiUserProvisioningManager-addUser}{\code{ocsApiUserProvisioningManager$addUser()}}
+\item \href{#method-ocsApiUserProvisioningManager-getUsers}{\code{ocsApiUserProvisioningManager$getUsers()}}
+\item \href{#method-ocsApiUserProvisioningManager-getUser}{\code{ocsApiUserProvisioningManager$getUser()}}
+\item \href{#method-ocsApiUserProvisioningManager-editUser}{\code{ocsApiUserProvisioningManager$editUser()}}
+\item \href{#method-ocsApiUserProvisioningManager-editUserDisplayName}{\code{ocsApiUserProvisioningManager$editUserDisplayName()}}
+\item \href{#method-ocsApiUserProvisioningManager-editUserEmail}{\code{ocsApiUserProvisioningManager$editUserEmail()}}
+\item \href{#method-ocsApiUserProvisioningManager-editUserPassword}{\code{ocsApiUserProvisioningManager$editUserPassword()}}
+\item \href{#method-ocsApiUserProvisioningManager-editUserQuota}{\code{ocsApiUserProvisioningManager$editUserQuota()}}
+\item \href{#method-ocsApiUserProvisioningManager-enableUser}{\code{ocsApiUserProvisioningManager$enableUser()}}
+\item \href{#method-ocsApiUserProvisioningManager-disableUser}{\code{ocsApiUserProvisioningManager$disableUser()}}
+\item \href{#method-ocsApiUserProvisioningManager-deleteUser}{\code{ocsApiUserProvisioningManager$deleteUser()}}
+\item \href{#method-ocsApiUserProvisioningManager-getUserGroups}{\code{ocsApiUserProvisioningManager$getUserGroups()}}
+\item \href{#method-ocsApiUserProvisioningManager-addToGroup}{\code{ocsApiUserProvisioningManager$addToGroup()}}
+\item \href{#method-ocsApiUserProvisioningManager-removeFromGroup}{\code{ocsApiUserProvisioningManager$removeFromGroup()}}
+\item \href{#method-ocsApiUserProvisioningManager-createSubadmin}{\code{ocsApiUserProvisioningManager$createSubadmin()}}
+\item \href{#method-ocsApiUserProvisioningManager-removeSubadmin}{\code{ocsApiUserProvisioningManager$removeSubadmin()}}
+\item \href{#method-ocsApiUserProvisioningManager-getSubadminGroups}{\code{ocsApiUserProvisioningManager$getSubadminGroups()}}
+\item \href{#method-ocsApiUserProvisioningManager-getGroups}{\code{ocsApiUserProvisioningManager$getGroups()}}
+\item \href{#method-ocsApiUserProvisioningManager-addGroup}{\code{ocsApiUserProvisioningManager$addGroup()}}
+\item \href{#method-ocsApiUserProvisioningManager-getGroup}{\code{ocsApiUserProvisioningManager$getGroup()}}
+\item \href{#method-ocsApiUserProvisioningManager-deleteGroup}{\code{ocsApiUserProvisioningManager$deleteGroup()}}
+\item \href{#method-ocsApiUserProvisioningManager-getSubadmins}{\code{ocsApiUserProvisioningManager$getSubadmins()}}
+\item \href{#method-ocsApiUserProvisioningManager-clone}{\code{ocsApiUserProvisioningManager$clone()}}
+}
+}
+\if{html}{\out{
+<details><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocs4RLogger" data-id="ERROR"><a href='../../ocs4R/html/ocs4RLogger.html#method-ocs4RLogger-ERROR'><code>ocs4R::ocs4RLogger$ERROR()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocs4RLogger" data-id="INFO"><a href='../../ocs4R/html/ocs4RLogger.html#method-ocs4RLogger-INFO'><code>ocs4R::ocs4RLogger$INFO()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocs4RLogger" data-id="WARN"><a href='../../ocs4R/html/ocs4RLogger.html#method-ocs4RLogger-WARN'><code>ocs4R::ocs4RLogger$WARN()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocs4RLogger" data-id="getClass"><a href='../../ocs4R/html/ocs4RLogger.html#method-ocs4RLogger-getClass'><code>ocs4R::ocs4RLogger$getClass()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocs4RLogger" data-id="getClassName"><a href='../../ocs4R/html/ocs4RLogger.html#method-ocs4RLogger-getClassName'><code>ocs4R::ocs4RLogger$getClassName()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocs4RLogger" data-id="logger"><a href='../../ocs4R/html/ocs4RLogger.html#method-ocs4RLogger-logger'><code>ocs4R::ocs4RLogger$logger()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocsManager" data-id="connect"><a href='../../ocs4R/html/ocsManager.html#method-ocsManager-connect'><code>ocs4R::ocsManager$connect()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocsManager" data-id="getAPISharingManager"><a href='../../ocs4R/html/ocsManager.html#method-ocsManager-getAPISharingManager'><code>ocs4R::ocsManager$getAPISharingManager()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocsManager" data-id="getAPIUserProvisioningManager"><a href='../../ocs4R/html/ocsManager.html#method-ocsManager-getAPIUserProvisioningManager'><code>ocs4R::ocsManager$getAPIUserProvisioningManager()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocsManager" data-id="getAPIWebdavManager"><a href='../../ocs4R/html/ocsManager.html#method-ocsManager-getAPIWebdavManager'><code>ocs4R::ocsManager$getAPIWebdavManager()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocsManager" data-id="getCapabilities"><a href='../../ocs4R/html/ocsManager.html#method-ocsManager-getCapabilities'><code>ocs4R::ocsManager$getCapabilities()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="ocs4R" data-topic="ocsManager" data-id="getVersion"><a href='../../ocs4R/html/ocsManager.html#method-ocsManager-getVersion'><code>ocs4R::ocsManager$getVersion()</code></a></span></li>
+</ul>
+</details>
+}}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiUserProvisioningManager-new"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiUserProvisioningManager-new}{}}}
+\subsection{Method \code{new()}}{
+Initialize manager
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiUserProvisioningManager$new(
+  url,
+  user,
+  pwd,
+  logger = NULL,
+  keyring_backend = "env"
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{url}}{url}
+
+\item{\code{user}}{user}
+
+\item{\code{pwd}}{pwd}
+
+\item{\code{logger}}{logger}
+
+\item{\code{keyring_backend}}{backend to use with \pkg{keyring}. Default is \code{NULL}}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiUserProvisioningManager-addUser"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiUserProvisioningManager-addUser}{}}}
+\subsection{Method \code{addUser()}}{
+Adds a user given a \code{userid} (required). All other fields (email, password, groups) are
+   optional for the user creation. Returns \code{TRUE} if the user is added, \code{FALSE} otherwise.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiUserProvisioningManager$addUser(
+  userid,
+  email = NULL,
+  password = NULL,
+  groups = NULL
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{userid}}{user ID}
+
+\item{\code{email}}{email}
+
+\item{\code{password}}{user password}
+
+\item{\code{groups}}{groups}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiUserProvisioningManager-getUsers"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiUserProvisioningManager-getUsers}{}}}
+\subsection{Method \code{getUsers()}}{
+Get the list of users. This method returns a vector of class 'character' giving 
+the user IDs available in the OCS cloud plateform.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiUserProvisioningManager$getUsers()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiUserProvisioningManager-getUser"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiUserProvisioningManager-getUser}{}}}
+\subsection{Method \code{getUser()}}{
+Get the user details from its \code{userid}. If the argument \code{pretty} is set to TRUE,
+   this will return an object of class \code{data.frame}, otherwise (by default) it returns 
+   an object of class \code{list}.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiUserProvisioningManager$getUser(userid, pretty = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{userid}}{user ID}
+
+\item{\code{pretty}}{pretty}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiUserProvisioningManager-editUser"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiUserProvisioningManager-editUser}{}}}
+\subsection{Method \code{editUser()}}{
+Edits a user, identifier by a userid. The user property to be edited should be set using its
+   key (eg display) and the value to be modified for this key. Returns \code{TRUE} if the user 
+   is edited, \code{FALSE} otherwise.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiUserProvisioningManager$editUser(userid, key, value)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{userid}}{user ID}
+
+\item{\code{key}}{key}
+
+\item{\code{value}}{value}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiUserProvisioningManager-editUserDisplayName"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiUserProvisioningManager-editUserDisplayName}{}}}
+\subsection{Method \code{editUserDisplayName()}}{
+Edits a user display name.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiUserProvisioningManager$editUserDisplayName(userid, displayName)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{userid}}{user ID}
+
+\item{\code{displayName}}{display name}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiUserProvisioningManager-editUserEmail"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiUserProvisioningManager-editUserEmail}{}}}
+\subsection{Method \code{editUserEmail()}}{
+Edits a user email
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiUserProvisioningManager$editUserEmail(userid, email)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{userid}}{user ID}
+
+\item{\code{email}}{email}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiUserProvisioningManager-editUserPassword"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiUserProvisioningManager-editUserPassword}{}}}
+\subsection{Method \code{editUserPassword()}}{
+Edits a user password
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiUserProvisioningManager$editUserPassword(userid, password)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{userid}}{user ID}
+
+\item{\code{password}}{password}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiUserProvisioningManager-editUserQuota"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiUserProvisioningManager-editUserQuota}{}}}
+\subsection{Method \code{editUserQuota()}}{
+Edits a user quota
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiUserProvisioningManager$editUserQuota(userid, quota)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{userid}}{user ID}
+
+\item{\code{quota}}{quota}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiUserProvisioningManager-enableUser"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiUserProvisioningManager-enableUser}{}}}
+\subsection{Method \code{enableUser()}}{
+Enables a user
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiUserProvisioningManager$enableUser(userid)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{userid}}{user ID}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{TRUE} if enabled, \code{FALSE} otherwise
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiUserProvisioningManager-disableUser"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiUserProvisioningManager-disableUser}{}}}
+\subsection{Method \code{disableUser()}}{
+Disables a user
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiUserProvisioningManager$disableUser(userid)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{userid}}{user ID}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{TRUE} if disabled, \code{FALSE} otherwise
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiUserProvisioningManager-deleteUser"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiUserProvisioningManager-deleteUser}{}}}
+\subsection{Method \code{deleteUser()}}{
+Deletes a user
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiUserProvisioningManager$deleteUser(userid)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{userid}}{user ID}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{TRUE} if deleted, \code{FALSE} otherwise
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiUserProvisioningManager-getUserGroups"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiUserProvisioningManager-getUserGroups}{}}}
+\subsection{Method \code{getUserGroups()}}{
+Get user groups
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiUserProvisioningManager$getUserGroups(userid)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{userid}}{user ID}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+the user groups
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiUserProvisioningManager-addToGroup"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiUserProvisioningManager-addToGroup}{}}}
+\subsection{Method \code{addToGroup()}}{
+Adds a user to a group.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiUserProvisioningManager$addToGroup(userid, groupid)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{userid}}{user ID}
+
+\item{\code{groupid}}{group ID}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{TRUE} if added, \code{FALSE} otherwise
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiUserProvisioningManager-removeFromGroup"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiUserProvisioningManager-removeFromGroup}{}}}
+\subsection{Method \code{removeFromGroup()}}{
+Removes a user from a group.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiUserProvisioningManager$removeFromGroup(userid, groupid)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{userid}}{user ID}
+
+\item{\code{groupid}}{group ID}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{TRUE} if removed, \code{FALSE} otherwise
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiUserProvisioningManager-createSubadmin"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiUserProvisioningManager-createSubadmin}{}}}
+\subsection{Method \code{createSubadmin()}}{
+Creates a subadmin
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiUserProvisioningManager$createSubadmin()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiUserProvisioningManager-removeSubadmin"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiUserProvisioningManager-removeSubadmin}{}}}
+\subsection{Method \code{removeSubadmin()}}{
+Removes a subadmin
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiUserProvisioningManager$removeSubadmin()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiUserProvisioningManager-getSubadminGroups"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiUserProvisioningManager-getSubadminGroups}{}}}
+\subsection{Method \code{getSubadminGroups()}}{
+Get subadmin groups
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiUserProvisioningManager$getSubadminGroups()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiUserProvisioningManager-getGroups"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiUserProvisioningManager-getGroups}{}}}
+\subsection{Method \code{getGroups()}}{
+Get the list of groups. This method returns a vector of class 
+'character' giving the usergroups IDs
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiUserProvisioningManager$getGroups(
+  search = NULL,
+  limit = NULL,
+  offset = NULL
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{search}}{search}
+
+\item{\code{limit}}{limit}
+
+\item{\code{offset}}{offset}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiUserProvisioningManager-addGroup"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiUserProvisioningManager-addGroup}{}}}
+\subsection{Method \code{addGroup()}}{
+Adds a group
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiUserProvisioningManager$addGroup(groupid)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{groupid}}{group ID}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{TRUE} if added, \code{FALSE}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiUserProvisioningManager-getGroup"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiUserProvisioningManager-getGroup}{}}}
+\subsection{Method \code{getGroup()}}{
+Gets a group
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiUserProvisioningManager$getGroup(groupid)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{groupid}}{group ID}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+the group as \code{list} including the group ID and the list of users
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiUserProvisioningManager-deleteGroup"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiUserProvisioningManager-deleteGroup}{}}}
+\subsection{Method \code{deleteGroup()}}{
+Deletes a group
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiUserProvisioningManager$deleteGroup(groupid)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{groupid}}{group ID}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{TRUE} if deleted, \code{FALSE}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiUserProvisioningManager-getSubadmins"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiUserProvisioningManager-getSubadmins}{}}}
+\subsection{Method \code{getSubadmins()}}{
+Get subadmins
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiUserProvisioningManager$getSubadmins()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ocsApiUserProvisioningManager-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-ocsApiUserProvisioningManager-clone}{}}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ocsApiUserProvisioningManager$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
+}

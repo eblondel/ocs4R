@@ -1,7 +1,6 @@
 #' @name ocs4R
 #' @aliases ocs4R-package
 #' @aliases ocs4R
-#' @docType package
 #' 
 #' @importFrom R6 R6Class
 #' @importFrom openssl base64_encode
@@ -27,17 +26,7 @@
 #' 
 #' @title Interface to 'OCS' REST API
 #' @description Provides an Interface to 'OCS' (<https://www.open-collaboration-services.org/>) REST API.
-#'
-#' @details
-#'  \tabular{ll}{
-#'    Package: \tab ocs4R\cr
-#'    Type: \tab Package\cr
-#'    Version: \tab 0.2-3\cr
-#'    Date: \tab 2022-3-17\cr
-#'    License: \tab MIT\cr
-#'    LazyLoad: \tab yes\cr
-#'  }
 #'  
 #'@author Emmanuel Blondel \email{emmanuel.blondel1@@gmail.com}
 #'
-NULL
+"_PACKAGE"

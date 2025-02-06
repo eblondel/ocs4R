@@ -4,75 +4,36 @@
 #' @keywords ocs manager webdav api
 #' @return Object of \code{\link{R6Class}} for modelling an ocsManager for Webdav API
 #' @format \code{\link{R6Class}} object.
-#' @section General Methods (inherited from 'ocsManager'):
-#' \describe{
-#'  \item{\code{new(url, user, pwd, logger, keyring_backend)}}{
-#'    This method is used to instantiate an ocsApiWebdavManager. The user/pwd are
-#'    mandatory in order to connect to 'ocs'. 
-#'    
-#'    The logger can be either NULL, "INFO" (with minimum logs), or "DEBUG" 
-#'    (for complete curl http calls logs).
-#'    
-#'    The \code{keyring_backend} can be set to use a different backend for storing 
-#'    the user password with \pkg{keyring} (Default value is 'env').
-#'  }
-#'  \item{\code{connect()}}{
-#'    A method to connect to 'ocs' and set version/capabilities
-#'  }
-#'  \item{\code{getVersion()}}{
-#'    Get the 'ocs' server version
-#'  }
-#'  \item{\code{getCapabilities()}}{
-#'    Get the 'ocs' server capabilities
-#'  }
-#' }
-#'
-#' @section WebDAV methods:
-#' \describe{
-#'  \item{\code{getWebdavRoot()}}{
-#'    Get the 'ocs' WebDAV root URL
-#'  }
-#'  \item{\code{listFiles(relPath)}}{
-#'    WebDAV method to list folders/files given a relative path. The relative path is set
-#'    to \code{"/"} by default, which corresponds to the root of the 'ocs' repository.
-#'  }
-#'  \item{\code{makeCollection(name, relPath)}}{
-#'    WebDAV method to make a collection. By default \code{relPath} is set to \code{"/"} (root).
-#'    The \code{name} is the name of the new collection to be created. The function is recursive
-#'    in the sense that a \code{name} can be provided as relative path of a collection tree 
-#'    (eg \code{newfolder1/newfolder2/newfolder3}), the function will create recursively as 
-#'    many collections are handled in the name. 
-#'  }
-#'  \item{\code{uploadFile(filename, relPath, delete_if_existing)}}{
-#'    WebDAV method to upload a file. By default \code{relPath} is set to \code{"/"} (root).
-#'  }
-#'  \item{\code{deleteFile(filename, relPath)}}{
-#'    WebDAV method to delete a file. By default \code{relPath} is set to \code{"/"} (root).
-#'  }
-#'  \item{\code{getPublicFile(share_token)}}{
-#'    Get details of a shared public file given its share token
-#'  }
-#' }
 #' 
 #' @author Emmanuel Blondel <emmanuel.blondel1@@gmail.com>
 #' 
 ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
   inherit = ocsManager,
   public = list(
+    
+    #'@description Initialize manager
+    #'@param url url
+    #'@param user user
+    #'@param pwd pwd
+    #'@param logger logger
+    #'@param keyring_backend backend to use with \pkg{keyring}. Default is \code{NULL}
     initialize = function(url, user, pwd, logger = NULL,
-                          keyring_backend = 'env'){
+                          keyring_backend = NULL){
       super$initialize(url, user, pwd, logger, keyring_backend)
     },
     
     #OCS WEBDAV API
     #-------------------------------------------------------------------------------------------
     
-    #getWebdavRoot
+    #'@description Get the 'ocs' WebDAV root URL
     getWebdavRoot = function(){
       return(private$capabilities$core[["webdav-root"]])
     },
     
-    #listFiles
+    #'@description WebDAV method to list folders/files given a relative path. The relative path is set
+    #'    to \code{"/"} by default, which corresponds to the root of the 'ocs' repository.
+    #'@param relPath relative path
+    #'@return the list of files
     listFiles = function(relPath = "/"){
       if(!startsWith(relPath, "/")) relPath <- paste0("/", relPath)
       request <- paste0(self$getWebdavRoot(), relPath)
@@ -87,7 +48,13 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
       return(list_resp)
     },
     
-    #makeCollection
+    #'@description WebDAV method to make a collection. By default \code{relPath} is set to \code{"/"} (root).
+    #'    The \code{name} is the name of the new collection to be created. The function is recursive
+    #'    in the sense that a \code{name} can be provided as relative path of a collection tree 
+    #'    (eg \code{newfolder1/newfolder2/newfolder3}), the function will create recursively as 
+    #'    many collections are handled in the name. 
+    #'@param name name
+    #'@param relPath relative path
     makeCollection = function(name, relPath = "/"){
       col_names <- unlist(strsplit(name, "/"))
       if(!startsWith(relPath, "/")) relPath <- paste0("/", relPath)
@@ -117,7 +84,10 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
       }
     },
     
-    #uploadFile
+    #'@description WebDAV method to upload a file. By default \code{relPath} is set to \code{"/"} (root).
+    #'@param filename file name
+    #'@param relPath relative path
+    #'@param delete_if_existing delete if existing file? Default is \code{FALSE}
     uploadFile = function(filename, relPath = "/", delete_if_existing = FALSE){
       
       if(delete_if_existing){
@@ -150,7 +120,9 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
       return(upload_resp)
     },
     
-    #deleteFile
+    #'@description WebDAV method to delete a file. By default \code{relPath} is set to \code{"/"} (root).
+    #'@param filename file name
+    #'@param relPath relative path
     deleteFile = function(filename, relPath = "/"){
       if(!startsWith(relPath, "/")) relPath <- paste0("/", relPath)
       if(!endsWith(relPath, "/")) relPath <- paste0(relPath, "/")
@@ -178,7 +150,10 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
       return(upload_resp)
     },
     
-    #downloadFile
+    #'@description Downloads a file
+    #'@param relPath relative path
+    #'@param filename file name
+    #'@param outdir the out directory where to download the file
     downloadFile = function(relPath, filename, outdir = "."){
       request <- sprintf("remote.php/dav/files/%s/%s/%s", private$user, relPath, filename)
       file_req <- ocsRequest$new(
@@ -193,7 +168,8 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
       return(file.path(outdir, filename))
     },
     
-    #getPublicFile
+    #'@description Get details of a shared public file given its share token
+    #'@param share_token the share token
     getPublicFile = function(share_token){
       request <- file.path("remote.php/dav/public-files", share_token)
       file_req <- ocsRequest$new(
