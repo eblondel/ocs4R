@@ -143,6 +143,8 @@ ocsManager <-  R6Class("ocsManager",
   private = list(
     url = NULL,
     user = NULL,
+    pwd = NULL,
+    token =  NULL,
     cookies = NULL,
     version = NULL,
     capabilities = NULL,
@@ -150,12 +152,23 @@ ocsManager <-  R6Class("ocsManager",
     keyring_backend = NULL,
     keyring_service = NULL,
     
+    #getPassword
+    getPassword = function(){
+      if(!is.null(private$keyring_backend)){
+        private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd"))
+      }else{
+        private$pwd
+      }
+    },
+    
     #getToken (if existing)
     getToken = function(){
       token <- NULL
       if(!is.null(private$keyring_service)){
         keyring_token <- suppressWarnings(try(private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user, "_token")), silent = TRUE))
         if(!is(keyring_token, "try-error")) token <- keyring_token
+      }else{
+        token <-private$token
       }
       return(token)
     },
@@ -178,18 +191,23 @@ ocsManager <-  R6Class("ocsManager",
   public = list(
     apis = list(),
     initialize = function(url, user, pwd, logger = NULL,
-                          keyring_backend = 'env'){
+                          keyring_backend = NULL){
       super$initialize(logger = logger)
       private$url = url
       private$user <- user
-      if(!keyring_backend %in% names(keyring:::known_backends)){
-        errMsg <- sprintf("Backend '%s' is not a known keyring backend!", keyring_backend)
-        self$ERROR(errMsg)
-        stop(errMsg)
+      if(!is.null(keyring_backend)){
+        if(!keyring_backend %in% names(keyring:::known_backends)){
+          errMsg <- sprintf("Backend '%s' is not a known keyring backend!", keyring_backend)
+          self$ERROR(errMsg)
+          stop(errMsg)
+        }
+        
+        private$keyring_backend <- keyring:::known_backends[[keyring_backend]]$new()
+        private$keyring_service <- paste0("ocs4R@", url)
+        private$keyring_backend$set_with_value(private$keyring_service, username = paste0(user,"_pwd"), password = pwd)
+      }else{
+        private$pwd <- pwd
       }
-      private$keyring_backend <- keyring:::known_backends[[keyring_backend]]$new()
-      private$keyring_service <- paste0("ocs4R@", url)
-      private$keyring_backend$set_with_value(private$keyring_service, username = paste0(user,"_pwd"), password = pwd)
       
       #try to connect
       if(!startsWith(self$getClassName(), "ocsApi")){
@@ -222,7 +240,7 @@ ocsManager <-  R6Class("ocsManager",
     connect = function(){
       caps_req <- ocsRequest$new(
         type = "HTTP_GET", private$url, "ocs/v1.php/cloud/capabilities",
-        private$user, pwd = private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd")), 
+        private$user, pwd = private$getPassword(), 
         logger = self$loggerType
       )
       caps_req$execute()
@@ -233,7 +251,11 @@ ocsManager <-  R6Class("ocsManager",
       names(cookies) <- req_cookies$name
       if(length(cookies[names(cookies)=="XSRF-TOKEN"])>0){
         token <- cookies[names(cookies)=="XSRF-TOKEN"][[1]]
-        private$keyring_backend$set_with_value(private$keyring_service, username = paste0(private$user,"_token"), password = token)
+        if(!is.null(private$keyring_backend)){
+          private$keyring_backend$set_with_value(private$keyring_service, username = paste0(private$user,"_token"), password = token) 
+        }else{
+          private$token = token
+        }
       }
       cookies <- unlist(cookies[names(cookies)!="XSRF-TOKEN"])
       private$cookies <- paste0(sapply(names(cookies), function(cookiename){paste0(cookiename,"=",cookies[[cookiename]])}),collapse=";")

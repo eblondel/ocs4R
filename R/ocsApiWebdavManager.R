@@ -78,7 +78,7 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
       request <- paste0(self$getWebdavRoot(), relPath)
       list_req <- ocsRequest$new(
         type = "WEBDAV_PROPFIND", private$url, request,
-        private$user, pwd = private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd")), 
+        private$user, pwd = private$getPassword(), 
         token = private$getToken(), cookies = private$cookies,
         logger = self$loggerType
       )
@@ -96,7 +96,7 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
         request <- paste0(self$getWebdavRoot(), relPath, name)
         mkcol_req <- ocsRequest$new(
           type = "WEBDAV_MKCOL", private$url, request,
-          private$user, pwd = private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd")), 
+          private$user, pwd = private$getPassword(), 
           token = private$getToken(), cookies = private$cookies,
           logger = self$loggerType
         )
@@ -131,7 +131,7 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
                         filename, paste(private$url, request, sep="/")))
       upload_req <- ocsRequest$new(
         type = "HTTP_PUT", private$url, request,
-        private$user, pwd = private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd")), 
+        private$user, pwd = private$getPassword(), 
         token = private$getToken(), cookies = private$cookies,
         filename = filename,
         logger = self$loggerType
@@ -159,7 +159,7 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
                         filename, paste(private$url, request, sep="/")))
       upload_req <- ocsRequest$new(
         type = "HTTP_DELETE", private$url, request,
-        private$user, pwd = private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd")), 
+        private$user, pwd = private$getPassword(), 
         token = private$getToken(), cookies = private$cookies,
         filename = filename,
         logger = self$loggerType
@@ -183,7 +183,7 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
       request <- sprintf("remote.php/dav/files/%s/%s/%s", private$user, relPath, filename)
       file_req <- ocsRequest$new(
         type = "HTTP_GET", private$url, request, format = NULL, namedParams = list(),
-        private$user, pwd = private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd")), 
+        private$user, pwd = private$getPassword(), 
         token = private$getToken(), cookies = private$cookies,
         logger = self$loggerType
       )

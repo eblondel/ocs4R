@@ -114,7 +114,7 @@ ocsApiUserProvisioningManager <-  R6Class("ocsApiUserProvisioningManager",
       request <- "ocs/v1.php/cloud/users"
       post_req <- ocs4R::ocsRequest$new(
         type = "HTTP_POST", private$url, request,
-        private$user, pwd = private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd")), 
+        private$user, pwd = private$getPassword(), 
         token = private$getToken(), cookies = private$cookies,
         content = list(
           userid = userid,
@@ -135,7 +135,7 @@ ocsApiUserProvisioningManager <-  R6Class("ocsApiUserProvisioningManager",
     getUsers = function(){
       get_users <- ocs4R::ocsRequest$new(
         type = "HTTP_GET", private$url, "ocs/v1.php/cloud/users",
-        private$user, pwd = private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd")),
+        private$user, pwd = private$getPassword(),
         token = private$getToken(), cookies = private$cookies,
         logger = self$loggerType
       )
@@ -149,7 +149,7 @@ ocsApiUserProvisioningManager <-  R6Class("ocsApiUserProvisioningManager",
     getUser = function(userid, pretty = FALSE){
       get_user <- ocs4R::ocsRequest$new(
         type = "HTTP_GET", private$url, sprintf("ocs/v1.php/cloud/users/%s", userid),
-        private$user, pwd = private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd")), 
+        private$user, pwd = private$getPassword(), 
         token = private$getToken(), cookies = private$cookies,
         logger = self$loggerType
       )
@@ -176,7 +176,7 @@ ocsApiUserProvisioningManager <-  R6Class("ocsApiUserProvisioningManager",
       request <- sprintf("ocs/v1.php/cloud/users/%s", userid)
       put_req <- ocsRequest$new(
         type = "HTTP_PUT", private$url, request,
-        private$user, pwd = private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd")), 
+        private$user, pwd = private$getPassword(), 
         token = private$getToken(), cookies = private$cookies,
         content = list(key = key, value = value),
         logger = self$loggerType
@@ -215,7 +215,7 @@ ocsApiUserProvisioningManager <-  R6Class("ocsApiUserProvisioningManager",
       request <- sprintf("ocs/v1.php/cloud/users/%s/enable", userid)
       put_req <- ocsRequest$new(
         type = "HTTP_PUT", private$url, request,
-        private$user, pwd = private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd")), 
+        private$user, pwd = private$getPassword(), 
         token = private$getToken(), cookies = private$cookies,
         content = "",
         logger = self$loggerType
@@ -229,7 +229,7 @@ ocsApiUserProvisioningManager <-  R6Class("ocsApiUserProvisioningManager",
       request <- sprintf("ocs/v1.php/cloud/users/%s/disable", userid)
       put_req <- ocsRequest$new(
         type = "HTTP_PUT", private$url, request,
-        private$user, pwd = private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd")), 
+        private$user, pwd = private$getPassword(), 
         token = private$getToken(), cookies = private$cookies,
         content = "",
         logger = self$loggerType
@@ -243,7 +243,7 @@ ocsApiUserProvisioningManager <-  R6Class("ocsApiUserProvisioningManager",
       request <- sprintf("ocs/v1.php/cloud/users/%s", userid)
       delete_req <- ocsRequest$new(
         type = "HTTP_DELETE", private$url, request,
-        private$user, pwd = private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd")), 
+        private$user, pwd = private$getPassword(), 
         token = private$getToken(), cookies = private$cookies,
         logger = self$loggerType
       )
@@ -255,7 +255,7 @@ ocsApiUserProvisioningManager <-  R6Class("ocsApiUserProvisioningManager",
     getUserGroups = function(userid){
       get_usergroups <- ocs4R::ocsRequest$new(
         type = "HTTP_GET", private$url, sprintf("ocs/v1.php/cloud/users/%s/groups", userid),
-        private$user, pwd = private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd")), 
+        private$user, pwd = private$getPassword(), 
         token = private$getToken(), cookies = private$cookies,
         logger = self$loggerType
       )
@@ -270,7 +270,7 @@ ocsApiUserProvisioningManager <-  R6Class("ocsApiUserProvisioningManager",
       request <- sprintf("ocs/v1.php/cloud/users/%s/groups", userid)
       post_req <- ocs4R::ocsRequest$new(
         type = "HTTP_POST", private$url, request,
-        private$user, pwd = private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd")), 
+        private$user, pwd = private$getPassword(), 
         token = private$getToken(), cookies = private$cookies,
         content = list(groupid = groupid),
         contentType = NULL,
@@ -287,7 +287,7 @@ ocsApiUserProvisioningManager <-  R6Class("ocsApiUserProvisioningManager",
       request <- sprintf("ocs/v1.php/cloud/users/%s/groups", userid)
       delete_req <- ocsRequest$new(
         type = "HTTP_DELETE", private$url, request,
-        private$user, pwd = private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd")), 
+        private$user, pwd = private$getPassword(), 
         token = private$getToken(), cookies = private$cookies,
         content = list(groupid = groupid),
         logger = self$loggerType
@@ -318,7 +318,7 @@ ocsApiUserProvisioningManager <-  R6Class("ocsApiUserProvisioningManager",
     getGroups = function(search = NULL, limit = NULL, offset = NULL){
       get_groups <- ocs4R::ocsRequest$new(
         type = "HTTP_GET", private$url, "ocs/v1.php/cloud/groups",
-        private$user, pwd = private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd")), 
+        private$user, pwd = private$getPassword(), 
         token = private$getToken(), cookies = private$cookies,
         namedParams = list(search = search, limit = limit, offset = offset),
         logger = self$loggerType
@@ -334,7 +334,7 @@ ocsApiUserProvisioningManager <-  R6Class("ocsApiUserProvisioningManager",
       request <- "ocs/v1.php/cloud/groups"
       post_req <- ocs4R::ocsRequest$new(
         type = "HTTP_POST", private$url, request,
-        private$user, pwd = private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd")), 
+        private$user, pwd = private$getPassword(), 
         token = private$getToken(), cookies = private$cookies,
         content = list(groupid = groupid),
         contentType = NULL,
@@ -350,7 +350,7 @@ ocsApiUserProvisioningManager <-  R6Class("ocsApiUserProvisioningManager",
     getGroup = function(groupid){
       get_group <- ocs4R::ocsRequest$new(
         type = "HTTP_GET", private$url, sprintf("ocs/v1.php/cloud/groups/%s", groupid),
-        private$user, pwd = private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd")), 
+        private$user, pwd = private$getPassword(), 
         token = private$getToken(), cookies = private$cookies,
         logger = self$loggerType
       )
@@ -365,7 +365,7 @@ ocsApiUserProvisioningManager <-  R6Class("ocsApiUserProvisioningManager",
       request <- sprintf("ocs/v1.php/cloud/groups/%s", groupid)
       delete_req <- ocsRequest$new(
         type = "HTTP_DELETE", private$url, request,
-        private$user, pwd = private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd")), 
+        private$user, pwd = private$getPassword(), 
         token = private$getToken(), cookies = private$cookies,
         logger = self$loggerType
       )

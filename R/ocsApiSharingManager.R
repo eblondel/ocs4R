@@ -90,7 +90,7 @@ ocsApiSharingManager <-  R6Class("ocsApiSharingManager",
       request <- "ocs/v1.php/apps/files_sharing/api/v1/shares"
       get_req <- ocsRequest$new(
         type = "HTTP_GET", private$url, request,
-        private$user, pwd = private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd")), 
+        private$user, pwd = private$getPassword(), 
         token = private$getToken(), cookies = private$cookies,
         namedParams = list(
           path = path,
@@ -180,7 +180,7 @@ ocsApiSharingManager <-  R6Class("ocsApiSharingManager",
       request <- "ocs/v1.php/apps/files_sharing/api/v1/shares"
       post_req <- ocsRequest$new(
         type = "HTTP_POST", private$url, request,
-        private$user, pwd = private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd")), 
+        private$user, pwd = private$getPassword(), 
         token = private$getToken(), cookies = private$cookies,
         namedParams = list(
           name = name,
