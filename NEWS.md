@@ -1,3 +1,8 @@
+## [ocs4R 0.3](https://cran.r-project.org/package=ocs4R) | [![CRAN_Status_Badge](https://img.shields.io/badge/CRAN-published-blue.svg)](https://cran.r-project.org/package=ocs4R)
+
+* [#19](https://github.com/eblondel/ocs4R/issues/19) Make use of _keyring_ optional
+* [#20](https://github.com/eblondel/ocs4R/issues/20) Standardize R6 documentation and fix CRAN notes
+
 ## [ocs4R 0.2-3](https://cran.r-project.org/package=ocs4R) | [![CRAN_Status_Badge](https://img.shields.io/badge/CRAN-published-blue.svg)](https://cran.r-project.org/package=ocs4R)
 
 * [#12](https://github.com/eblondel/ocs4R/issues/12) Fix file upload for overwriting support
