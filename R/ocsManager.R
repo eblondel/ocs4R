@@ -166,7 +166,7 @@ ocsManager <-  R6Class("ocsManager",
           list_of_methods <- rev(names(man))
           for(method in list_of_methods){
             methodObj <- man[[method]]
-            if(!(method %in% names(self)) && class(methodObj) == "function"){1
+            if(!(method %in% names(self)) && is(methodObj,"function")){1
               self[[method]] <- methodObj
               environment(self[[method]]) <- environment(self$connect)
             } 
