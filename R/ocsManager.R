@@ -83,6 +83,7 @@ ocsManager <-  R6Class("ocsManager",
         private$keyring_backend$get(service = private$keyring_service, username = paste0(private$user,"_pwd"))
       }else{
         private$pwd
+        print(private$pwd)
       }
     },
     
