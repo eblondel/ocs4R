@@ -35,8 +35,6 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
     #'@param relPath relative path
     #'@return the list of files
     listFiles = function(relPath = "/"){
-      print(private$url)
-      print(private$user)
       if(!startsWith(relPath, "/")) relPath <- paste0("/", relPath)
       request <- paste0(self$getWebdavRoot(), relPath)
       list_req <- ocsRequest$new(
