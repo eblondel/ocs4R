@@ -1,3 +1,7 @@
+## [ocs4R 0.3.1](https://cran.r-project.org/package=ocs4R) | [![CRAN_Status_Badge](https://img.shields.io/badge/CRAN-published-blue.svg)](https://cran.r-project.org/package=ocs4R)
+
+* [#21](https://github.com/eblondel/ocs4R/issues/21) WebDav request paths should be URL encoded
+
 ## [ocs4R 0.3](https://cran.r-project.org/package=ocs4R) | [![CRAN_Status_Badge](https://img.shields.io/badge/CRAN-published-blue.svg)](https://cran.r-project.org/package=ocs4R)
 
 * [#19](https://github.com/eblondel/ocs4R/issues/19) Make use of _keyring_ optional

@@ -38,7 +38,7 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
       if(!startsWith(relPath, "/")) relPath <- paste0("/", relPath)
       request <- paste0(self$getWebdavRoot(), relPath)
       list_req <- ocsRequest$new(
-        type = "WEBDAV_PROPFIND", private$url, request,
+        type = "WEBDAV_PROPFIND", private$url, URLencode(request),
         private$user, pwd = private$getPassword(), 
         token = private$getToken(), cookies = private$cookies,
         logger = self$loggerType
@@ -60,7 +60,7 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
       if(!startsWith(relPath, "/")) relPath <- paste0("/", relPath)
       if(!endsWith(relPath, "/")) relPath <- paste0(relPath, "/")
       if(length(col_names)==1){
-        request <- paste0(self$getWebdavRoot(), relPath, name)
+        request <- URLencode(paste0(self$getWebdavRoot(), relPath, name))
         mkcol_req <- ocsRequest$new(
           type = "WEBDAV_MKCOL", private$url, request,
           private$user, pwd = private$getPassword(), 
@@ -96,7 +96,7 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
       
       if(!startsWith(relPath, "/")) relPath <- paste0("/", relPath)
       if(!endsWith(relPath, "/")) relPath <- paste0(relPath, "/")
-      request <- paste0(self$getWebdavRoot(), relPath, basename(filename))
+      request <- URLencode(paste0(self$getWebdavRoot(), relPath, basename(filename)))
       self$INFO(sprintf("WEBDAV - Uploading file '%s' at '%s'", 
                         filename, paste(private$url, request, sep="/")))
       upload_req <- ocsRequest$new(
@@ -126,7 +126,7 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
     deleteFile = function(filename, relPath = "/"){
       if(!startsWith(relPath, "/")) relPath <- paste0("/", relPath)
       if(!endsWith(relPath, "/")) relPath <- paste0(relPath, "/")
-      request <- paste0(self$getWebdavRoot(), relPath, basename(filename))
+      request <- URLencode(paste0(self$getWebdavRoot(), relPath, basename(filename)))
       self$INFO(sprintf("WEBDAV - Delete file '%s' at '%s'", 
                         filename, paste(private$url, request, sep="/")))
       upload_req <- ocsRequest$new(
@@ -155,7 +155,7 @@ ocsApiWebdavManager <-  R6Class("ocsApiWebdavManager",
     #'@param filename file name
     #'@param outdir the out directory where to download the file
     downloadFile = function(relPath, filename, outdir = "."){
-      request <- sprintf("remote.php/dav/files/%s/%s/%s", private$user, relPath, filename)
+      request <- URLencode(sprintf("remote.php/dav/files/%s/%s/%s", private$user, relPath, filename))
       file_req <- ocsRequest$new(
         type = "HTTP_GET", private$url, request, format = NULL, namedParams = list(),
         private$user, pwd = private$getPassword(), 
